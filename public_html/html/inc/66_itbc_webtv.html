@@ -1,0 +1,63 @@
+<!--@nif(is_latest)-->
+<!--@loop(list)-->
+<li>
+	<span class="img_box">
+		<a href="../webtv/webtv_view.jsp?cid={{list.category_id}}&lnb={{list.parent_id}}&id={{list.id}}" title="{{list.webtv_nm}}" >
+			<img src="{{list.webtv_file_url}}" alt="{{list.webtv_nm}}" />
+		</a>
+	</span>
+	<span class="list_subject icon_new">
+		<b>최신방송</b>
+		<a href="../webtv/webtv_view.jsp?cid={{list.category_id}}&lnb={{list.parent_id}}&id={{list.id}}" title="{{list.webtv_nm}}">{{list.webtv_nm_conv}}</a>
+	</span>
+</li>
+<!--/loop(list)-->
+<!--@nif(list)-->
+<li class="nodata">
+	<p class="">등록된 자료가 없습니다.</p>
+</li>
+<!--/nif(list)-->
+<!--/nif(is_latest)-->
+<!--@if(is_latest)-->
+<iframe id="main_today_movie" class="main_today_movie" src="about:blank" width="1150" height="640" frameborder="0" scrolling="no" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>
+<div id="slides">
+	<!--@loop(list)-->
+	<div>
+		<div id="main_today_play_{{list.id}}" class="main_today_play" style="background:url('{{list.webtv_file_url}}') no-repeat center; background-size:1150px 640px;"><img src="/html/images/common/main_today_playbtn.png" onclick="playToday('{{list.id}}');"></div>
+		<div class="today_title" onclick="location.href = '../webtv/webtv_view.jsp?cid={{list.category_id}}&lnb={{list.parent_id}}&id={{list.id}}';"><b>오늘의 방송</b> &nbsp; <span>{{list.webtv_nm}}<!--@if(list.subtitle)--> - {{list.subtitle}}<!--/if(list.subtitle)--></span></div>
+	</div>
+	<!--/loop(list)-->
+</div>
+
+<script>
+function playToday(v) {
+	if(v == "") return;
+	$("#slides").hide();
+	//console.log("play " + v);
+	$("#main_today_movie").attr("src", "/webtv/webtv_view.jsp?mode=pop&id=" + v).show();
+}
+<!--@if(slide_block)-->
+$(function(){
+	$('#slides').slidesjs({
+		width: 1150,
+		height: 640,
+		play: {
+			active: true,
+			auto: true,
+			effect: "slide",
+			interval: 5000,
+			swap: true
+		},
+		navigation: {
+			active: true,
+			effect: "slide"
+		},
+		pagination: {
+			active: true,
+			effect: "slide"
+		}
+	});
+});
+<!--/if(slide_block)-->
+</script>
+<!--/if(is_latest)-->

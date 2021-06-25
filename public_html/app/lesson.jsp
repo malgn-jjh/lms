@@ -1,0 +1,259 @@
+<%@ page contentType="text/html; charset=utf-8" %><%@ include file="init.jsp" %><%
+
+//JSON
+
+//기본키
+int cuid = f.getInt("cuid");
+if(cuid == 0) {
+	_error.put("error_code", "2300");
+	_error.put("error_msg", "잘못된 접근입니다.");
+	_return.put("error", _error);
+	out.print(_return.toString());
+	return;
+}
+
+//변수
+String today = m.time("yyyyMMdd");
+String now = m.time("yyyyMMddHHmmss");
+String[] offlineTypes = { "11=>강의", "12=>시험", "13=>실습", "14=>설문" };
+
+//객체
+DataObject user = new DataObject("TB_USER");
+DataObject course = new DataObject("LM_COURSE");
+DataObject courseUser = new DataObject("LM_COURSE_USER");
+DataObject courseModule = new DataObject("LM_COURSE_MODULE");
+
+DataObject lesson = new DataObject("LM_LESSON");
+DataObject courseLesson = new DataObject("LM_COURSE_LESSON");
+DataObject courseProgress = new DataObject("LM_COURSE_PROGRESS");
+DataObject file = new DataObject("TB_FILE");
+
+DataObject exam = new DataObject("LM_EXAM");
+DataObject homework = new DataObject("LM_HOMEWORK");
+DataObject forum = new DataObject("LM_FORUM");
+DataObject survey = new DataObject("LM_SURVEY");
+DataObject examUser = new DataObject("LM_EXAM_USER");
+DataObject homeworkUser = new DataObject("LM_HOMEWORK_USER");
+DataObject forumUser = new DataObject("LM_FORUM_USER");
+DataObject surveyUser = new DataObject("LM_SURVEY_USER");
+
+//정보
+DataSet cuinfo = courseUser.query(
+	"SELECT a.*, c.course_nm, c.course_type, c.onoff_type, t.user_nm tutor_name, c.subject_id "
+	+ " FROM " + courseUser.table + " a "
+	+ " INNER JOIN " + course.table + " c ON a.course_id = c.id AND c.site_id = " + siteId + " "
+	+ " LEFT JOIN " + user.table + " t ON a.tutor_id = t.id"
+	+ " INNER JOIN " + user.table + " u ON a.user_id = u.id"
+	+ " WHERE a.id = " + cuid + " AND a.user_id = '" + userId + "' AND a.status IN (1,3)"
+);
+if(!cuinfo.next()) {
+	_error.put("error_code", "2320");
+	_error.put("error_msg", "해당 수강정보가 없습니다.");
+	_return.put("error", _error);
+	out.print(_return.toString());
+	return;
+}
+
+//정보-과정
+String courseId = cuinfo.s("course_id");
+DataSet cinfo = course.find("id = " + courseId + " AND site_id = " + siteId + "");
+if(!cinfo.next()) {
+	_error.put("error_code", "2330");
+	_error.put("error_msg", "해당 과정정보가 없습니다.");
+	_return.put("error", _error);
+	out.print(_return.toString());
+	return;
+}
+
+
+//변수
+boolean isPrev = false;
+boolean isPrevExam = false;
+boolean isPrevHomework = false;
+boolean isPrevForum = false;
+boolean isPrevSurvey = false;
+
+//목록-시험
+DataSet exams = courseModule.query(
+	"SELECT a.*, e.exam_nm, u.user_id "
+	+ " FROM " + courseModule.table + " a "
+	+ " LEFT JOIN " + examUser.table + " u ON "
+		+ " u.exam_id = a.module_id AND u.course_user_id = " + cuid + " AND u.user_id = " + userId + " "
+		+ " AND u.submit_yn = 'Y' AND u.status = 1 "
+	+ " LEFT JOIN " + exam.table + " e ON a.module_id = e.id "
+	+ " WHERE a.course_id = " + courseId + " AND a.status = 1 "
+	+ " AND a.apply_type = '2' AND a.module = 'exam' AND a.chapter = 0 "
+);
+while(exams.next()) {
+	if("".equals(exams.s("user_id"))) {
+		isPrev = true;
+		isPrevExam = true;
+	}
+}
+
+//목록-과제
+DataSet homeworks = courseModule.query(
+	"SELECT a.*, h.homework_nm, u.user_id "
+	+ " FROM " + courseModule.table + " a "
+	+ " LEFT JOIN " + homeworkUser.table + " u ON "
+		+ " u.homework_id = a.module_id AND u.course_user_id = " + cuid + " AND u.user_id = " + userId + " "
+		+ " AND u.submit_yn = 'Y' AND u.status = 1 "
+	+ " LEFT JOIN " + homework.table + " h ON a.module_id = h.id "
+	+ " WHERE a.course_id = " + courseId + " AND a.status = 1 "
+	+ " AND a.apply_type = '2' AND a.module = 'homework' AND a.chapter = 0 "
+);
+while(homeworks.next()) {
+	if("".equals(homeworks.s("user_id"))) {
+		isPrev = true;
+		isPrevHomework = true;
+	}
+}
+
+//목록-토론
+DataSet forums = courseModule.query(
+	"SELECT a.*, f.forum_nm, u.user_id "
+	+ " FROM " + courseModule.table + " a "
+	+ " LEFT JOIN " + forumUser.table + " u ON "
+		+ " u.forum_id = a.module_id AND u.course_user_id = " + cuid + " AND u.user_id = " + userId + " "
+		+ " AND u.submit_yn = 'Y' AND u.status = 1 "
+	+ " LEFT JOIN " + forum.table + " f ON a.module_id = f.id "
+	+ " WHERE a.course_id = " + courseId + " AND a.status = 1 "
+	+ " AND a.apply_type = '2' AND a.module = 'forum' AND a.chapter = 0 "
+);
+while(forums.next()) {
+	if("".equals(forums.s("user_id"))) {
+		isPrev = true;
+		isPrevForum = true;
+	}
+}
+
+//목록-설문
+DataSet surveys = courseModule.query(
+	"SELECT a.*, s.survey_nm, u.user_id "
+	+ " FROM " + courseModule.table + " a "
+	+ " LEFT JOIN " + surveyUser.table + " u ON "
+		+ " u.survey_id = a.module_id AND u.course_user_id = " + cuid + " AND u.user_id = " + userId + " "
+		+ " AND u.status = 1 "
+	+ " LEFT JOIN " + survey.table + " s ON a.module_id = s.id "
+	+ " WHERE a.course_id = " + courseId + " AND a.status = 1 "
+	+ " AND a.apply_type = '2' AND a.module = 'survey' AND a.chapter = 0 "
+);
+while(surveys.next()) {
+	if("".equals(surveys.s("user_id"))) {
+		isPrev = true;
+		isPrevSurvey = true;
+	}
+}
+
+//변수
+String limitDay = m.addDate("D", (cinfo.i("limit_day") - 1) * -1, today, "yyyyMMdd");
+
+//목록
+DataSet list = courseLesson.query(
+	"SELECT a.* "
+	+ ", l.onoff_type, l.lesson_nm, l.start_url, l.mobile_a, l.mobile_i, l.lesson_file, l.lesson_type, l.content_width, l.content_height "
+	+ ", c.complete_yn, c.ratio, c.last_date, c.last_time, c.study_time, c.curr_time, c.curr_page "
+	+ ", ( CASE WHEN c.last_date BETWEEN '" + limitDay + "000000' AND '" + today + "235959' THEN 'Y' ELSE 'N' END ) is_study "
+	+ " FROM " + courseLesson.table + " a "
+	+ " INNER JOIN " + lesson.table + " l ON a.lesson_id = l.id "
+	+ " LEFT JOIN " + courseProgress.table + " c ON c.course_user_id = " + cuid + " AND a.lesson_id = c.lesson_id "
+	+ " WHERE a.status = 1 AND a.course_id = " + courseId + " "
+	+ " ORDER BY a.chapter ASC "
+);
+
+//학습제한-속진여부
+boolean limitFlag = false;
+if(cinfo.b("limit_lesson_yn")) {
+	int limitLessonCnt = courseProgress.findCount("course_user_id = " + cuid + " AND (last_date BETWEEN '" + limitDay + "000000' AND '" + today + "235959')");
+	limitFlag = (cinfo.i("limit_day") <= 0 || cinfo.i("limit_lesson") <= 0 ? 0 : cinfo.i("limit_lesson")) <= limitLessonCnt;
+}
+
+//수강대기, 종료
+boolean isWait = "W".equals(cuinfo.s("progress"));
+boolean isEnd = "E".equals(cuinfo.s("progress"));
+//boolean isRestudy = "R".equals(cuinfo.s("progress"));
+
+int lastChapter = 1;
+while(list.next()) {
+	list.put("cuid", cuid);
+
+	if(list.b("complete_yn")) lastChapter = list.i("chapter") + 1;
+	list.put("lesson_nm_conv", m.cutString(list.s("lesson_nm"), 30));
+	list.put("study_date", !"".equals(list.s("last_date")) ? m.time("yyyy.MM.dd HH:mm", list.s("last_date")) : "-");
+	list.put("complete_conv", list.b("complete_yn") ? "완료" : "미완료");
+	//list.put("attend_cnt", list.i("attend_cnt"));
+	list.put("lesson_type_conv", m.getItem(list.s("lesson_type"), offlineTypes));
+
+	list.put("ratio_conv", m.nf(list.d("ratio"), 1));
+
+	if("N".equals(list.s("onoff_type"))) {
+		list.put("online_block", true);
+		list.put("start_date_conv", m.time("yyyy.MM.dd", list.s("start_date")));
+		list.put("end_date_conv", m.time("yyyy.MM.dd", list.s("end_date")));
+		list.put("date_conv", list.s("start_date_conv") + " - " + list.s("end_date_conv"));
+		if("02".equals(list.s("lesson_type")) || "04".equals(list.s("lesson_type"))) {
+			list.put("last_time", "-1");
+			list.put("curr_time", list.s("curr_page"));
+		}
+
+		String lessonUrl = list.s("start_url");
+		if(isIOS && !"".equals(list.s("mobile_i"))) lessonUrl = list.s("mobile_i");
+		else if(isAndroid && !"".equals(list.s("mobile_a"))) lessonUrl = list.s("mobile_a");
+
+		list.put("lesson_url", lessonUrl);
+	} else if("F".equals(list.s("onoff_type"))) {
+		list.put("online_block", false);
+		list.put("start_date_conv", m.time("yyyy.MM.dd HH:mm", list.s("start_date") + list.s("start_time")));
+		list.put("end_date_conv", m.time("HH:mm", list.s("start_date") + list.s("end_time")));
+		list.put("date_conv", list.s("start_date_conv") + " - " + list.s("end_date_conv"));
+	}
+
+	//list.put("lesson_file_conv", m.encode(list.s("lesson_file")));
+	//list.put("lesson_file_path", m.getUploadUrl(list.s("lesson_file")));
+	//list.put("lesson_file_ek", m.encrypt(list.s("lesson_file") + m.time("yyyyMMdd")));
+
+	boolean isOpen = true;
+
+	if(isOpen && limitFlag) { //속진제한
+		isOpen = "Y".equals(list.s("is_study"));
+		list.put("msg", cinfo.i("limit_day") + " 일 " +  cinfo.i("limit_lesson") + " 차시로 학습이 제한되어있습니다.\\n관리자에게 문의하십시오.");
+	}
+
+	if(isOpen && cinfo.b("period_yn")) { //수강기간 제한
+		isOpen = list.i("start_date") <= m.parseInt(today) && list.i("end_date") >= m.parseInt(today);
+		list.put("msg", "학습기간이 아닙니다.\\n관리자에게 문의하십시오.");
+	}
+	if(isOpen && cinfo.b("lesson_order_yn")) { //순차적용
+		isOpen = lastChapter >= list.i("chapter");
+		list.put("msg", (list.i("chapter") - 1) + "장을 학습하셔야 합니다.\\n( 순차학습 과정입니다. )\\n관리자에게 문의하십시오.");
+	}
+	list.put("period_yn", cinfo.b("period_yn"));
+	list.put("period_yn", cinfo.b("period_yn"));
+
+	if("Y".equals(list.s("complete_conv"))) isOpen = true;
+
+	if(isEnd || isWait) { //수강 대기, 종료
+		isOpen = false;
+		list.put("msg", "수강기간이 아닙니다.");
+	}
+
+
+	if(isPrev) {
+		isOpen = false;
+		if(isPrevExam) list.put("msg", "선행해야 하는 시험이 있습니다.");
+		else if(isPrevHomework) list.put("msg", "선행해야 하는 과제가 있습니다.");
+		else if(isPrevForum) list.put("msg", "선행해야 하는 토론이 있습니다.");
+		else if(isPrevSurvey) list.put("msg", "선행해야 하는 설문이 있습니다.");
+	}
+
+	list.put("open_block", isOpen);
+
+}
+
+_data.put("course_nm", cuinfo.s("course_nm"));
+_data.put("cuid", cuinfo.s("id"));
+_data.put("list", new JSONArray(list));
+_return.put("data", _data);
+out.print(_return.toString());
+
+%>

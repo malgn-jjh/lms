@@ -1,0 +1,34 @@
+<!--[if gte IE 8]> <style type="text/css"> body { overflow-y:scroll; } </style> <![endif]-->
+<!--[if !IE]>--> <style type="text/css"> body { overflow-y:scroll; } </style> <!--<![endif]-->
+
+<form name="form2" method="post" target="sysfrmblank">
+<input type="hidden" name="mode" value="RENAME">
+<input type="hidden" name="current_id" value="">
+<input type="hidden" name="current_path" value="">
+<input type="hidden" name="org_name" value="">
+<input type="hidden" name="new_name" value="">
+
+<script language="javascript" src="{{SYS_JS_URL}}/mtree/tree.prototype.js"></script>
+
+<div style="margin:10px;" id="folder">
+	<script>
+	var t1 = new MTree("t1");
+	t1.imgDir = "{{SYS_JS_URL}}/mtree/img";
+	t1.root = "{{root}}";
+	<!-- LOOP START 'list' -->
+	t1.add(
+		"{{list.id}}"
+		, "{{list.parent_id}}"
+		, "{{list.name}}"
+		, "choice_right.jsp?path={{list.path_ec}}&id={{list.id}}&ct={{ct}}&cd={{cd}}"
+		, "_RIGHT"
+		, "{{SYS_JS_URL}}/mtree/img/folder.gif"
+		, { }
+	);
+	<!-- LOOP END 'list' -->
+	t1.start();
+
+	</script>
+</div>
+
+</form>

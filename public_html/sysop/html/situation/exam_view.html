@@ -1,0 +1,123 @@
+<table class="c_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="c_th01">평가정보</td>
+</tr>
+</table>
+
+<table class="f_tb01" cellpadding="0" cellspacing="0" style="table-layout:fixed;">
+<col width="120"><col>
+<col width="120"><col>
+<tr>
+	<td class="f_th01">수강인원</td>
+	<td class="f_td01" colspan="3">{{info.u_cnt_conv}} 명</td>
+</tr>
+<tr>
+	<td class="f_th01">년도 / 기수</td>
+	<td class="f_td01">{{info.year}}년 / {{info.step}}기</td>
+	<td class="f_th01">수강기한</td>
+	<td class="f_td01">{{info.start_date_conv}} ~ {{info.end_date_conv}}</td>
+</tr>
+<tr>
+	<td class="f_th01">과정명</td>
+	<td class="f_td01" colspan="3">{{info.step_nm}}</td>
+</tr>
+<tr>
+	<td class="f_th01">평가명</td>
+	<td class="f_td01" colspan="3">{{info.module_nm}}</td>
+</tr>
+<tr>
+	<td class="f_th01">응시기간</td>
+	<td class="f_td01" colspan="3">{{info.period_str}}</td>
+</tr>
+<tr>
+	<td class="f_th01">범위</td>
+	<td class="f_td01" colspan="3">
+		<ul style="list-style-type:none;padding:0px;margin;0px;">
+			<!--@loop(lesson_list)-->
+			<li style="float:left;width:325px;overflow:hidden;padding:2px;"><nobr><span title="{{lesson_list.subject}}">{{lesson_list.chapter_name}}{{lesson_list.subject_conv}}</span></nobr></li>
+			<!--/loop(lesson_list)-->
+		</ul>
+	</td>
+</tr>
+<tr>
+	<td class="f_th01">배점</td>
+	<td class="f_td01">{{info.cm_assign_score}} 점</td>
+	<td class="f_th01">평가시간</td>
+	<td class="f_td01">{{info.exam_time}} 분</td>
+</tr>
+<tr>
+	<td class="f_th01">내용</td>
+	<td class="f_td01" colspan="3">{{info.content}}</td>
+</tr>
+</table>
+
+<table class="c_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="c_th01">출제내역</td>
+	<td class="c_td01"></td>
+</tr>
+</table>
+
+<table class="t_tb01" cellpadding="0" cellspacing="0">
+<tr align="center">
+	<td rowspan="2" class="t_th01">구분</td>
+	<!--@loop(ques_items)-->
+	<td colspan="2" class="t_th01">난이도[{{ques_items.grade}}] 문제</td>
+	<!--/loop(ques_items)-->
+	<td rowspan="2" class="t_th01">합계</td>
+</tr>
+<tr align="center">
+	<!--@loop(ques_items)-->
+	<td class="t_th01">객관식</td>
+	<td class="t_th01">주관식</td>
+	<!--/loop(ques_items)-->
+</tr>
+<tr align="center">
+	<td class="t_th01">문항수</td>
+	<!--@loop(ques_items)-->
+	<td class="t_td01">{{ques_items.mcnt}} 문항</td>
+	<td class="t_td01">{{ques_items.tcnt}} 문항</td>
+	<!--/loop(ques_items)-->
+	<td class="f_td01">{{info.question_cnt}} 문항</td>
+</tr>
+<tr align="center">
+	<td class="t_th01">소계</td>
+	<!--@loop(ques_items)-->
+	<td colspan="2" class="t_td01">{{ques_items.score}} 점</td>
+	<!--/loop(ques_items)-->
+	<td class="t_td01">100 점</td>
+</tr>
+</table>
+
+<table class="c_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="c_th01">응시현황</td>
+	<td class="c_td01"></td>
+</tr>
+</table>
+<table class="f_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="f_th01" style="text-align:center">수강생</td>
+	<td class="f_th01" style="text-align:center">응시율</td>
+	<td class="f_th01" style="text-align:center">채점율</td>
+	<td class="f_th01" style="text-align:center">전체평균</td>
+</tr>
+<tr align="center" height="32">
+	<td class="f_td01">{{info.u_cnt_conv}} 명</td>
+	<td class="f_td01">{{info.join_rate}} % ({{info.s_cnt_conv}} / {{info.u_cnt_conv}} 명)</td>
+	<td class="f_td01">{{info.eva_rate}} % ({{info.c_cnt_conv}} / {{info.s_cnt_conv}} 명)</td>
+	<td class="f_td01">{{info.avg_score}} 점 <input type="button" value="성적분포" class="btn_simp" onclick="OpenStatGraph('{{info.step_id}}', 'exam', '{{info.id}}');"></td>
+</tr>
+</table>
+
+<table class="b_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="b_th01"><button type="button" class="bttn2" onclick="location.href='exam_list.jsp?{{list_query}}';">목록</button></td>
+	<td class="b_td01">
+	</td>
+</tr>
+</table>
+
+
+<br>
+<iframe name="userArea" id="userArea" src="exam_user.jsp?eid={{info.id}}&sid={{info.step_id}}" frameborder="0" scrolling="no" width="100%" height="0"></iframe>

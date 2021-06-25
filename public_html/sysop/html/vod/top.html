@@ -1,0 +1,23 @@
+<div style="height:49px; border-bottom:1px solid #000000; background:#CFE7FE;">
+	<div style="margin:13px 0px 0px 10px; float:left">
+		<nobr>
+		<input type="text" name="path" id="path" style="width:700px; background:url({{SYS_JS_URL}}/mtree/img/folder.gif) no-repeat 5px center #ECF5FE; border:1px solid #000000; padding:3px 3px 3px 23px; font-family:dotum">
+
+		&nbsp;
+		<span id="acbtn" style="display:none">
+			<span><input type="button" value="파일올리기" onclick="uploadFile()"></span>
+			<span><input type="button" value="선택항목삭제" onclick="if(parent._RIGHT && parent._RIGHT.deleteMultiple) parent._RIGHT.deleteMultiple();"></span>
+			<span><input type="button" value="선택항목다운로드" onclick="if(parent._RIGHT && parent._RIGHT.downloadZip) parent._RIGHT.downloadZip();"></span>
+		</span>
+		</nobr>
+	</div>
+
+	<div style="margin:13px 10px 0 0; float:right; font-size:16px; font-family:arial, tahoma; letter-spacing:2px; ">
+	</div>
+</div>
+
+<script>
+function uploadFile() {
+	parent.document.getElementById('_RIGHT_FRAMESET').rows = "*,240";
+}
+</script>

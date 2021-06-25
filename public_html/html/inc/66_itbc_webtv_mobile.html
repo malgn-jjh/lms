@@ -1,0 +1,54 @@
+<!--@nif(is_latest)-->
+<!--@loop(list)-->
+<a href="../mobile/webtv_view.jsp?id={{list.id}}" title="{{list.webtv_nm}}">
+	<img class="webtv_main_thumbnail" src="{{list.webtv_file_url}}" alt="{{list.webtv_nm}}" />
+</a>
+<!--/loop(list)-->
+<!--@nif(list)-->
+<div class="nodata">
+	<p class="">등록된 자료가 없습니다.</p>
+</div>
+<!--/nif(list)-->
+<!--/nif(is_latest)-->
+<!--@if(is_latest)-->
+<div id="slides">
+	<!--@loop(list)-->
+	<div>
+		<h2 onclick="location.href = '../mobile/webtv_view.jsp?id={{list.id}}';">오늘의 방송</h2>
+		<h3 onclick="location.href = '../mobile/webtv_view.jsp?id={{list.id}}';">{{list.webtv_nm}}<!--@if(list.subtitle)--> - {{list.subtitle}}<!--/if(list.subtitle)--></h3>
+		<div id="main_today_play_{{list.id}}" class="main_today_play" style="background:url('{{list.webtv_file_url}}') no-repeat center; background-size:320px 180px;"><img src="/html/images/common/main_today_playbtn.png" onclick="location.href = '../mobile/webtv_view.jsp?id={{list.id}}';"></div>
+	</div>
+	<!--/loop(list)-->
+</div>
+
+<script>
+$(function(){
+	//console.log($('#slides > div').length);
+	if($('#slides > div').length > 1) {
+		<!--@if(slide_block)-->
+		$('#slides').slidesjs({
+			width: 320,
+			height: 255,
+			play: {
+				active: true,
+				auto: true,
+				effect: "slide",
+				interval: 5000,
+				swap: true
+			},
+			navigation: {
+				active: true,
+				effect: "slide"
+			},
+			pagination: {
+				active: true,
+				effect: "slide"
+			}
+		});
+		<!--/if(slide_block)-->
+	} else { 
+		$("#slides").height(260);
+	}
+});
+</script>
+<!--/if(is_latest)-->

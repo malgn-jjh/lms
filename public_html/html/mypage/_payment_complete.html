@@ -1,0 +1,157 @@
+				<div id="contet_area">
+					<h3 class="hide">컨텐츠 내용</h3>
+					<div class="path">
+						<ol class="path_list">
+							<li>마이페이지</li>
+							<li>결제내역조회</li>
+						</ol>
+					</div>
+					<h4 class="content_title">결제내역조회</h4>
+					<div class="content_body">
+						<div class="payment_comp">
+							<div class="compbox">
+								<!--@nif(03_block)-->
+								<div><p class="p1">주문이 완료 되었습니다.</><p class="p2">확인을 누르시면 마이페이지로 이동합니다. 감사합니다.</p></div>
+								<p style="text-align:center"><a href="../mypage/index.jsp" class="button large red">확인</a></p>
+								<!--/nif(03_block)-->
+								<!--@if(03_block)-->
+								<div><p class="p1">가상계좌가 발급되었습니다.</><p class="p2">확인을 누르시면 결제내역으로 이동합니다. 감사합니다.</p></div>
+								<p style="text-align:center"><a href="../mypage/order_view.jsp?id={{id}}" class="button large red">확인</a></p>
+								<!--/if(03_block)-->
+							</div>
+							<h5 class="tb_title">결재정보</h5>
+							<div class="tb_box type_read">
+								<table class="" cellpadding="0" cellspacing="0" summary="">
+									<caption>결재정보</caption>
+									<colgroup>
+										<col style="width: 20%" />
+										<col />
+									</colgroup>
+									<tbody>
+										<!--@if(01_block)-->
+										<tr>
+											<th class="tb_th" scope="row">결제방법</th>
+											<td class="tb_td">신용카드</td>
+										</tr>
+										<tr>
+											<th class="tb_th" scope="row">결제자명</th>
+											<td class="tb_td">{{payment.buyer}}</td>
+										</tr>
+										<tr>
+											<th class="tb_th" scope="row">신용카드</th>
+											<td class="tb_td">{{payment.financename}} - {{payment.cardinstallmonth_conv}}</td>
+										</tr>
+										<tr>
+											<th class="tb_th" scope="row">결제금액</th>
+											<td class="tb_td">{{pay_price_conv}}원</td>
+										</tr>
+										<!--/if(01_block)-->
+										<!--@if(02_block)-->
+										<tr>
+											<th class="tb_th" scope="row">결제방법</th>
+											<td class="tb_td">실시간계좌이체</td>
+										</tr>
+										<tr>
+											<th class="tb_th" scope="row">결제자명</th>
+											<td class="tb_td">{{payment.buyer}}</td>
+										</tr>
+										<tr>
+											<th class="tb_th" scope="row">이용은행</th>
+											<td class="tb_td">{{payment.financename}}</td>
+										</tr>
+										<tr>
+											<th class="tb_th" scope="row">결제금액</th>
+											<td class="tb_td">{{pay_price_conv}}원</td>
+										</tr>
+										<!--/if(02_block)-->
+										<!--@if(03_block)-->
+										<tr>
+											<th class="tb_th" scope="row">결제방법</th>
+											<td class="tb_td">무통장입금(가상계좌)</td>
+										</tr>
+										<tr>
+											<th class="tb_th" scope="row">입금은행</th>
+											<td class="tb_td">{{payment.financename}}은행</td>
+										</tr>
+										<tr>
+											<th class="tb_th" scope="row">입금하실 계좌번호</th>
+											<td class="tb_td">{{payment.accountnum}}</td>
+										</tr>
+										<tr>
+											<th class="tb_th" scope="row">입금액</th>
+											<td class="tb_td">{{pay_price_conv}}원</td>
+										</tr>
+										<!--
+										<tr>
+											<th class="tb_th" scope="row">입금자명</th>
+											<td class="tb_td">{{payment.buyer}}</td>
+										</tr>
+										-->
+										<tr>
+											<th class="tb_th" scope="row">비고</th>
+											<td class="tb_td">위에 가상계좌에 송금하셔야 주문이 완료됩니다.</td>
+										</tr>
+										<!--/if(03_block)-->
+										<!--@if(04_block)-->
+										<tr>
+											<th class="tb_th" scope="row">결제방법</th>
+											<td class="tb_td">휴대폰결제</td>
+										</tr>
+										<tr>
+											<th class="tb_th" scope="row">결제자명</th>
+											<td class="tb_td">{{payment.buyer}}</td>
+										</tr>
+										<tr>
+											<th class="tb_th" scope="row">통신사</th>
+											<td class="tb_td">{{payment.financename}}</td>
+										</tr>
+										<tr>
+											<th class="tb_th" scope="row">결제금액</th>
+											<td class="tb_td">{{pay_price_conv}}원</td>
+										</tr>
+										<!--/if(04_block)-->
+										<!--@if(90_block)-->
+										<tr>
+											<th class="tb_th" scope="row">결제방법</th>
+											<td class="tb_td">무통장입금(일반)</td>
+										</tr>
+										<tr>
+											<th class="tb_th" scope="row">입금하실 계좌번호</th>
+											<td class="tb_td">{{SITE_INFO.pay_account}}</td>
+										</tr>
+										<!--@if(SITE_INFO.pay_info)-->
+										<tr>
+											<th class="tb_th" scope="row">입금안내</th>
+											<td class="tb_td">{{SITE_INFO.pay_info}}</td>
+										</tr>
+										<!--/if(SITE_INFO.pay_info)-->
+										<tr>
+											<th class="tb_th" scope="row">입금액</th>
+											<td class="tb_td">{{pay_price_conv}}원</td>
+										</tr>
+										<tr>
+											<th class="tb_th" scope="row">입금자명</th>
+											<td class="tb_td">{{SYS_USERNAME}}</td>
+										</tr>
+										<tr>
+											<th class="tb_th" scope="row">비고</th>
+											<td class="tb_td">위에 계좌에 송금하셔야 주문이 완료됩니다.</td>
+										</tr>
+										<!--/if(90_block)-->
+										<!--@if(99_block)-->
+										<tr>
+											<th class="tb_th" scope="row">결제방법</th>
+											<td class="tb_td">무과금결제</td>
+										</tr>
+										<tr>
+											<th class="tb_th" scope="row">비고</th>
+											<td class="tb_td">전액무료로 결제가 이루어졌습니다.</td>
+										</tr>
+										<!--/if(99_block)-->
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+

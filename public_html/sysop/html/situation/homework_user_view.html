@@ -1,0 +1,142 @@
+<script language="javascript" type="text/javascript">initTinyMCE("advanced");</script>
+<form method="POST" name="form1" onsubmit="return goSubmit(this);">
+<table class="c_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="c_th01">제출과제</td>
+	<td class="c_td01"></td>
+</tr>
+</table>
+
+<table class="f_tb01" cellpadding="0" cellspacing="0" style="table-layout:fixed;">
+<col width="120"><col>
+<col width="120"><col>
+<tr>
+	<td class="f_th01">회원정보</td>
+	<td class="f_td01">{{info.user_nm}} / {{info.login_id}}</td>
+	<td class="f_th01">제출일시</th>
+	<td class="f_td01">{{info.reg_date_conv}}</td>
+</tr>
+<tr>
+	<td class="f_th01">제목</td>
+	<td class="f_td01" colspan="3">{{info.subject}}</td>
+</tr>
+<tr>
+	<td class="f_th01">내용</td>
+	<td class="f_td01" colspan="3">
+		<div style="width:660px; overflow-x:auto;word-wrap:break-word;">
+			{{info.content}}
+		</div>
+	</td>
+</tr>
+<tr>
+	<td class="f_th01">첨부파일</th>
+	<td class="f_td01">
+		<!--@if(info.user_file)-->
+		<a href="../main/download_path.jsp?fn={{info.user_file_conv}}&fp={{info.user_file_path}}">{{info.user_file}}</a>
+		<!--/if(info.user_file)-->
+	</td>
+	<td class="f_th01">평가여부</th>
+	<td class="f_td01">{{info.confirm_str}}</td>
+</tr>
+<tr>
+	<td class="f_th01">점수</th>
+	<td class="f_td01" colspan="3"><input type="text" name="score" style="width:30px;" onkeyup="setMax(this, '100')"/> 점/ 100점</td>
+</tr>
+<tr>
+	<td class="f_th01">평가의견</td>
+	<td  class="f_td01" colspan="3">
+		<textarea name="feedback" style="width:100%;height:200px;">{{info.feedback}}</textarea>
+	</td>
+</tr>
+</table>
+
+<table class="b_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td>
+		<button type="button" class="bttn2" onclick="location.href='homework_user.jsp?{{list_query}}';">목록</button>
+	</td>
+	<td class="b_td01">
+		<!--@if(info.confirm_block)-->
+		<button type="submit" class="bttn2" id="btn_submit">수정</button>
+		<button type="button" class="bttn2" onclick="BtnConfirmGo('평가정보가 삭제됩니다.\n그래도 삭제', 'homework_user_view.jsp?{{query}}&mode=del&dek={{dek}}');">평가 삭제</button>
+		<!--/if(info.confirm_block)-->
+		<!--@nif(info.confirm_block)-->
+		<button type="submit" class="bttn2" id="btn_submit">등록</button>
+		<!--/nif(info.confirm_block)-->
+	</td>
+</tr>
+</table>
+
+</form>
+{{form_script}}
+<table class="pn_tb01" cellpadding="0" cellspacing="0" width="100%">
+<col width="20"><col>
+<tr>
+	<td class="pn_td01" style="padding-top:7px;padding-bottom:7px;border-bottom:1px solid #e4e4e4;">
+		<img src="../html/images/admin/icon/control_eject.gif" align="absmiddle">
+	</td>
+	<td class="pn_td01" style="padding-top:7px;padding-bottom:7px;border-bottom:1px solid #e4e4e4;">
+		<table cellpadding="0" cellspacing="0" border="0" width="100%">
+		<col width="140" />
+		<col width="*" />
+		<col width="170" />
+		<col width="110" />
+		<tr align="left">
+			<!--@if(prev.user_id)-->
+			<td>{{prev.user_nm}} ({{prev.user_id}})</td>
+			<td><a href="homework_user_view.jsp?huid={{prev.id}}&{{list_query}}" title="{{prev.subject}}">{{prev.subject_conv}}</a></td>
+			<td>{{prev.user_file_conv}}</td>
+			<td align="right">{{prev.mod_date}}</td>
+			<!--/if(prev.user_id)-->
+			<!--@nif(prev.user_id)-->
+			<td colspan="4" align="left">이전 제출과제가 없습니다.</td>
+			<!--/nif(prev.user_id)-->
+		</tr>
+		</table>
+	</td>
+</tr>
+<tr>
+	<td class="pn_td01" style="padding-top:7px;padding-bottom:7px;">
+		<img src="../html/images/admin/icon/control_eject2.gif" align="absmiddle">
+	</td>
+	<td class="pn_td01" style="padding-top:7px;padding-bottom:7px;">
+		<table cellpadding="0" cellspacing="0" border="0" width="100%">
+		<col width="140" />
+		<col width="*" />
+		<col width="170" />
+		<col width="110" />
+		<tr align="left">
+			<!--@if(next.user_id)-->
+			<td>{{next.user_nm}} ({{next.user_id}})</td>
+			<td><a href="homework_user_view.jsp?huid={{next.id}}&{{list_query}}" title="{{next.subject}}">{{next.subject_conv}}</a></td>
+			<td>{{next.user_file_conv}}</td>
+			<td align="right">{{next.mod_date}}</td>
+			<!--/if(next.user_id)-->
+			<!--@nif(next.user_id)-->
+			<td colspan="4" align="left">다음 제출과제가 없습니다.</td>
+			<!--/nif(next.user_id)-->
+		</tr>
+		</table>
+	</td>
+</tr>
+</table>
+<script language="JavaScript">
+<!--
+	function setMax(el, assign) {
+		el.value = el.value.replace(/[^0-9\.]+/gi, '');
+		if(el.value * 1 > assign) {
+			el.value = assign;
+		}
+	}
+	function goSubmit(f) {
+		if(!validate(f)) return false;
+		<!--@if(info.confirm_block)-->
+		if(!confirm("수정하시겠습니까?")) return false;
+		<!--/if(info.confirm_block)-->
+		<!--@nif(info.confirm_block)-->
+		if(!confirm("등록하시겠습니까?")) return false;
+		<!--/nif(info.confirm_block)-->
+	}
+	addEvent("onload", function() { ResizeIframe('userArea'); });
+//-->
+</script>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+// ================================================================
+//                       CHEditor Template
+//
+// Author: Na Chang Ho
+// Homepage: http://www.chcode.com
+// EMail: support@chcode.com
+// Copyright (c) 1997-2012 CHSOFT
+// ================================================================
+-->
+<Template>
+    <Container>
+        <Html>
+            <![CDATA[
+                <div class="cheditor-container">
+                    <div id="toolbar" style="padding:4px;height:30px"></div>
+                    <div id="editWrapper" class="cheditor-editarea-wrapper">
+                        <iframe frameborder="0" class="cheditor-editarea"></iframe>
+                    </div>
+                    <div id="modifyBlock" class="cheditor-modify-block"></div>
+                    <div id="tagPath" class="cheditor-tag-path">
+                        <span class="cheditor-status-bar">&lt;html&gt; &lt;body&gt;</span>
+                    </div>
+                </div>
+            ]]>
+        </Html>
+    </Container>
+    <PopupWindow>
+        <Html>
+            <![CDATA[
+                <div class="cheditor-popup-window" onselectstart="return false">
+                    <div class="cheditor-popup-drag-handle">
+                        <div class="cheditor-popup-titlebar">
+                            <span>&#160;</span><label class="cheditor-popup-title"></label>
+                        </div>
+                    </div>
+                    <div class="cheditor-popup-cframe"></div>
+                </div>
+            ]]>
+        </Html>
+    </PopupWindow>
+    <Toolbar>
+        <Image file="toolbar.png" />
+        <Group name="Print">
+            <Button name="NewDocument" tooltip="새 문서">
+                <Attribute class="cheditor-tb-bg" width="23" height="23">
+                    <Icon position="16" width="16" class="cheditor-tb-icon" />
+                    <Execution method="doCmd" value="NewDocument" />
+                </Attribute>
+            </Button>
+        </Group>
+        <Group name="Format">
+            <Button name="Bold" tooltip="진하게">
+                <Attribute class="cheditor-tb-bg" width="23" height="23" check="1">
+                    <Icon position="144" width="16" class="cheditor-tb-icon" />
+                    <Execution method="doCmd" value="Bold" />
+                </Attribute>
+            </Button>
+            <Button name="Italic" tooltip="기울임">
+                <Attribute class="cheditor-tb-bg" width="23" height="23" check="1">
+                    <Icon position="160" width="16" class="cheditor-tb-icon" />
+                    <Execution method="doCmd" value="Italic" />
+                </Attribute>
+            </Button>
+            <Button name="Underline" tooltip="밑줄">
+                <Attribute class="cheditor-tb-bg" width="23" height="23" check="1">
+                    <Icon position="176" width="16" class="cheditor-tb-icon" />
+                    <Execution method="doCmd" value="Underline" />
+                </Attribute>
+            </Button>
+            <Button name="Strikethrough" tooltip="취소선">
+                <Attribute class="cheditor-tb-bg" width="23" height="23" check="1">
+                    <Icon position="192" width="16" class="cheditor-tb-icon" />
+                    <Execution method="doCmd" value="Strikethrough" />
+                </Attribute>
+            </Button>
+            <Button name="BackColor" tooltip="형광펜">
+                <Attribute class="cheditor-tb-bg30" width="30" default="#fff" height="23" check="1">
+                    <Icon position="240" width="23" class="cheditor-tb-icon23" />
+                    <Execution method="showPulldown" value="BackColor" />
+                </Attribute>
+            </Button>
+            <Button name="ForeColor" tooltip="글자색">
+                <Attribute class="cheditor-tb-bg30" width="30" default="#000" height="23" check="1">
+                    <Icon position="263" width="23" class="cheditor-tb-icon23" />
+                    <Execution method="showPulldown" value="ForeColor" />
+                </Attribute>
+            </Button>
+        </Group>
+        <Group name="Alignment">
+            <Button name="JustifyLeft" tooltip="왼쪽 정렬">
+                <Attribute class="cheditor-tb-bg" width="23" height="23" check="1">
+                    <Icon position="286" width="16" class="cheditor-tb-icon" />
+                    <Execution method="doCmd" value="JustifyLeft" />
+                </Attribute>
+            </Button>
+            <Button name="JustifyCenter" tooltip="가운데 정렬">
+                <Attribute class="cheditor-tb-bg" width="23" height="23" check="1">
+                    <Icon position="302" width="16" class="cheditor-tb-icon" />
+                    <Execution method="doCmd" value="JustifyCenter" />
+                </Attribute>
+            </Button>
+            <Button name="JustifyRight" tooltip="오른쪽 정렬">
+                <Attribute class="cheditor-tb-bg" width="23" height="23" check="1">
+                    <Icon position="318" width="16" class="cheditor-tb-icon" />
+                    <Execution method="doCmd" value="JustifyRight" />
+                </Attribute>
+            </Button>
+            <Button name="JustifyFull" tooltip="양쪽 정렬">
+                <Attribute class="cheditor-tb-bg" width="23" height="23" check="1">
+                    <Icon position="334" width="16" class="cheditor-tb-icon" />
+                    <Execution method="doCmd" value="JustifyFull" />
+                </Attribute>
+            </Button>
+        </Group>
+        <Group name="OrderedList">
+            <Button name="OrderedList" tooltip="문단 번호">
+                <Attribute class="cheditor-tb-bg" width="23" height="23" check="1">
+                    <Icon position="350" width="16" class="cheditor-tb-icon" />
+                    <Execution method="doCmd" value="InsertOrderedList" />
+                </Attribute>
+            </Button>
+            <Button name="UnOrderedList" tooltip="글 머리표">
+                <Attribute class="cheditor-tb-bg" width="23" height="23" check="1">
+                    <Icon position="366" width="16" class="cheditor-tb-icon" />
+                    <Execution method="doCmd" value="InsertUnOrderedList" />
+                </Attribute>
+            </Button>
+        </Group>
+        <Group name="Link">
+            <Button name="Link" tooltip="하이퍼링크">
+                <Attribute class="cheditor-tb-bg" width="23" height="23">
+                    <Icon position="558" width="16" class="cheditor-tb-icon" />
+                    <Execution method="windowOpen" value="Link" />
+                </Attribute>
+            </Button>
+            <Button name="UnLink" tooltip="하이퍼링크 없애기">
+                <Attribute class="cheditor-tb-bg" width="23" height="23" check="1">
+                    <Icon position="574" width="16" class="cheditor-tb-icon" />
+                    <Execution method="doCmd" value="UnLink" />
+                </Attribute>
+            </Button>
+        </Group>
+    </Toolbar>
+</Template>

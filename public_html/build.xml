@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="compile" name="malgn">
+
+	<!-- Project Default Directory -->
+	<property name="src.dir" location="${basedir}/WEB-INF/src"/>
+	<property name="lib.dir" location="${basedir}/WEB-INF/lib"/>
+	<property name="work.dir" location="${basedir}/WEB-INF/work"/>
+	<property name="server.dir" location="/usr/local/resin-3.1.16/lib"/>
+	<property name="classes.dir" location="${basedir}/WEB-INF/classes"/>
+
+	<!-- Project Default Classpath -->
+	<path id="project.classpath">
+		<fileset dir="${lib.dir}">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${server.dir}">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+	<echo message ="#### SET PROJECT CLASSPATH ####"/>
+
+	<target name="init">
+		<tstamp>
+			<format property="time" pattern="yyyy-MM-dd hh:mm" />
+		</tstamp>
+		<!--delete dir="${basedir}/WEB-INF/classes/dao"/-->
+		<mkdir dir="${basedir}/WEB-INF/classes"/>
+		<mkdir dir="${basedir}/WEB-INF/lib"/>
+	</target>
+
+	<echo message ="#### COMPILE COMPLETE ####"/>
+
+	<target name="compile" depends="init">
+		<javac destdir="${basedir}/WEB-INF/classes" srcdir="${src.dir}" source="1.5" target="1.5" optimize="true" debug="true" encoding="UTF-8" deprecation="true" includeantruntime="false">
+			<classpath refid="project.classpath"/>
+			<compilerarg value="-Xlint:unchecked"/>
+		</javac>
+		<copy todir="${classes.dir}">
+		    <fileset dir="${src.dir}" excludes="**/*.java"/>
+		</copy>
+	</target>
+    <target name="jsp">
+        <mkdir dir="${work.dir}"/>
+        <java classname="com.caucho.jsp.JspCompiler" classpathref="project.classpath" fork="true">
+            <arg value="-app-dir"/>
+            <arg path="."/>
+            <arg value="-class-dir"/>
+            <arg path="${work.dir}"/>
+            <arg path="."/>
+        </java>
+    </target>
+
+	<echo message ="#### CREATE JAVADOC ####"/>
+    <target name="javadoc">
+        <mkdir dir="${basedir}/javadoc/" />
+        <javadoc destdir="${basedir}/javadoc/" encoding="utf-8" docencoding="utf-8" charset="utf-8">
+            <fileset dir="${src.dir}/com"></fileset>
+			<classpath refid="project.classpath"/>
+        </javadoc>
+    </target>
+</project>

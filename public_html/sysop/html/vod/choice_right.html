@@ -1,0 +1,129 @@
+<!-- IFNOT START 'print_block' -->
+<form name="form1" method="get">
+<input type="hidden" name="ch" value="{{ch}}">
+<input type="hidden" name="tab" value="{{tab}}">
+<input type="hidden" name="ord" value="{{ord}}">
+<input type="hidden" name="mode" value="">
+<input type="hidden" name="MN" value="{{MN}}">
+
+<input type="hidden" name="cd" value="{{cd}}">
+<input type="hidden" name="path" value="{{path}}">
+<input type="hidden" name="id" value="{{id}}">
+
+<!-- Search Area -->
+<table class="t_tb01" cellpadding="0" cellspacing="0" style="width:100%">
+<col width="100"><col>
+<col width="100"><col>
+<tr>
+	<td class="t_th01">검색</td>
+	<td class="t_td01" colspan="3">
+		<select name="s_field" onchange="document.forms['form1']['s_keyword'].focus();">
+			<option value="">-전체-</option>
+			<option value="name">파일명</option>
+		</select>
+		<input type="text" name="s_keyword" style="width:25%" onfocus="this.select();">
+		<button type="submit" class="bttn2">검색</button>
+	</td>
+</tr>
+</table>
+<!-- /Search Area -->
+
+</form>
+{{form_script}}
+<!-- IFNOT END 'print_block' -->
+
+<style type="text/css">
+.l_td01, .n_tb01 td { border-right-width:0px; border-left-width:0px; }
+.l_tr_ov { background:#F3F8FE; }
+.l_tr_curr { background:#E2EFFE; }
+a { color:#333333; }
+</style>
+
+<!-- List Area -->
+<table class="l_tb01" cellpadding="0" cellspacing="0" style="table-layout:fixed;">
+<col width="5%">
+<col width="*">
+<col width="90">
+<col width="90">
+<col width="160">
+<col width="70">
+<thead>
+<tr align="center">
+	<td class="l_th01">No</td>
+	<td class="l_th01"><span class="l_sort01" id="CL_name" onclick="ListSort(this, '{{ord}}')">이름</span></td>
+	<td class="l_th01"><span class="l_sort01" id="CL_length" onclick="ListSort(this, '{{ord}}')">크기</span></td>
+	<td class="l_th01"><span class="l_sort01" id="CL_ext" onclick="ListSort(this, '{{ord}}')">종류</span></td>
+	<td class="l_th01"><span class="l_sort01" id="CL_date" onclick="ListSort(this, '{{ord}}')">수정한 날짜</span></td>
+	<td class="l_th01">파일선택</td>
+</tr>
+</thead>
+<tbody>
+<!-- LOOP START 'list' -->
+<!-- IF START 'list.directory' -->
+<tr id="tr_{{list.path_ec}}" class="l_tr_{{list.ROW_CLASS}}" orgclass="l_tr_{{list.ROW_CLASS}}" align="center" style="cursor:default">
+	<td class="l_td01">{{list.__ord}}</td>
+	<td class="l_td01" align="left">
+		<img src="/sysop/html/images/admin/ext/folder.gif" align="absmiddle" onerror="ImageError(this, '/sysop/html/images/admin/ext/unknown.gif')"> <span id="{{list.path_ec}}" nm="{{list.name}}" ondblclick="location.href='choice_right.jsp?cd={{cd}}&path={{list.path_ec}}&id={{list.id}}&ct={{ct}}';" style="cursor:pointer;">{{list.name}}</span>
+	</td>
+	<td class="l_td01" align="center"></td>
+	<td class="l_td01">&lt;DIR&gt;</td>
+	<td class="l_td01">{{list.date_conv}}</td>
+	<td class="l_td01">-</td>
+</tr>
+<!-- IF END 'list.directory' -->
+<!-- IFNOT START 'list.directory' -->
+<tr id="tr_{{list.path_ec}}" class="l_tr_{{list.ROW_CLASS}}" orgclass="l_tr_{{list.ROW_CLASS}}" align="center">
+	<td class="l_td01">{{list.__ord}}</td>
+	<td class="l_td01" align="left"><img src="/sysop/html/images/admin/ext/{{list.ext}}.gif" align="absmiddle" onerror="ImageError(this, '/sysop/html/images/admin/ext/unknown.gif')"> <span id="{{list.path_ec}}" nm="{{list.name}}">{{list.name}}</span></td>
+	<td class="l_td01" align="center">{{list.length}}</td>
+	<td class="l_td01">{{list.ext}}</td>
+	<td class="l_td01">{{list.date_conv}}</td>
+	<td class="l_td01">
+		<form method="POST" target="ifrm" action="../lesson/set_url.jsp" onsubmit="return setUrl(this)">
+		<input type="hidden" name="url" value="{{list.url}}">
+		<input type="hidden" name="field" value="{{field}}">
+		<input type="submit" value="선택" class="btn_simp">
+		</form>
+	</td>
+</tr>
+<!-- IFNOT END 'list.directory' -->
+<!-- LOOP END 'list' -->
+</tbody>
+</table>
+<!-- IFNOT START 'list' -->
+<table class="n_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td>해당 자료가 없습니다.</td>
+</tr>
+</table>
+<!-- IFNOT END 'list' -->
+<!-- /List Area -->
+
+<!-- IFNOT START 'print_block' -->
+<!-- Pagebar Area -->
+<table class="p_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="p_td01">{{pagebar}}</td>
+</tr>
+</table>
+<!-- /Pagebar Area -->
+
+<script>ListSort(null, "{{ord}}");</script>
+<!-- IFNOT END 'print_block' -->
+
+<script>
+function setUrl(f) {
+	if(!confirm("선택하시겠습니까?")) return false;
+}
+var tobj2;
+function setLeftCurrent() {
+	try {
+		parent._LEFT.t1.setCurrent("{{sel_left}}");
+		if(tobj2) window.clearTimeout(tobj2);
+	} catch(e) {}
+}
+tobj2 = window.setInterval("setLeftCurrent()", 200);
+</script>
+
+
+<iframe name="ifrm" id="ifrm" width="0" height="0" src="" frameborder="0"></iframe>

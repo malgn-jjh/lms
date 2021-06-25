@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>잠시만 기다려주세요.</title>
+<meta charset="utf-8">
+</head>
+<body onload="goSSO();">
+<script>
+function goSSO() {
+	var arg = location.search;
+	var args = {};
+	var f = null;
+	var el = null;
+
+	if(arg.substring(0, 1) == "?") arg = arg.substring(1);
+	args = arg.split("&");
+
+	if(0 > args.length) {
+		document.write("NO DATA");
+		return;
+	}
+
+	f = document.createElement("form");
+	f.setAttribute("method", "POST");
+	f.setAttribute("action", "test.jsp");
+	
+	el = document.createElement("input");
+	el.setAttribute("type", "hidden");
+	el.setAttribute("name", "encrypted");
+	el.setAttribute("value", "Y");
+	f.appendChild(el);
+
+	for(var i = 0; i < args.length; i++) {
+		if(-1 < args[i].indexOf("=")) {
+			try {
+				var temp = args[i].split("=");
+				el = document.createElement("input");
+				el.setAttribute("type", "hidden");
+				el.setAttribute("name", decodeURIComponent(temp[0]));
+				el.setAttribute("value", decodeURIComponent(temp[1]));
+				f.appendChild(el);
+			} catch {}
+		}
+	}
+
+	document.body.appendChild(f);
+	f.submit();
+}
+</script>
+</body>
+</html>

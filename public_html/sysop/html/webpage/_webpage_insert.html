@@ -1,0 +1,74 @@
+<style type="text/css">
+#applyBtn { width:100px; height:!00px; background-color:#00dd00; }
+</style>
+
+<!-- script language="javascript" type="text/javascript">initEditor("Advanced");</script -->
+
+<form name="form1" method="post" target="sysfrm">
+<input type="hidden" name="attach_file" value="{{attach_file}}" />
+
+<table class="c_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="c_th01"><!--@nif(modify)-->등록<!--/nif(modify)--><!--@if(modify)-->수정<!--/if(modify)--></td>
+	<td class="c_td01"></td>
+</tr>
+</table>
+
+<table class="f_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="f_th01">코드 *</td>
+	<td class="f_td01">
+		<input type="text" name="code" size="20" />
+		<span class="desc01"> 사용할 수 없는 코드 : init, index, page</span>
+	</td>
+</tr>
+
+<tr>
+	<td class="f_th01">페이지명 *</td>
+	<td class="f_td01"><input type="text" name="webpage_nm" size="90" /></td>
+</tr>
+<tr>
+	<td class="f_td01" colspan="2">
+		<div style="width:100%">
+			<textarea name="content" style="width:100%; height:200px">{{content}}</textarea>
+		</div>
+		<iframe id="fileupload" name="fileupload" frameborder="0" src="../board/attach.jsp?md=WEBPAGE&gid={{attach_file}}&_m={{_m}}&fn=attach_file&allow=image&iw=0&ih=0&mw=400&mh=300" width="100%" height="130" scrolling="no" ></iframe>
+	</td>
+</tr>
+<tr>
+	<td class="f_th01">레이아웃 *</td>
+	<td class="f_td01">
+		<select name="layout">
+		<!--@loop(layouts)-->
+		<option value="{{layouts.id}}"> {{layouts.name}} </option> 
+		<!--/loop(layouts)-->
+		</select>
+	</td>
+</tr>
+<tr>
+	<td class="f_th01">상태 *</td>
+	<td class="f_td01">
+		<!--@loop(status_list)-->
+		<label><input type="radio" name="status" value="{{status_list.id}}" class="ipt01" /> {{status_list.name}} </label> &nbsp;
+		<!--/loop(status_list)-->
+	</td>
+</tr>
+</table>
+
+<table class="b_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="b_th01"><input type="button" value="목록" class="btn_save" onclick="location.href='webpage_list.jsp?{{list_query}}'"/></td>
+	<td class="b_td01">
+		<!--@nif(modify)-->
+		<input type="submit" value="등록" class="btn_save" />
+		<!--/nif(modify)-->
+		<!--@if(modify)-->
+		<input type="submit" value="수정" class="btn_save" />
+		<input type="button" value="삭제" class="btn_save" onclick="BtnConfirmGo('삭제', 'webpage_delete.jsp?{{query}}');" />
+		<!--/if(modify)-->
+	</td>
+</tr>
+</table>
+
+</form>
+{{form_script}}

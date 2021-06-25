@@ -1,0 +1,336 @@
+<script language="javascript" src="{{SYS_JS_URL}}/contextmenu.prototype.js"></script>
+<div id="context" class="context">
+	<ul>
+		<li><a href="javascript:downloadFile('[[path_ec]]')" active="path_ec">파일 다운로드</a></li>
+		<li><a href="javascript:rename('[[path_ec]]');" active="path_ec">이름 바꾸기</a></li>
+		<li><a href="javascript:deleteFile('[[path_ec]]')" active="path_ec">삭제</a></li>
+		<li class="sep"></li>
+		<li><a href="javascript:createDir('[[path_ec]]')" active="always">새 폴더</a></li>
+		<li><a href="javascript:uploadFile()" active="always">파일 업로드</a></li>
+		<li><a href="javascript:toggleCheck(true)" active="always">모두 선택</a></li>
+		<li><a href="javascript:toggleCheck(false)" active="always">선택 해제</a></li>
+		<li><a href="javascript:deleteMultiple()" active="always">선택 삭제</a></li>
+		<li><a href="javascript:downloadZip()" active="always">선택 다운로드</a></li>
+		<li class="sep"></li>
+		<li><a href="javascript:location.reload();" active="always">새로 고침</a></li>
+	</ul>
+</div>
+<div id="context2" class="context">
+	<ul>
+		<li><a href="javascript:;" active="x">파일 다운로드</a></li>
+		<li><a href="javascript:rename('[[path_ec]]');" active="path_ec">이름 바꾸기</a></li>
+		<li><a href="javascript:deleteFile('[[path_ec]]')" active="path_ec">삭제</a></li>
+		<li class="sep"></li>
+		<li><a href="javascript:createDir('[[path_ec]]')" active="always">새 폴더</a></li>
+		<li><a href="javascript:uploadFile()" active="always">파일 업로드</a></li>
+		<li><a href="javascript:toggleCheck(true)" active="always">모두 선택</a></li>
+		<li><a href="javascript:toggleCheck(false)" active="always">선택 해제</a></li>
+		<li><a href="javascript:deleteMultiple()" active="always">선택 삭제</a></li>
+		<li><a href="javascript:downloadZip()" active="always">선택 다운로드</a></li>
+		<li class="sep"></li>
+		<li><a href="javascript:location.reload();" active="always">새로 고침</a></li>
+	</ul>
+</div>
+<script>
+function createDir(path) {
+	document.forms['form3'].submit();
+}
+function downloadFile(path) {
+	location.href = 'download.jsp?path=' + path;
+}
+function deleteFile(path) {
+	if(!confirm("삭제항목은 복구가 불가능합니다.\n삭제하시겠습니까?")) return;
+	sysfrm.location.href = 'delete.jsp?path=' + path;
+}
+function uploadFile() {
+	if(parent._TOP && parent._TOP.uploadFile) parent._TOP.uploadFile();
+}
+function toggleCheck(flag, el) {
+	var elements = document.getElementsByName("idx");
+	for(var i=0; i<elements.length; i++) {
+		elements[i].checked = el ? el.checked : flag;
+	}
+	if(!el) document.getElementById("checkall").checked = flag;
+}
+function deleteMultiple() {
+	var elements = document.getElementsByName("idx");
+	var arr = new Array();
+	for(var i=0; i<elements.length; i++) {
+		if(elements[i].checked) arr.push(elements[i]);
+	}
+	if(arr.length == 0) { alert('선택 항목이 없습니다.'); return; }
+	if(!confirm("삭제항목은 복구가 불가능합니다.\n삭제하시겠습니까?")) return;
+	document.forms['form2'].action = "delete.jsp?{{query}}";
+	document.forms['form2']['mode'].value = "DELETE";
+	document.forms['form2'].submit();
+}
+function downloadZip() {
+	var elements = document.getElementsByName("idx");
+	var arr = new Array();
+	for(var i=0; i<elements.length; i++) {
+		if(elements[i].checked) arr.push(elements[i]);
+	}
+	if(arr.length == 0) { alert('선택 항목이 없습니다.'); return; }
+	document.forms['form2'].action = "zip.jsp?{{query}}";
+	document.forms['form2']['mode'].value = "DOWNLOADZIP";
+	document.forms['form2'].submit();
+}
+</script>
+
+
+<!-- IFNOT START 'print_block' -->
+<form name="form1" method="get">
+<input type="hidden" name="ch" value="{{ch}}">
+<input type="hidden" name="tab" value="{{tab}}">
+<input type="hidden" name="ord" value="{{ord}}">
+<input type="hidden" name="mode" value="">
+<input type="hidden" name="MN" value="{{MN}}">
+
+<input type="hidden" name="path" value="{{path}}">
+<input type="hidden" name="id" value="{{id}}">
+
+<!-- Search Area -->
+<table class="t_tb01" cellpadding="0" cellspacing="0">
+<col width="100"><col>
+<col width="100"><col>
+<tr>
+	<td class="t_th01">검색</td>
+	<td class="t_td01" colspan="3">
+		<select name="s_field" onchange="document.forms['form1']['s_keyword'].focus();">
+			<option value="">-전체-</option>
+			<option value="name">파일명</option>
+		</select>
+		<input type="text" name="s_keyword" style="width:25%" onfocus="this.select();">
+		<button type="submit" class="bttn2">검색</button>
+	</td>
+</tr>
+</table>
+<!-- /Search Area -->
+
+</form>
+{{form_script}}
+<!-- IFNOT END 'print_block' -->
+
+<style type="text/css">
+.l_td01, .n_tb01 td { border-right-width:0px; border-left-width:0px; }
+.l_tr_ov { background:#F3F8FE; }
+.l_tr_curr { background:#E2EFFE; }
+a { color:#333333; }
+</style>
+
+<script>
+var pre = "";
+var curr = "";
+function setCurrent(id) {
+	var el = document.getElementById("tr_" + id);
+	el.className = "l_tr_curr";
+	curr = el;
+	if(pre && el != pre) pre.className = pre.getAttribute("orgclass");
+	pre = el;
+}
+function toggleMouse(id, type) {
+	var el = document.getElementById("tr_" + id);
+	if(el == curr) return;
+	if(type == 'over') el.className = "l_tr_ov";
+	else if(type == 'out') el.className = el.getAttribute("orgclass");
+}
+</script>
+
+<form name="form2" method="post" target="sysfrm" onsubmit="return goRename(this);">
+<input type="hidden" name="mode" value="RENAME">
+<input type="hidden" name="current_id" value="">
+<input type="hidden" name="org_name" value="">
+<input type="hidden" name="new_name" value="">
+<!-- List Area -->
+<table class="l_tb01" cellpadding="0" cellspacing="0">
+<col width="5%">
+<col width="*">
+<col width="90">
+<col width="90">
+<col width="160">
+<col width="30">
+<thead>
+<tr align="center">
+	<td class="l_th01">No</td>
+	<td class="l_th01"><span class="l_sort01" id="CL_name" onclick="ListSort(this, '{{ord}}')">이름</span></td>
+	<td class="l_th01"><span class="l_sort01" id="CL_length" onclick="ListSort(this, '{{ord}}')">크기</span></td>
+	<td class="l_th01"><span class="l_sort01" id="CL_ext" onclick="ListSort(this, '{{ord}}')">종류</span></td>
+	<td class="l_th01"><span class="l_sort01" id="CL_date" onclick="ListSort(this, '{{ord}}')">수정한 날짜</span></td>
+	<td class="l_th01" width="30"><input type="checkbox" id="checkall" onclick="toggleCheck('', this)"></td>
+</tr>
+</thead>
+<tbody>
+<!-- LOOP START 'list' -->
+<!-- IF START 'list.directory' -->
+<tr id="tr_{{list.path_ec}}" class="l_tr_{{list.ROW_CLASS}}" orgclass="l_tr_{{list.ROW_CLASS}}" align="center" style="cursor:default"
+	onmouseover="toggleMouse('{{list.path_ec}}', 'over')"
+	onmouseout="toggleMouse('{{list.path_ec}}', 'out')"
+	oncontextmenu="setCurrent('{{list.path_ec}}'); new MContextMenu('context2', event, { path_ec:'{{list.path_ec}}' }); return false;"
+	onclick="setCurrent('{{list.path_ec}}')"
+	ondblclick="location.href = 'right.jsp?path={{list.path_ec}}&id={{list.id}}'"
+>
+	<td class="l_td01">{{list.__ord}}</td>
+	<td class="l_td01" align="left">
+		<img src="/sysop/html/images/admin/ext/folder.gif" align="absmiddle" onerror="ImageError(this, '/sysop/html/images/admin/ext/unknown.gif')"> <span id="{{list.path_ec}}" nm="{{list.name}}">{{list.name}}</span>
+	</td>
+	<td class="l_td01" align="center"></td>
+	<td class="l_td01">&lt;DIR&gt;</td>
+	<td class="l_td01">{{list.date_conv}}</td>
+	<td class="l_td01"><input type="checkbox" name="idx" value="{{list.path_ec}}"></td>
+</tr>
+<!-- IF END 'list.directory' -->
+<!-- IFNOT START 'list.directory' -->
+<tr id="tr_{{list.path_ec}}" class="l_tr_{{list.ROW_CLASS}}" orgclass="l_tr_{{list.ROW_CLASS}}" align="center"
+	onmouseover="toggleMouse('{{list.path_ec}}', 'over')"
+	onmouseout="toggleMouse('{{list.path_ec}}', 'out')"
+	oncontextmenu="setCurrent('{{list.path_ec}}'); new MContextMenu('context', event, { path_ec:'{{list.path_ec}}' }); return false;"
+	onclick="setCurrent('{{list.path_ec}}')"
+	ondblclick="downloadFile('{{list.path_ec}}')"
+>
+	<td class="l_td01">{{list.__ord}}</td>
+	<td class="l_td01" align="left"><img src="/sysop/html/images/admin/ext/{{list.ext}}.gif" align="absmiddle" onerror="ImageError(this, '/sysop/html/images/admin/ext/unknown.gif')"> <span id="{{list.path_ec}}" nm="{{list.name}}">{{list.name}}</span></td>
+	<td class="l_td01" align="center">{{list.length}}</td>
+	<td class="l_td01">{{list.ext}}</td>
+	<td class="l_td01">{{list.date_conv}}</td>
+	<td class="l_td01"><input type="checkbox" name="idx" value="{{list.path_ec}}"></td>
+</tr>
+<!-- IFNOT END 'list.directory' -->
+<!-- LOOP END 'list' -->
+</tbody>
+</table>
+<!-- IFNOT START 'list' -->
+<table class="n_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td>해당 자료가 없습니다.</td>
+</tr>
+</table>
+<!-- IFNOT END 'list' -->
+<!-- /List Area -->
+
+<!-- IFNOT START 'print_block' -->
+<!-- Pagebar Area -->
+<table class="p_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="p_td01">{{pagebar}}</td>
+</tr>
+</table>
+<!-- Pagebar Area -->
+
+<script>ListSort(null, "{{ord}}");</script>
+<!-- IFNOT END 'print_block' -->
+
+</form>
+
+<form name="form3" method="post" target="sysfrm">
+<input type="hidden" name="mode" value="CREATE_DIR">
+</form>
+
+<script>
+parent.document.getElementById("_RIGHT_FRAMESET").rows = "*,0";
+parent._UPLOAD.location.href = "upload.jsp?path={{path}}";
+
+var tobj1;
+function setTopPath() {
+	try {
+		parent._TOP.document.getElementById("path").value = "{{decode_path}}";
+		parent._TOP.document.getElementById("acbtn").style.display = "{{path}}" != "" ? "inline" : "none";
+		if(tobj1) window.clearTimeout(tobj1);
+	} catch(e) {}
+}
+tobj1 = window.setInterval("setTopPath()", 200);
+
+var tobj2;
+function setLeftCurrent() {
+	try {
+		parent._LEFT.t1.setCurrent("{{id}}");
+		if(tobj2) window.clearTimeout(tobj2);
+	} catch(e) {}
+}
+tobj2 = window.setInterval("setLeftCurrent()", 200);
+</script>
+
+<span id="boxwidth"></span>
+<script>
+var newfolder = GetCookie("NEWFOLDER");
+if(newfolder) rename(newfolder);
+SetCookie("NEWFOLDER", "");
+function setBoxWidth(el) {
+	var tmp = document.getElementById("boxwidth");
+	tmp.style.display = "inline";
+	tmp.innerHTML = el.value;
+	var width = tmp.offsetWidth;
+	if(width > 300) width = 300;
+	el.style.width = width + 20 + "px";
+	tmp.style.display = "none";
+}
+function rename(id) {
+	restore();
+	var tgt = document.getElementById(id);
+	if(!tgt) return;
+	var box = document.createElement("input");
+	box.value = tgt.getAttribute("nm");
+	box.setAttribute("name", "name");
+	box.setAttribute("id", "rename_box");
+	box.setAttribute("path_ec", tgt.getAttribute("id"));
+	setBoxWidth(box);
+	box.select();
+	box.onchange = function() {
+		document.forms['form2']['current_id'].value = id;
+		document.forms['form2']['org_name'].value = tgt.getAttribute("nm");
+		document.forms['form2']['new_name'].value = box.value;
+		goRename();
+	}
+	box.onblur = function() {
+		restore();
+	}
+	box.onfocus = function() { this.select(); }
+	box.onclick = function(ev) {
+		e = ev ? ev : event;
+		if(e.stopPropagation) e.stopPropagation();
+		else e.cancelBubble = true;
+	}
+	box.onkeyup = function() {
+		setBoxWidth(this);
+	}
+	box.onkeydown = function(ev) {
+		e = ev ? ev : event;
+		if(e.keyCode == 13) {
+			document.forms['form2']['current_id'].value = id;
+			document.forms['form2']['org_name'].value = tgt.getAttribute("nm");
+			document.forms['form2']['new_name'].value = box.value;
+		}
+	}
+	tgt.style.display = "none";
+	tgt.parentNode.insertBefore(box, tgt);
+	box.focus();
+	if(document.getElementById("context")) document.getElementById("context").style.display = "none";
+	if(document.getElementById("context2")) document.getElementById("context2").style.display = "none";
+}
+function restore() {
+	var el = document.getElementById("rename_box");
+	if(el) {
+		var id = el.getAttribute("path_ec");
+		document.getElementById(id).style.display = "inline";
+		el.parentNode.removeChild(el);
+	}
+}
+function goRename(frm) {
+	if(document.forms['form2']['new_name'].value.replace(/ /gi, '') == "") {
+		alert("이름을 입력하세요.");
+		rename(document.forms['form2']['current_id'].value);
+		return false;
+	}
+	document.forms['form2'].action = "right.jsp?{{query}}";
+	document.forms['form2']['mode'].value = "RENAME";
+	document.forms['form2'].submit();
+	return false;
+}
+</script>
+
+<script>
+addEvent("onload", function() {
+		var el = document.getElementById("rename_box");
+		if(el) el.select();
+	}
+);
+</script>

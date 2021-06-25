@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="../../favicon.ico">
+
+<title>Demo</title>
+
+<!-- Bootstrap core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link href="css/jumbotron-narrow.css" rel="stylesheet">
+<link href="css/common.css" rel="stylesheet">
+
+<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+<script src="js/ie-emulation-modes-warning.js"></script>
+<script type="text/javascript">
+<!--
+	function payment(){
+		var frm = document.regForm;
+
+		window.open("", "payment2", "resizable=yes,scrollbars=yes,width=820,height=600");
+		frm.target = "payment2";
+		frm.submit();
+	}
+//-->
+</script>
+</head>
+<body>
+<!-- 
+			*Test Card Type : VISA<br/>
+			*Test Card No : 4111 1111 1111 1111<br/>
+			*Test Expiry Date : 12/20<br/>
+			*Test CVV : 123<br/>
+
+-->
+<div class="container">
+	<div class="row marketing">
+		<form class="form-horizontal" name="regForm" method="post" action="request.jsp">
+		<!-- 결제에 필요 한 필수 파라미터 -->
+		<input type="hidden" name="ver" value="230" /><!-- 연동 버전 -->
+		<input type="hidden" name="txntype" value="PAYMENT" /><!-- 거래 타입 -->
+		<input type="hidden" name="charset" value="UTF-8" /><!-- 고정 : UTF-8 -->
+
+		<!-- statusurl(필수 값) : 결제 완료 시 Back-end 방식으로 Eximbay 서버에서 statusurl에 지정된 가맹점 페이지를 Back-end로 호출하여 파라미터를 전송 -->
+		<!-- 스크립트, 쿠키, 세션 사용 불가 -->
+		<input type="hidden" name="statusurl" value="http://merchant's site/status.jsp" />
+		<input type="hidden" name="returnurl" value="http://merchant's site/return.jsp" />
+
+		<!--결제 완료 시 Front-end 방식으로 사용자 브라우저 상에 호출되어 보여질 가맹점 페이지 -->
+
+
+		<!-- 배송지 파라미터(선택) -->
+		<input type="hidden" name="shipTo_country" value="US" />
+		<input type="hidden" name="shipTo_city" value="Mountain View" />
+		<input type="hidden" name="shipTo_state" value="CA" />
+		<input type="hidden" name="shipTo_street1" value="100 Elm Street" />
+		<input type="hidden" name="shipTo_postalCode" value="94043" />
+		<input type="hidden" name="shipTo_phoneNumber" value="1234" />
+		<input type="hidden" name="shipTo_firstName" value="First Name" />
+		<input type="hidden" name="shipTo_lastName" value="Last Name" />
+
+		<!-- 청구지 파라미터 (선택) -->
+		<input type="hidden" name="billTo_city" value="" />
+		<input type="hidden" name="billTo_country" value="" />
+		<input type="hidden" name="billTo_firstName" value="" />
+		<input type="hidden" name="billTo_lastName" value="" />
+		<input type="hidden" name="billTo_phoneNumber" value="" />
+		<input type="hidden" name="billTo_postalCode" value="" />
+		<input type="hidden" name="billTo_state" value="" />
+		<input type="hidden" name="billTo_street1" value="" />
+
+		<!-- 결제 응답 값 처리 파라미터 -->
+		<input type="hidden" name="rescode" />
+		<input type="hidden" name="resmsg" />
+
+		<!-- 결제에 필요한 필수 파라미터 -->
+		<div class="form-group form-group-sm">
+			<label class="col-sm-4 control-label" for="formGroupInputSmall">•mid(Eximbay에서 할당한 가맹점 아이디)</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" id="formGroupInputSmall" name="mid" value="1849705C64" readonly>
+				</div>
+		</div>
+
+		<div class="form-group form-group-sm">
+			<label class="col-sm-4 control-label" for="formGroupInputSmall">•ref(가맹점 고유 거래 아이디 셋팅)</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" id="formGroupInputSmall" name="ref" value="demo20170418202020">
+				</div>
+		</div>
+
+		<div class="form-group form-group-sm">
+			<label class="col-sm-4 control-label" for="formGroupInputSmall">•ostype</label>
+				<div class="col-sm-8">
+					<select class="form-control" name="ostype">
+						<option value="P" selected>PC</option>
+						<option value="M">MOBILE</option>
+					</select>
+				</div>
+		</div>
+
+		<div class="form-group form-group-sm">
+			<label class="col-sm-4 control-label" for="formGroupInputSmall">•displaytype</label>
+				<div class="col-sm-8">
+					<select class="form-control" name="displaytype">
+						<option value="P" selected>POPUP</option>
+					</select>
+				</div>
+		</div>
+
+		<!-- 테스트 시 통화 USD 권장 -->
+
+		<div class="form-group form-group-sm">
+			<label class="col-sm-4 control-label" for="formGroupInputSmall">•cur</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" id="formGroupInputSmall" name="cur" value="USD">
+				</div>
+		</div>
+
+
+		<div class="form-group form-group-sm">
+			<label class="col-sm-4 control-label" for="formGroupInputSmall">•amt</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" id="formGroupInputSmall" name="amt" value="1">
+				</div>
+		</div>
+
+
+		<div class="form-group form-group-sm">
+			<label class="col-sm-4 control-label" for="formGroupInputSmall">•shop</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" id="formGroupInputSmall" name="shop" value="test merchant">
+				</div>
+		</div>
+
+		<div class="form-group form-group-sm">
+			<label class="col-sm-4 control-label" for="formGroupInputSmall">•buyer</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" id="formGroupInputSmall" name="buyer" value="Buyer">
+				</div>
+		</div>
+
+		<div class="form-group form-group-sm">
+			<label class="col-sm-4 control-label" for="formGroupInputSmall">•email</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" id="formGroupInputSmall" name="email" value="email@email.com">
+				</div>
+		</div>
+
+		<div class="form-group form-group-sm">
+			<label class="col-sm-4 control-label" for="formGroupInputSmall">•tel</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" id="formGroupInputSmall" name="tel" value="1234-5678">
+				</div>
+		</div>
+
+		<!-- lang 기본 값 : EN -->
+		<div class="form-group form-group-sm">
+			<label class="col-sm-4 control-label" for="formGroupInputSmall">•lang</label>
+				<div class="col-sm-8">
+					<select class="form-control" name="lang">
+						<option value="EN" selected>EN</option>
+						<option value="KR">KR</option>
+						<option value="JP">JP</option>
+						<option value="CN">CN</option>
+					</select>
+				</div>
+		</div>
+
+		<div class="form-group form-group-sm">
+			<label class="col-sm-4 control-label" for="formGroupInputSmall">•paymethod</label>
+				<div class="col-sm-8">
+					<select class="form-control" name="paymethod">
+						<option value="">전체</option>
+						<option value="P000">CreditCard</option>
+						<option value="P101">VISA</option>
+						<option value="P102">MasterCard</option>
+						<option value="P103">AMEX</option>
+						<option value="P104">JCB</option>
+						<option value="P001">PayPal</option>
+						<option value="P002">CUP</option>
+						<option value="P003">Alipay</option>
+						<option value="P004">Tenpay</option>
+						<option value="P141">WeChat (PC - ostype:P)</option>
+						<option value="P142">WeChat-InApp (MOBILE - ostype:M)</option>
+						<option value="P005">99Bill</option>
+						<option value="P006">eContext</option>
+						<option value="P007">Molpay</option>
+						<option value="P008">PaysBuy</option>
+					</select>
+				</div>
+		</div>
+
+		<!-- 가맹점 정의 파마리터 (선택) -->
+		<div class="form-group form-group-sm">
+			<label class="col-sm-4 control-label" for="formGroupInputSmall">•param1</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" id="formGroupInputSmall" name="param1" value="">
+				</div>
+		</div>
+
+		<div class="form-group form-group-sm">
+			<label class="col-sm-4 control-label" for="formGroupInputSmall">•param2</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" id="formGroupInputSmall" name="param2" value="">
+				</div>
+		</div>
+
+		<div class="form-group form-group-sm">
+			<label class="col-sm-4 control-label" for="formGroupInputSmall">•param3</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" id="formGroupInputSmall" name="param3" value="">
+				</div>
+		</div>
+
+		<div class="form-group form-group-sm">
+			<label class="col-sm-4 control-label" for="formGroupInputSmall">•autoclose</label>
+				<div class="col-sm-8">
+					<select class="form-control" name="autoclose">
+						<option value="N" selected>N</option>
+						<option value="Y">Y</option>
+					</select>
+				</div>
+		</div>
+
+
+		<!-- 주문 상품 파라미터 (선택) : 실제 결제 정보에 사용 되지 않음-->
+
+		<div class="form-group form-group-sm">
+			<label class="col-sm-4 control-label" for="formGroupInputSmall">•item_0_product</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" id="formGroupInputSmall" name="item_0_product" value="Product Name">
+				</div>
+		</div>
+
+		<div class="form-group form-group-sm">
+			<label class="col-sm-4 control-label" for="formGroupInputSmall">•item_0_quantity</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" id="formGroupInputSmall" name="item_0_quantity" value="1">
+				</div>
+		</div>
+		<!-- 실제 결제 정보에 이용되는 결제금액은 amt. item_#_unitPrice 과 surcharge_#_unitPrice 금액의 합이 amt와 같아야 함 -->
+		<div class="form-group form-group-sm">
+			<label class="col-sm-4 control-label" for="formGroupInputSmall">•item_0_unitPrice</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" id="formGroupInputSmall" name="item_0_unitPrice" value="1.25">
+				</div>
+		</div>
+
+		<div class="form-group form-group-sm">
+			<label class="col-sm-4 control-label" for="formGroupInputSmall">•surcharge_0_name</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" id="formGroupInputSmall" name="surcharge_0_name" value=Shipping fee"">
+				</div>
+		</div>
+
+		<div class="form-group form-group-sm">
+			<label class="col-sm-4 control-label" for="formGroupInputSmall">•surcharge_0_quantity</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" id="formGroupInputSmall" name="surcharge_0_quantity" value="1">
+				</div>
+		</div>
+
+		<div class="form-group form-group-sm">
+			<label class="col-sm-4 control-label" for="formGroupInputSmall">•surcharge_0_unitPrice</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" id="formGroupInputSmall" name="surcharge_0_unitPrice" value="0.25">
+				</div>
+		</div>
+
+		<div class="col-lg-12 text-center m_b20">
+			<button type="button" class="btn btn-default btn-block" onclick="payment();">payment</button>
+		</div>
+		</form>
+	</div>
+
+
+	<footer class="footer text-center">
+		<img src="img/exim_new.jpg">
+	</footer>
+
+</div>
+<script src="js/ie10-viewport-bug-workaround.js"></script>
+</body>
+</html>

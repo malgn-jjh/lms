@@ -1,0 +1,157 @@
+<!--@if(idx_block)-->
+<script language="javascript" type="text/javascript">initEditor("advanced");</script>
+
+<div class="tabs_02">
+	<ul>
+		<li><a href="content_modify.jsp?id={{cid}}">그룹정보</a></li>
+		<li><a href="lesson_list.jsp?cid={{cid}}">강의목차</a></li>
+		<li class="current"><a href="file.jsp?cid={{cid}}">파일관리</a></li>
+	</ul>
+</div>
+
+<table class="f_tb01" cellpadding="0" cellspacing="0">
+<col width="120"><col>
+<tr>
+	<td class="f_th01">그룹명</td>
+	<td class="f_td01">{{cinfo.content_nm}}</td>
+</tr>
+</table>
+
+<table width="100%" cellpadding="0" cellspacing="0">
+<col width="200"><col width="8"><col>
+<tr>
+	<td valign="top"><iframe name="left" id="left" src="file.jsp?mode=DIR_LIST&cid={{cid}}" width="100%" frameborder="0" scrolling="no"></iframe></td>
+	<td></td>
+	<td valign="top"><iframe name="mng" id="mng" src="file.jsp?mode=FILE_LIST&cid={{cid}}&path={{path_ec}}" width="100%" frameborder="0" scrolling="no"></iframe></td>
+</tr>
+</table>
+<!--/if(idx_block)-->
+
+<!--@if(dir_block)-->
+<link rel="StyleSheet" href="/common/js/dtree/dtree.css" type="text/css" />
+<script type="text/javascript" src="/common/js/dtree/dtree.js"></script>
+<style type="text/css">
+.dtreeSub { padding:10px 10px 10px 10px; margin-bottom:20px; }
+.topTable { text-align:left; margin-bottom:2px; font-size:11px; font-family:dotum; letter-spacing:-1px; }
+.topTable span { display:block; font-size:11px; }
+.menuTable { padding:3px 0 0 0px; }
+.menuRight { display:block; width:100%; height:10px; }
+</style>
+<div class="djree dtreeSub">
+	<div class="topTable"><nobr><span><a href="javascript: dv.openAll();">전체열기</a> | <a href="javascript: dv.closeAll();">전체닫기</a></span></nobr></div>
+	<div class="menuTable" id="folder">
+	<script type="text/javascript">
+		dv = new dTree('dv');
+		//Node(id, pid, name, url, title, target, icon, iconOpen, open)
+		dv.add("0", "_ROOT_", "ROOT", 'file.jsp?mode=FILE_LIST&cid={{cid}}&path={{path_ec}}', '', 'mng');
+		<!--@loop(list)-->
+		dv.add("{{list.id}}", "{{list.parent_id}}", "{{list.name}}", 'file.jsp?mode=FILE_LIST&cid={{cid}}&path={{list.path_ec}}', '', 'mng', '/common/js/dtree/img/folder.gif', '/common/js/dtree/img/folderopen.gif');
+		<!--/loop(list)-->
+		document.write(dv);
+		//dv.openAll();
+	</script>
+	<div><span class="menuRight"></span></div>
+</div>
+<script>addEvent("onload", function() { ResizeIframe("left"); } );</script>
+<!--/if(dir_block)-->
+
+<!--@if(file_block)-->
+<form name="form1" method="post" target="ifrm">
+<div style="border:1px solid #DEDEDE; background:#F4F4F4; padding:3px;">
+	<div>
+		<input type="text" name="cpath" value="{{dir_conv}}" style="width:100%; background:url(/common/js/mtree/img/folder.gif) no-repeat 5px center #ECF5FE; border:1px solid #DEDEDE; padding:3px 3px 3px 23px; font-family:dotum">
+	</div>
+	<!--div style="text-align:right">
+		<input type="text" name="folder" size="10">
+		<input type="submit" class="btn_simp" value="하위폴더생성">
+		<input type="button" class="btn_simp" value="폴더삭제" onclick="goDelFolder()">
+		<input type="button" class="btn_simp" value="압축파일 업로드" onclick="fileUpload('zip')">
+		<input type="button" class="btn_simp" value="파일 업로드" onclick="fileUpload()">
+		<input type="button" class="btn_simp" value="선택삭제" onclick="goDelFile()">
+	</div-->
+</div>
+
+
+</form>
+{{form_script}}
+
+<script>
+function goDelFolder() {
+	if(confirm("삭제하시겠습니까?")) {
+		ifrm.location.href = "file.jsp?mode=DIR_DEL&{{del_query}}";
+	}
+}
+function toggleCheck(el) {
+	var elements = document.getElementsByName("idx");
+	for(var i=0; i<elements.length; i++) {
+		elements[i].checked = el.checked;
+	}
+}
+function goDelFile() {
+	var elements = document.getElementsByName("idx");
+	var arr = new Array();
+	for(var i=0; i<elements.length; i++) {
+		if(elements[i].checked) arr.push(elements[i]);
+	}
+	if(arr.length == 0) {
+		alert("선택 항목이 없습니다.");
+		return;
+	}
+	if(confirm("삭제하시겠습니까?")) {
+		document.forms['form2'].submit();
+	}
+}
+function fileUpload(type) {
+	if(type == "zip") {
+		if(!confirm(
+			"압축파일 업로드를 선택했습니다." 
+			+ "\n현재 폴더에 압축파일을 풉니다."
+			+ "\n\n진행하시겠습니까?"
+		)) return;
+	}
+	OpenWindow("content_upload.jsp?dir={{path}}&cid={{cid}}&type=zip", "FU03", 640, 285);
+}
+</script>
+
+<form name="form2" method="post" target="ifrm">
+<input type="hidden" name="md" value="FILE_DEL">
+<table class="l_tb01" cellpadding="0" cellspacing="0">
+<col>
+<col width="70">
+<col width="140">
+<col width="40">
+<tr>
+	<td class="l_th03">파일명</td>
+	<td class="l_th03">크기</td>
+	<td class="l_th03">날짜</td>
+	<td class="l_th03"><input type="checkbox" onclick="toggleCheck(this)"></td>
+</tr>
+<!--@loop(list)-->
+<tr align="center">
+	<td class="l_td01" align="left" style="padding:2px">
+		<a href="file.jsp?mode=DOWNLOAD&path={{list.path_ec}}"><img src="../html/images/admin/ext/{{list.ext}}.gif" onerror="ImageError(this, '../html/images/admin/ext/unknown.gif')" align="absmiddle">
+		{{list.name}}</a>
+	</td>
+	<td class="l_td01" align="right" style="padding:2px">{{list.size}}</td>
+	<td class="l_td01" style="padding:2px">{{list.date}}</td>
+	<td class="l_td01" style="padding:2px"><input type="checkbox" name="idx" value="{{list.path_ec}}"></td>
+</tr>
+<!--/loop(list)-->
+</table>
+
+<!--@nif(list)-->
+<table class="n_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td>파일이 없습니다.</td>
+</tr>
+</table>
+<!--/nif(list)-->
+
+</form>
+
+<iframe name="ifrm" id="ifrm" src="" width="0" height="0" frameborder="0"></iframe>
+
+<script>addEvent("onload", function() { ResizeIframe("mng"); } );</script>
+<script>parent.scrollTo(0, 0);</script>
+<!--/if(file_block)-->
+

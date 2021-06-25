@@ -1,0 +1,161 @@
+<!--[if gte IE 8]> <style type="text/css"> body { overflow-y:scroll; } </style> <![endif]-->
+<!--[if !IE]>--> <style type="text/css"> body { overflow-y:scroll; } </style> <!--<![endif]-->
+
+<form name="form2" method="post" target="sysfrmblank">
+<input type="hidden" name="mode" value="RENAME">
+<input type="hidden" name="current_id" value="">
+<input type="hidden" name="current_path" value="">
+<input type="hidden" name="org_name" value="">
+<input type="hidden" name="new_name" value="">
+
+<script language="javascript" src="{{SYS_JS_URL}}/mtree/tree.prototype.js"></script>
+
+<div style="margin:10px;" id="folder">
+	<script>
+	var t1 = new MTree("t1");
+	t1.imgDir = "{{SYS_JS_URL}}/mtree/img";
+	t1.root = "{{root}}";
+	<!-- LOOP START 'list' -->
+	t1.add(
+		"{{list.id}}"
+		, "{{list.parent_id}}"
+		, "{{list.name}}"
+		, "right.jsp?path={{list.path_ec}}&id={{list.id}}"
+		, "_RIGHT"
+		, "{{SYS_JS_URL}}/mtree/img/folder.gif"
+		, {
+			onclick:""
+			, oncontextmenu:"t1.so('{{list.id}}');t1.lv();new MContextMenu('context', event, { path_ec:'{{list.path_ec}}',id:'{{list.id}}' }); return false;"
+		}
+	);
+	<!-- LOOP END 'list' -->
+	t1.start();
+
+	</script>
+</div>
+
+</form>
+
+<script language="javascript" src="{{SYS_JS_URL}}/contextmenu.prototype.js"></script>
+<div id="context" class="context">
+	<ul>
+		<li><a href="javascript:createDir('[[path_ec]]')" active="path_ec">하위 폴더 생성</a></li>
+		<li><a href="javascript:rename('[[id]]', '[[path_ec]]');" active="path_ec">이름 바꾸기</a></li>
+		<li><a href="javascript:deleteDir('[[path_ec]]')" active="path_ec">삭제</a></li>
+		<li class="sep"></li>
+		<li><a href="javascript:location.reload();" active="always">새로 고침</a></li>
+	</ul>
+</div>
+
+<form name="form3" method="post" target="sysfrmblank">
+<input type="hidden" name="mode" value="CREATE_DIR">
+<input type="hidden" name="current_path" value="">
+</form>
+
+<script>
+function createDir(path) {
+	document.forms['form3']['current_path'].value = path;
+	document.forms['form3'].submit();
+}
+function deleteDir(path) {
+	if(!confirm("삭제항목은 복구가 불가능합니다.\n삭제하시겠습니까?")) return;
+	sysfrmblank.location.href = "delete.jsp?path=" + path + "&{{del_query}}";
+}
+</script>
+
+<span id="boxwidth"></span>
+<script>
+var newfolder = GetCookie("NEWFOLDERLEFT");
+var newpath = GetCookie("NEWPATHLEFT");
+if(newfolder) {
+	t1.openTo(newfolder);
+	rename(newfolder, newpath);
+}
+SetCookie("NEWFOLDERLEFT", "");
+function setBoxWidth(el) {
+	var tmp = document.getElementById("boxwidth");
+	tmp.style.display = "inline";
+	tmp.innerHTML = el.value;
+	var width = tmp.offsetWidth;
+	if(width > 150) width = 150;
+	el.style.width = width + 20 + "px";
+	tmp.style.display = "none";
+}
+function rename(id, path) {
+	restore();
+	var tgt = document.getElementById("t1_mtree_node" + id + "_a");
+	if(!tgt) return;
+	var box = document.createElement("input");
+	box.value = tgt.innerHTML;
+	box.setAttribute("name", "name");
+	box.setAttribute("id", "rename_box");
+	box.setAttribute("path_ec", tgt.getAttribute("id"));
+	setBoxWidth(box);
+	box.select();
+	box.onchange = function() {
+		document.forms['form2']['current_id'].value = id;
+		document.forms['form2']['current_path'].value = path;
+		document.forms['form2']['org_name'].value = tgt.innerHTML;
+		document.forms['form2']['new_name'].value = box.value;
+		goRename();
+	}
+	box.onblur = function() {
+		restore();
+	}
+	box.onfocus = function() { this.select(); }
+	box.onclick = function(ev) {
+		e = ev ? ev : event;
+		if(e.stopPropagation) e.stopPropagation();
+		else e.cancelBubble = true;
+	}
+	box.onkeyup = function() {
+		setBoxWidth(this);
+	}
+	box.onkeydown = function(ev) {
+		e = ev ? ev : event;
+		if(e.keyCode == 13) {
+			document.forms['form2']['current_id'].value = id;
+			document.forms['form2']['current_path'].value = path;
+			document.forms['form2']['org_name'].value = tgt.innerHTML;
+			document.forms['form2']['new_name'].value = box.value;
+		}
+	}
+	tgt.style.display = "none";
+	tgt.parentNode.insertBefore(box, tgt);
+	box.focus();
+	if(document.getElementById("context")) document.getElementById("context").style.display = "none";
+	if(document.getElementById("context2")) document.getElementById("context2").style.display = "none";
+}
+function restore() {
+	var el = document.getElementById("rename_box");
+	if(el) {
+		var id = el.getAttribute("path_ec");
+		document.getElementById(id).style.display = "inline";
+		el.parentNode.removeChild(el);
+	}
+}
+function goRename(frm) {
+	if(document.forms['form2']['new_name'].value.replace(/ /gi, '') == "") {
+		alert("이름을 입력하세요.");
+		rename(document.forms['form2']['current_id'].value, document.forms['form2']['current_path'].value);
+		return false;
+	}
+	document.forms['form2'].action = "left.jsp?{{query}}";
+	document.forms['form2']['mode'].value = "RENAME";
+	document.forms['form2'].submit();
+	return false;
+}
+</script>
+
+<script>
+addEvent("onload", function() {
+		var el = document.getElementById("rename_box");
+		if(el) el.select();
+	}
+);
+</script>
+
+<script>
+	addEvent("onmouseover", function() { try { t1.lv(); } catch(e) {} }, document.getElementById("context"));
+	addEvent("onmouseout", function() { try { t1.lo(); } catch(e) {} }, document.getElementById("context"));
+</script>

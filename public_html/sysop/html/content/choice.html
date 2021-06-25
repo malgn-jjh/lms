@@ -1,0 +1,96 @@
+<!--@if(idx_block)-->
+<table width="100%" cellpadding="0" cellspacing="0">
+<col width="200"><col width="8"><col>
+<tr>
+	<td valign="top"><iframe name="left" id="left" src="choice.jsp?mode=DIR_LIST&cid={{cid}}" width="100%" frameborder="0" scrolling="no"></iframe></td>
+	<td></td>
+	<td valign="top"><iframe name="mng" id="mng" src="choice.jsp?mode=FILE_LIST&cid={{cid}}&path={{path_ec}}&field={{field}}" width="100%" frameborder="0" scrolling="no"></iframe></td>
+</tr>
+</table>
+<!--/if(idx_block)-->
+
+<!--@if(dir_block)-->
+<link rel="StyleSheet" href="/common/js/dtree/dtree.css" type="text/css" />
+<script type="text/javascript" src="/common/js/dtree/dtree.js"></script>
+<style type="text/css">
+.dtreeSub { padding:10px 10px 10px 10px; margin-bottom:20px; }
+.topTable { text-align:left; margin-bottom:2px; font-size:11px; font-family:dotum; letter-spacing:-1px; }
+.topTable span { display:block; font-size:11px; }
+.menuTable { padding:3px 0 0 0px; }
+.menuRight { display:block; width:100%; height:10px; }
+</style>
+<div class="djree dtreeSub">
+	<div class="topTable"><nobr><span><a href="javascript: dv.openAll();">전체열기</a> | <a href="javascript: dv.closeAll();">전체닫기</a></span></nobr></div>
+	<div class="menuTable" id="folder">
+	<script type="text/javascript">
+		dv = new dTree('dv');
+		//Node(id, pid, name, url, title, target, icon, iconOpen, open)
+		dv.add("0", "_ROOT_", "ROOT", 'choice.jsp?mode=FILE_LIST&cid={{cid}}&path={{path_ec}}', '', 'mng');
+		<!--@loop(list)-->
+		dv.add("{{list.id}}", "{{list.parent_id}}", "{{list.name}}", 'choice.jsp?mode=FILE_LIST&cid={{cid}}&path={{list.path_ec}}', '', 'mng', '/common/js/dtree/img/folder.gif', '/common/js/dtree/img/folderopen.gif');
+		<!--/loop(list)-->
+		document.write(dv);
+		//dv.openAll();
+	</script>
+	<div><span class="menuRight"></span></div>
+</div>
+<script>addEvent("onload", function() { ResizeIframe("left"); } );</script>
+<!--/if(dir_block)-->
+
+<!--@if(file_block)-->
+<form name="form2" method="post" target="ifrm">
+<input type="hidden" name="md" value="FILE_DEL">
+<input type="hidden" name="field" value="{{field}}">
+<table class="l_tb01" cellpadding="0" cellspacing="0">
+<col>
+<col width="70">
+<col width="140">
+<tr>
+	<td class="l_th03">파일명</td>
+	<td class="l_th03">크기</td>
+	<td class="l_th03">날짜</td>
+</tr>
+<!--@loop(list)-->
+<tr align="center">
+	<td class="l_td01" align="left" style="padding:2px">
+		<a href="javascript:setItem('{{list.url}}');">
+			<img src="../html/images/admin/ext/{{list.ext}}.gif" onerror="ImageError(this, '../html/images/admin/ext/unknown.gif')" align="absmiddle">
+			&nbsp;{{list.name}}
+		</a>
+	</td>
+	<td class="l_td01" align="right" style="padding:2px">{{list.size}}</td>
+	<td class="l_td01" style="padding:2px">{{list.date}}</td>
+</tr>
+<!--/loop(list)-->
+</table>
+
+<!--@nif(list)-->
+<table class="n_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td>파일이 없습니다.</td>
+</tr>
+</table>
+<!--/nif(list)-->
+
+</form>
+
+<iframe name="ifrm" id="ifrm" src="" width="0" height="0" frameborder="0"></iframe>
+
+<script>addEvent("onload", function() { ResizeIframe("mng"); } );</script>
+<script>parent.scrollTo(0, 0);</script>
+<script>
+function setItem(url) {
+	var field = document.forms['form2']['field'].value;
+	if(!parent.opener || !field) { 
+		alert("콘텐츠 선택창을 닫고 다시 여세요.");
+		parent.window.close();
+		return;
+	}
+	try {
+		parent.opener.document.forms['form1'][field].value = url;
+	} catch(e) { alert("콘텐츠 파일을 선택하는데 실패하였습니다. 콘텐츠 선택창을 닫고 다시 여세요."); } 
+	parent.window.close();
+}
+
+</script>
+<!--/if(file_block)-->

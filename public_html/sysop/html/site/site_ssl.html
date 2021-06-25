@@ -1,0 +1,103 @@
+<script language="javascript" type="text/javascript">initEditor("default");</script>
+<style type="text/css">
+.f_th_required {background-color:#f7f0f0;font-weight:bold;}
+</style>
+
+<form name="form1" method="post" target="sysfrm" enctype="multipart/form-data">
+<input type="hidden" name="mode" value="cert">
+<table class="c_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="c_th01">SSL 설정</td>
+	<td class="c_td01"></td>
+</tr>
+</table>
+
+<table class="f_tb01" cellpadding="0" cellspacing="0" style="table-layout:fixed;">
+<col width="120"><col>
+<tr>
+	<td class="f_th01">도메인 *</td>
+	<td class="f_td01">http://{{domain}}</td>
+</tr>
+<tr>
+	<td class="f_th01">DCV 파일내용</td>
+	<td class="f_td01">
+		<textarea name="dcv_text" class="NoEditor" style="width:99%;height:50px;">{{dcv_text}}</textarea>
+	</td>
+</tr>
+<tr>
+	<td class="f_th01">DCV 파일명</td>
+	<td class="f_td01">
+		<input type="text" name="dcv_file" size="70">
+		<input type="button" class="btn_simp" value="파일생성" onclick="createDcvFile()" />
+		<input type="button" class="btn_simp blue" value="미리보기" onclick="previewDcvFile()" />
+	</td>
+</tr>
+<tr>
+	<td class="f_th01">인증키</td>
+	<td class="f_td01">
+		<input type="file" name="cert_pem" size="70" style="border:1px solid #D1D1D1;">
+		<!--@if(cert_block)-->
+		<span class="desc01">/etc/httpd/ssl/{{domain}}/cert.pem</span>
+		<!--/if(cert_block)-->
+	</td>
+</tr>
+<tr>
+	<td class="f_th01">개인키</td>
+	<td class="f_td01">
+		<input type="file" name="privkey_pem" size="70" style="border:1px solid #D1D1D1;">
+		<!--@if(privkey_block)-->
+		<span class="desc01">/etc/httpd/ssl/{{domain}}/privkey.pem</span>
+		<!--/if(privkey_block)-->
+	</td>
+</tr>
+<tr>
+	<td class="f_th01">체인키</td>
+	<td class="f_td01">
+		<input type="file" name="chain_pem" size="70" style="border:1px solid #D1D1D1;">
+		<!--@if(chain_block)-->
+		<span class="desc01">/etc/httpd/ssl/{{domain}}/chain.pem</span>
+		<!--/if(chain_block)-->
+	</td>
+</tr>
+<tr>
+	<td class="f_th01">가상호스트 설정</td>
+	<td class="f_td01">
+		<textarea name="vhost" class="NoEditor" style="width:99%;height:200px;">{{vhost}}</textarea>
+	</td>
+</tr>
+</table>
+
+
+
+<table class="b_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td></td>
+	<td class="b_td01">
+		<button type="submit" class="bttn2">수정</button>
+	</td>
+</tr>
+</table>
+
+</form>
+{{form_script}}
+
+<script type="text/javascript">
+var f = document.forms['form1'];
+function createDcvFile() {
+	if(f.dcv_text.value != '' && f.dcv_file.value != '') {
+		f.mode.value = 'dcv';
+		f.submit();
+		f.mode.value = 'cert';
+	} else {
+		alert('DCV 파일내용과 파일명을 넣어주세요.');
+	}
+}
+function previewDcvFile() {
+	if(f.dcv_file.value != '') {
+		var url = 'http://{{domain}}/.well-known/pki-validation/' + f.dcv_file.value;
+		OpenWindows(url, 'dcv_file', 800, 600);
+	} else {
+		alert('DCV 파일명을 넣어주세요.');
+	}
+}
+</script>

@@ -1,0 +1,121 @@
+<div class="tabs" style="float:left;height:23px;margin-bottom:5px;position:relative;">
+	<div style="position:absolute;width:100%;height:1px;top:22px;border-top:1px solid #91A7B4;"></div>
+	<div style="position:absolute;">
+		<ul style="float:left;">
+			<li><span><a href="course_user_attend.jsp?{{query}}">평가현황</a></span></li>
+			<li class='current'><span>수강기록</span></li>
+		</ul>
+	</div>
+</div>
+<div style="clear:both;"></div>
+
+<table class="c_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="c_th01">수강정보</td>
+	<td class="c_td01"></td>
+</tr>
+</table>
+
+<table class="t_tb01" cellpadding="0" cellspacing="0" style="table-layout:fixed;">
+<col width="120"><col><col width="120"><col>
+<tr>
+	<td class="t_th01">수료상태</td>
+	<td class="t_td01" colspan="3">{{cuinfo.status_conv}}</td>
+</tr>
+<tr>
+	<td class="t_th01">년도 / 기수</td>
+	<td class="t_td01">{{cuinfo.year}}년 / {{cuinfo.step}}기</td>
+	<td class="t_th01">수강기한</td>
+	<td class="t_td01">
+		{{cuinfo.start_date_conv}} ~ {{cuinfo.end_date_conv}}
+	</td>
+</tr>
+<tr>
+	<td class="t_th01">과정명</td>
+	<td class="t_td01" colspan="3">{{cuinfo.step_nm}}</td>
+</tr>
+<tr>
+	<td class="t_th01">회원</td>
+	<td class="t_td01"><a href="javascript:OpenCRM('{{cuinfo.user_id}}');">{{cuinfo.user_nm}}({{cuinfo.user_id}})</a></td>
+	<td class="t_th01">진도율 / 총점</td>
+	<td class="t_td01">{{cuinfo.progress_ratio}}% / {{cuinfo.total_score}} 점</td>
+</tr>
+</table>
+
+<table class="b_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="b_th01"><button type="button" class="bttn2" onclick="location.href='course_user_stat.jsp?{{list_query}}'">목록</button></td>
+	<td class="b_td01"></td>
+</tr>
+</table>
+
+<form name="form1" method="get">
+<input type="hidden" name="id" value="{{id}}">
+<input type="hidden" name="mode" value="">
+<input type="hidden" name="ord" value="{{ord}}">
+<input type="hidden" name="s_course_id" value="{{s_course_id}}">
+<input type="hidden" name="s_year" value="{{s_year}}">
+<input type="hidden" name="s_step" value="{{s_step}}">
+<input type="hidden" name="s_date_type" value="{{s_date_type}}">
+<input type="hidden" name="s_csdate" value="{{s_csdate}}">
+<input type="hidden" name="s_cedate" value="{{s_cedate}}">
+<input type="hidden" name="s_close_yn" value="{{s_close_yn}}">
+<input type="hidden" name="s_complete_yn" value="{{s_complete_yn}}">
+<input type="hidden" name="s_field" value="{{s_field}}">
+<input type="hidden" name="s_keyword" value="{{s_keyword}}">
+<input type="hidden" name="MN" value="{{MN}}">
+</form>
+
+
+<table class="c_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="c_th01">수강기록 ({{list_total}})</td>
+	<td class="c_td01">
+		<button type="button" class="bttn2" onclick="document.forms['form1']['mode'].value='excel';document.forms['form1'].submit();document.forms['form1']['mode'].value='';">EXCEL</button>
+	</td>
+</tr>
+</table>
+
+<form name="form2" method="post">
+<table class="l_tb01" cellpadding="0" cellspacing="0">
+<thead>
+<tr align="center">
+	<td class="l_th03">No</td>
+	<td class="l_th03">차시명</td>
+	<td class="l_th03">차시</td>
+	<td class="l_th03">접속 IP</td>
+	<td class="l_th03">Browser</td>
+	<td class="l_th03">접속일시</td>
+</tr>
+</thead>
+<tbody>
+<!--@loop(list)-->
+<tr class="l_tr_{{list.ROW_CLASS}}" align="center">
+	<td class="l_td01">{{list.__ord}}</td>
+	<td class="l_td01" align="left">{{list.lesson_subject}}</a></td>
+	<td class="l_td01">{{list.chapter}}</a></td>
+	<td class="l_td01">{{list.user_ip_addr}}</td>
+	<td class="l_td01">{{list.browser}}</td>
+	<td class="l_td01">{{list.reg_date_conv}}</td>
+</tr>
+<!--/loop(list)-->
+</tbody>
+</table>
+<!--@nif(list)-->
+<table class="n_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td>해당 정보가 없습니다.</td>
+</tr>
+</table>
+<!--/nif(list)-->
+</form>
+{{form2_script}}
+
+<table class="p_tb01" cellpadding="0" cellspacing="0" border="0">
+<col width="250"><col><col width="250">
+<tr>
+	<td></td>
+	<td class="p_td01">{{pagebar}}</td>
+	<td align="right"></td>
+</tr>
+</table>

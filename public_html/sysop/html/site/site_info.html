@@ -1,0 +1,282 @@
+<script language="javascript" type="text/javascript">initEditor("default");</script>
+<style type="text/css">
+.f_th_required {background-color:#f7f0f0;font-weight:bold;}
+#cache_alert_area {position:absolute; top:55px; right:20px; z-index:999999; font-size:13px;}
+.cache_alert {background-color:#dedede; color:#000000; border:1px solid #000000; opacity:0.9; font-weight:bold; border-radius:5px; padding:5px 10px; margin:5px; box-sizing:border-box;}
+.cache_alert_green {background-color:#ecffd5; color:#55aa55; border:1px solid #55aa55;}
+.cache_alert_red {background-color:#f9dfd0; color:#cc0000; border:1px solid #cc0000;}
+</style>
+
+<div id="cache_alert_area"></div>
+
+<form name="form1" method="post" target="sysfrm" onsubmit="return goSubmit(this);" enctype="multipart/form-data">
+<table class="c_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="c_th01">사이트정보</td>
+	<td class="c_td01"></td>
+</tr>
+</table>
+
+<table class="f_tb01" cellpadding="0" cellspacing="0" style="table-layout:fixed;">
+<col width="120"><col>
+<tr>
+	<td class="f_th01">도메인 *</td>
+	<td class="f_td01">http://{{domain}}</td>
+</tr>
+<tr>
+	<td class="f_th01">사이트명 *</td>
+	<td class="f_td01"><input type="text" name="site_nm" size="70"></td>
+</tr>
+<tr>
+	<td class="f_th01">로고 이미지</td>
+	<td class="f_td01">
+		<!--@if(logo)-->
+		<p style="padding-bottom:3px;">파일 : <a href="../main/download_file.jsp?file={{logo_conv}}&ek={{logo_ek}}" class="file01 image01" del="site_info.jsp?mode=fdel&type=logo&{{query}}" isrc="{{logo_url}}">{{logo}}</a></p>
+		<!--/if(logo)-->
+		<input type="file" name="logo"  size="70" style="border:1px solid #d1d1d1;">
+		<div class="desc01">로고 이미지의 크기는 가로 최대 220px, 세로 최대 85px을 넘지 않도록 권장합니다.</div>
+	</td>
+</tr>
+<tr>
+	<td class="f_th01 f_th_required">
+		주소 *
+		<input type="button" class="btn_simp" value="검색" onclick="OpenWindow('../main/pop_zipcode.jsp', 'MPZ7', 500, 450)" />
+	</td>
+	<td class="f_td01">
+		<input type="text" name="zipcode" style="width:60px;" readonly ondblclick="OpenWindow('../main/pop_zipcode.jsp', 'MPZ7', 500, 450)"/>
+		
+		<input type="text" name="new_addr" size="65">
+		<input type="text" name="addr_dtl" size="65">
+	</td>
+</tr>
+<tr>
+	<td class="f_th01 f_th_required">발신자 이메일 *</td>
+	<td class="f_td01">
+		<input type="hidden" name="site_email">
+		<input type="text" name="site_email_addr" size="35" placeholder="발신메일주소">
+		<input type="text" name="site_email_nm" size="20" placeholder="발신자명 (선택)">
+		<span class="desc01"> 자동으로 이메일이 발송될 때 발송자로 지정됩니다.</span>
+	</td>
+</tr>
+<tr>
+	<td class="f_th01 f_th_required">수신 이메일 *</td>
+	<td class="f_td01">
+		<input type="text" name="receive_email" size="35">
+		<span class="desc01"> 이메일 문의의 수신자로 지정되며, 이메일 발송시 하단 문의처로 기재됩니다.</span>
+	</td>
+</tr>
+<tr>
+	<td class="f_th01 f_th_required">수신 전화번호 *</td>
+	<td class="f_td01">
+		<input type="text" name="receive_phone" size="35">
+		<span class="desc01"> 이메일 발송시 하단 문의처로 기재됩니다.</span>
+	</td>
+</tr>
+</table>
+
+<br>
+
+<table class="c_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="c_th01">운영정보</td>
+	<td class="c_td01"></td>
+</tr>
+</table>
+
+<table class="f_tb01" cellpadding="0" cellspacing="0" style="table-layout:fixed;">
+<col width="120"><col>
+<col width="120"><col>
+<tr>
+	<td class="f_th01">회원가입 상태</td>
+	<td class="f_td01" colspan="3">
+		<label><input type="radio" name="join_status" value="1" class="ipt01"> 정상 상태로 가입 </label> &nbsp;
+		<label><input type="radio" name="join_status" value="0" class="ipt01"> 중지 상태로 가입 (로그인 불가) </label> &nbsp;
+		<label><input type="radio" name="join_status" value="-1" class="ipt01"> 가입받지 않음 </label> &nbsp;
+	</td>
+</tr>
+<tr>
+	<td class="f_th01">기본 회원소속 *</td>
+	<td class="f_td01" colspan="3">
+		<select name="dept_id">
+		<!--@loop(dept_list)-->
+		<option value="{{dept_list.id}}">{{dept_list.name_conv}}</option>
+		<!--/loop(dept_list)-->
+		</select>
+		<span class="desc01"> 회원가입할 때에 기본으로 설정되는 회원소속입니다. (예 : 일반/본사/직원 등등)</span>
+	</td>
+</tr>
+<!--@if(user_master_block)-->
+<tr>
+	<td class="f_th01">수료증 배경</td>
+	<td class="f_td01" colspan="3">
+		<!--@if(certificate_file)-->
+		<p style="padding-bottom:3px;">파일 : <a href="../main/download_file.jsp?file={{certificate_file_conv}}&ek={{certificate_file_ek}}" class="file01 image01" del="site_info.jsp?mode=fdel&type=certificate&{{query}}" isrc="{{certificate_file_url}}">{{certificate_file}}</a></p>
+		<!--/if(certificate_file)-->
+		<input type="file" name="certificate_file" size="70" style="border:1px solid #D1D1D1;">
+		<span class="desc01">이미지의 크기는 794 × 1123px을 권장합니다.</span>
+	</td>
+</tr>
+<tr>
+	<td class="f_th01">수강증 배경</td>
+	<td class="f_td01" colspan="3">
+		<!--@if(course_file)-->
+		<p style="padding-bottom:3px;">파일 : <a href="../main/download_file.jsp?file={{course_file_conv}}&ek={{course_file_ek}}" class="file01 image01" del="site_info.jsp?mode=fdel&type=course&{{query}}" isrc="{{course_file_url}}">{{course_file}}</a></p>
+		<!--/if(course_file)-->
+		<input type="file" name="course_file" size="70" style="border:1px solid #D1D1D1;">
+		<span class="desc01">이미지의 크기는 794 × 1123px을 권장합니다.</span>
+	</td>
+</tr>
+<tr>
+	<td class="f_th01">수료내역서 배경</td>
+	<td class="f_td01" colspan="3">
+		<!--@if(certificate_multi_file)-->
+		<p style="padding-bottom:3px;">파일 : <a href="../main/download_file.jsp?file={{certificate_multi_file_conv}}&ek={{certificate_multi_file_ek}}" class="file01 image01" del="site_info.jsp?mode=fdel&type=certificate_multi&{{query}}" isrc="{{certificate_multi_file_url}}">{{certificate_multi_file}}</a></p>
+		<!--/if(certificate_multi_file)-->
+		<input type="file" name="certificate_multi_file" size="70" style="border:1px solid #D1D1D1;">
+		<span class="desc01">이미지의 크기는 794 × 1123px을 권장합니다.</span>
+	</td>
+</tr>
+<!--/if(user_master_block)-->
+<tr>
+	<td class="f_th01">배송비 무료<br>최소 금액</td>
+	<td class="f_td01" colspan="3">
+		<input type="text" id="delivery_free_price" name="delivery_free_price" class="ipt_right" size="10">원
+		<span class="desc01">0원 일 경우 배송비 무료 최소금액이 적용되지 않습니다.</span>
+	</td>
+</tr>
+<tr>
+	<td class="f_th01">환불사유 입력여부</td>
+	<td class="f_td01" colspan="3">
+		<label><input type="checkbox" name="refund_reason_yn" value="Y" class="ipt01"> 입력받음 </label> &nbsp;
+	</td>
+</tr>
+<tr>
+	<td class="f_th01">강의실상단<br />안내 문구</td>
+	<td class="f_td01" colspan="3">
+		<table class="f_tb01" cellpadding="0" cellspacing="0" style="table-layout:fixed;margin-bottom:0;">
+		<col width="120"><col>
+		<tr>
+			<td class="f_th01">노출여부</td>
+			<td class="f_td01">
+				<label><input type="radio" name="classroom_notice_yn" value="Y" class="ipt01"> 노출 </label> &nbsp;
+				<label><input type="radio" name="classroom_notice_yn" value="N" class="ipt01"> 노출 안 함 </label> &nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td class="f_td01" colspan="2">
+				<textarea name="classroom_notice" style="width:99%;height:200px;">{{cinfo.classroom_notice}}</textarea>
+			</td>
+		</tr>
+		</table>
+	</td>
+</tr>
+<tr>
+	<td class="f_th01">결제페이지<br />안내 문구</td>
+	<td class="f_td01" colspan="3">
+		<table class="f_tb01" cellpadding="0" cellspacing="0" style="table-layout:fixed;margin-bottom:0;">
+		<col width="120"><col>
+		<tr>
+			<td class="f_th01">노출여부</td>
+			<td class="f_td01">
+				<label><input type="radio" name="pay_notice_yn" value="Y" class="ipt01"> 노출 </label> &nbsp;
+				<label><input type="radio" name="pay_notice_yn" value="N" class="ipt01"> 노출 안 함 </label> &nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td class="f_td01" colspan="2">
+				<textarea name="pay_notice" style="width:99%;height:200px;">{{pay_notice}}</textarea>
+			</td>
+		</tr>
+		</table>
+	</td>
+</tr>
+<tr>
+	<td class="f_th01">하단 HTML</td>
+	<td class="f_td01" colspan="3">
+		<textarea name="copyright" class="NoEditor" style="width:99%;height:100px;">{{copyright}}</textarea>
+	</td>
+</tr>
+</table>
+
+<table class="b_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td></td>
+	<td class="b_td01">
+		<button type="submit" class="bttn2">수정</button>
+	</td>
+</tr>
+</table>
+
+</form>
+{{form_script}}
+
+<script language="javascript">
+function goSubmit(f) {
+	if(-1 < f["site_email_nm"].value.indexOf("<") || -1 < f["site_email_nm"].value.indexOf(">")) {
+		alert("발신자 이메일 발신자명에 <, >는 입력할 수 없습니다.");
+		f["site_email_nm"].focus();
+		return false;
+	}
+	if(f["site_email_nm"].value != "") {
+		f["site_email"].value = f["site_email_nm"].value + " <" + f["site_email_addr"].value + ">";
+	} else {
+		f["site_email"].value = f["site_email_addr"].value;
+	}
+	if(!validate(f)) { return false; }
+}
+
+function alertLayer(v, color) {
+    var alertDiv = $("<div/>");
+	alertDiv.html(v);
+	alertDiv.addClass("cache_alert");
+	alertDiv.addClass("cache_alert_" + color);
+	alertDiv.prependTo("#cache_alert_area").delay(1000).fadeOut("slow", function() { $(this).remove(); });
+}
+
+function clearDomainCache(v) {
+	if(!v) { alertLayer("도메인 정보가 없습니다.", "red"); return; }
+	$.ajax({
+		url:"//" + v + "/main/site_cache.jsp",
+		jsonp : "callback",
+		dataType : "jsonp",
+		beforeSend: function(jqXHR, settings) {
+			jqXHR.url = settings.url;
+		},
+		error : function(jqXHR, status, error) {
+			console.log("domain cache refresh : " + data.message);
+			alertLayer("도메인캐시 갱신 실패!!!!", "red");
+		},
+		success : function(data, status, jqXHR) {
+			console.log("domain cache refresh : " + data.message);
+			alertLayer("도메인 캐시를 갱신했습니다.", "green");
+		}
+	});
+}
+
+function clearCache(v) {
+	$.ajax({
+		url:"//" + v + ".malgnlms.com/main/site_cache_server.jsp?domain={{SITE_INFO.domain}}&domain2=&sid={{SITE_INFO.id}}",
+		jsonp : "callback",
+		dataType : "jsonp",
+		error : function(xhr, status, error) {
+			//$("#errCache").show()
+			alertLayer("사이트 캐시 갱신에 실패했습니다.", "red");
+		},
+		success : function(data) {
+			console.log("cache refresh : " + data.message + " / " + data.server);
+			alertLayer("사이트 캐시를 갱신했습니다. (" + data.server + ")", "green");
+		}
+	});
+}
+
+$(document).ready(function() {
+	clearDomainCache("{{SITE_INFO.domain}}");
+	clearCache("ssl");
+	clearCache("214");
+	clearCache("215");
+	clearCache("216");
+	clearCache("217");
+	clearCache("218");
+	clearCache("113");
+});
+</script>

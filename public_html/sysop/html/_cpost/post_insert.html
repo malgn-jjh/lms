@@ -1,0 +1,79 @@
+<script language="javascript" type="text/javascript">initEditor("advanced");</script>
+
+<form name="form1" method="post" target="sysfrm">
+<input type="hidden" name="temp_id" value="{{post_id}}">
+<table class="c_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="c_th01">
+		<!--@if(modify)-->공지사항 수정<!--/if(modify)-->
+		<!--@nif(modify)-->공지사항 등록<!--/nif(modify)-->
+	</td>
+	<td class="c_td01"></td>
+</tr>
+</table>
+
+<table class="f_tb01" border="0" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="f_th01">과정선택</td>
+	<td class="f_td01">
+	<!--@if(modify)-->
+	[{{year}}년 / {{step}} 기] {{step_nm}}
+	<!--/if(modify)-->
+	<!--@nif(modify)-->
+		<select name="s_course_id" onchange="setStep('')">
+			<option value="">-과정선택-</option>
+			<!--@loop(course_list)-->
+			<option value="{{course_list.id}}">{{course_list.course_nm}}</option>
+			<!--/loop(course_list)-->
+		</select>
+		<select name="s_year" onchange="changeYear(this); setStep('');">
+			<option value="">-년도-</option>
+		</select>
+		<script>changeYear(document.forms['form1']['s_year'], "{{s_year}}");</script>
+		<select name="s_step" id="stepArea"></select>
+	</td>
+	<!--/nif(modify)-->
+</tr>
+<tr>
+	<td class="f_th01">제목</td>
+	<td class="f_td01"><input type="text" name="subject" style="width:98%;" value="{{subject}}"></td>
+</tr>
+<tr>
+	<td class="f_th01">작성자</td>
+	<td class="f_td01"><input type="text" name="writer" size="20"></td>
+</tr>
+<tr>
+	<td class="f_th01">내용</td>
+	<td class="f_td01">
+		<div  style="width:100%">
+			<textarea name='content' style="width:100%; height:300px;">{{content}}</textarea>
+		</div>
+		<iframe id="attach" name="attach" frameborder="0" src="attach.jsp?md=post&mid={{post_id}}&allow={{board.allow_type}}&iw=0&ih=0&mw=400&mh=300" width="100%" height="135" scrolling="no" ></iframe>
+	</td>
+</tr>
+</table>
+
+<table class="b_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td>
+		<button type="button" class="bttn2" onclick="location.href='post_list.jsp?{{list_query}}'">목록</button>
+	</td>
+	<td class="b_td01">
+		<!--@if(modify)-->
+		<button type="submit" class="bttn2">수정</button>
+		<button type="button" class="bttn2" onclick="BtnConfirmGo('삭제','post_delete.jsp?id={{id}}&{{list_query}}')">삭제</button>
+		<!--/if(modify)-->
+		<!--@nif(modify)-->
+		<button type="submit" class="bttn2">등록</button>
+		<!--/nif(modify)-->
+	</td>
+</tr>
+</table>
+</form>
+{{form_script}}
+
+<script>
+<!--@nif(modify)-->
+addEvent("onload", function() { setStep("{{s_step}}") });
+<!--/nif(modify)-->
+</script>

@@ -1,0 +1,99 @@
+<form name="form1" method="get">
+<table class="t_tb01" cellpadding="0" cellspacing="0" style="table-layout:fixed;">
+<col width="120"><col>
+<tr>
+	<td class="t_th01">검색</td>
+	<td class="t_td01">
+		<select name="searchType">
+			<option value="title" selected>제목</option>
+			<option value="author">저자</option>
+		</select>
+		<input type="text" name="searchKeywords" onfocus="this.select();" size="30" />
+		<button type="submit" class="bttn2">검색</button>
+	</td>
+</tr>
+</table>
+
+<table class="a_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="a_th01"><span style="font-family:arial, dotum;font-weight:normal;">Total : <font color="blue">{{list_total}}</font> 건</span></td>
+</tr>
+</table>
+</form>
+{{form_script}}
+
+<table class="l_tb01" cellpadding="0" cellspacing="0">
+<colgroup>
+<col width="10%">
+<col width="*">
+<col width="10%">
+<col width="10%">
+<col width="10%">
+</colgroup>
+<thead>
+<tr align="center">
+	<td class="l_th01">이미지</td>
+	<td class="l_th01">제목</td>
+	<td class="l_th01">저자</td>
+	<td class="l_th01">등록일</td>
+	<td class="l_th01">관리</td>
+</tr>
+</thead>
+
+<tbody>
+<!--@loop(list)-->
+<tr align="center" class="l_tr_{{list.ROW_CLASS}}">
+	<td class="l_td01"><img src="{{list.thumbnail}}" onerror="ImageError(this);" height="50" title="{{list.title}}"></td>
+	<td class="l_td01" align="left">{{list.title}}
+		<p style="color:#999999;">저자 : {{list.author}}</p>
+	</td>
+	<td class="l_td01">{{list.publisher}}</td>
+	<td class="l_td01">{{list.pub_date}}</td>
+	<td class="l_td01">
+		<input type="button" value="선택" class="btn_simp" onclick="setMediaKey('{{list.objid}}', '0', '1000', '800', '{{list.title_conv}}');"/>
+	</td>
+</tr>
+<!--/loop(list)-->
+</tbody>
+</table>
+
+<!--@nif(list)-->
+<table class="n_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td>해당 자료가 없습니다.</td>
+</tr>
+</table>
+<!--/nif(list)-->
+
+<table class="p_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="p_td01">{{pagebar}}</td>
+</tr>
+</table>
+
+<script>
+function setMediaKey(key, time, width, height, title) {
+	if(!confirm('선택하시겠습니까?')) return;
+
+	if("{{mode}}" == "") {
+
+		if(!opener) { 
+			alert("전자책 선택창을 닫고 다시 여세요.");
+			window.close();
+			return;
+		}
+		try {
+			if(typeof opener.setDoc == 'function') {
+				opener.setDoc(key, title);
+			} else {
+				opener.fillForm(key, time, width, height, title);
+			}
+		} catch(e) { alert("전자책을 선택하는 데 실패하였습니다. 전자책 선택창을 다시 열어주세요."); } 
+
+	} else {
+		var of = opener.document.forms['form1'];
+		of['tutor_movie'].value = key;
+	}
+	window.close();
+}
+</script>

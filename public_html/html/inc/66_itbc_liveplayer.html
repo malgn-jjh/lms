@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{{lesson_nm}}</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+<script language="javascript" type="text/javascript" charset="utf-8" src="/common/js/jquery-1.9.1.min.js"></script>
+<script language="javascript" type="text/javascript" charset="utf-8" src="/common/js/common.js"></script>
+<!--@nif(ie8)-->
+<!--<script src="https://content.jwplatform.com/libraries/YSYkoSwR.js"></script>-->
+<script src="https://content.jwplatform.com/libraries/FXZxytys.js"></script>
+<!--/nif(ie8)-->
+<!--@if(ie8)-->
+<script language="javascript" type="text/javascript" charset="utf-8" src="/common/jwplayer/jwplayer.js"></script>
+<!--/if(ie8)-->
+<style>
+html, body {
+    font-family:"맑은 고딕",Malgun Gothic, "돋움", Dotum, "굴림", Gulim, Arial, sans-serif;
+    width:100%;
+    height:100%;
+    margin:0;
+    background-color:#000000;
+    color:#ffffff;
+    overflow:hidden;
+}
+#controller { width:100%; position:fixed; top:0; right:0; z-index:980; display:none !important; }
+#controller ul, #controller li { margin:0; padding:0; list-style:none; overflow:hidden; }
+#controller #controller_list { float:right;  }
+#controller #controller_list > li { float:left; }
+#controller #controller_list .controller_control {
+    box-sizing:border-box;
+    border:1px solid #333333;
+    background:#464646;
+    background:-moz-linear-gradient(top, #464646 0%, #1b1b1b 100%);
+    background:-webkit-linear-gradient(top, #464646 0%,#1b1b1b 100%);
+    background:linear-gradient(to bottom, #464646 0%,#1b1b1b 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#464646', endColorstr='#1b1b1b', GradientType=0);
+    color:#dddddd;
+    font-weight:bold;
+    font-size:1em;
+    padding:0.5em;
+    width:5em;
+}
+#controller #controller_list .controller_control:hover {
+    background:#1b1b1b;
+    background:-moz-linear-gradient(top, #1b1b1b 0%, #464646 100%);
+    background:-webkit-linear-gradient(top, #1b1b1b 0%,#464646 100%);
+    background:linear-gradient(to bottom, #1b1b1b 0%,#464646 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#1b1b1b', endColorstr='#464646', GradientType=0);
+}
+#controller .ctrl_sub { display:none; }
+#controller .ctrl_sub li { background-color:#000000; }
+#controller .ctrl_sub button { background-color:#434343; color:#ffffff; width:100%; border:0.1em solid #000000; border-top:0; margin:0; padding:0.5em; font-size:1em; }
+#controller #ctrl_close { display:none; }
+
+#next_lesson { box-sizing:border-box; display:none; position:absolute; z-index:997; width:100%; height:100%; margin:0 auto; }
+#next_lesson * { box-sizing:border-box; }
+#next_lesson .next_info { position:relative; /* width:22.500em; height:13.000em; background-color:#343a40; */ margin:-7.500em auto 0; top:50%; padding:1.875em; text-align:center; z-index:999; }
+#next_lesson h3 {font-weight:normal; font-size:1em; margin:0;}
+#next_lesson h4 {font-weight:normal; font-size:1.2em; line-height:1.3em; margin:10px 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+#next_lesson .next_nm { width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+#next_lesson .next_btn { margin-top:2.0em; text-align:center; }
+#next_lesson .next_btn a { text-decoration:none; color:#ffffff; }
+#next_lesson .next_btn a.play { display:inline-block; width:8.750em; border:0.063em solid #868e96; border-radius:0.313em; background:#8f8f8f; margin:0 0 15px 0; padding:0.625em; font-size:1em; font-family:inherit; }
+#next_lesson .next_end { margin-top:2.500em; }
+
+#next_lesson .next_background { background-color: #000000; position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.5; z-index:1; }
+
+@media screen and (max-width:736px) {
+    #next_lesson { font-size:0.7em; }
+    /* #controller #ctrl_close { display:list-item; } */
+    /*#next_lesson { font-size:5vmin; background-color:#343a40; }*/
+    /*#next_lesson .next_info { height:100%; padding:0.938em; }*/
+}
+
+#player_wrapper { margin:0 auto; height:100%; }
+#player { margin:0 auto; height:100%; color:#ffffff; font-weight:bold; font-size:1em; text-align:center; }
+.player_load {margin-top:100px;}
+</style>
+</head>
+<body>
+<div id="controller">
+<ul id="controller_list">
+    <!--@nif(close:N)-->
+    <li id="ctrl_close"><button type="button" class="controller_control" onclick="closeWindow()">닫기</button></li>
+    <!--/nif(close:N)-->
+</ul>
+</div>
+<div id="player_wrapper">
+<div id="player"><div class="player_load">플레이어 로드중입니다.</div></div>
+</div>
+
+<script type="text/javascript">
+const playerInstance = jwplayer("player").setup({
+    file: "//cdn-live.itbc.tv/tylive/tylivestream/playlist.m3u8",
+    type: "m3u8",
+    width: '100%',
+    height: '100%',
+    autostart: 'true'
+});
+
+playerInstance.on('error', onError);
+
+function onError(m) {
+    alert("동영상 재생시 오류가 발생했습니다.\n" + m.message);
+}
+
+function trace(s) {
+    try { console.log(s); } catch(e) {}
+}
+
+var $playerArea = $('#player_wrapper');
+var $window = $(window).on('resize', function(){
+    var height = $(this).height();
+    $playerArea.height(height);
+}).trigger('resize'); //on page load
+
+function closeWindow() {
+    if(parent) {
+        parent.history.go(-1);
+        parent.window.close();
+    } else {
+        history.go(-1);
+        window.close();
+    }
+}
+
+</script>
+</body>
+</html>

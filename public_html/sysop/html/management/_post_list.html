@@ -1,0 +1,162 @@
+<script> var onTab = 'board'; </script>
+<!--@include(/management/tab.html)-->
+
+<!--@if(recomm_type_block)-->
+<script>
+new Image().src = "/html/images/common/star_on.jpg";
+new Image().src = "/html/images/common/star_off.jpg";
+addEvent("onload", function() {
+	var starOn = "<img src='/html/images/common/star_on.jpg'>";
+	var starOff = "<img src='/html/images/common/star_off.jpg'>";
+	$(".pointArea").each(function() {
+		var point = $(this).html() * 1;
+		var max = 5;
+		var v = "";
+		for(var i = 1; i <= point; i++) v += starOn;
+		for(var i = 1; i <= (max - point); i++) v += starOff;
+		$(this).html(v);
+	});
+});
+
+</script>
+<!--/if(recomm_type_block)-->
+
+<form name="form1" method="get">
+<input type="hidden" name="tab" value="{{tab}}">
+<input type="hidden" name="ord" value="">
+<input type="hidden" name="cid" value="{{cid}}">
+
+<table class="t_tb01" cellpadding="0" cellspacing="0">
+<col width="120"><col>
+<tr>
+	<td class="t_th01">게시판</td>
+	<td class="t_td01">
+		<select name="s_board_id" onChange="this.form.submit()">
+			<!--@loop(boards)-->
+			<option value="{{boards.id}}"> {{boards.board_nm}} </option>
+			<!--/loop(boards)-->
+		</select>
+	</td>
+</tr>
+<!--@if(qna_type_block)-->
+<tr>
+	<td class="t_th01">답변상태</td>
+	<td class="t_td01">
+		<label><input type="radio" name="s_proc_status" value="" class="ipt01" checked/> 전체 </label> &nbsp;
+		<!--@loop(proc_status_list)-->
+		<label><input type="radio" name="s_proc_status" value="{{proc_status_list.id}}" class="ipt01"/> {{proc_status_list.name}} </label> &nbsp;
+		<!--/loop(proc_status_list)-->
+	</td>
+</tr>
+<!--/if(qna_type_block)-->
+<!--@if(recomm_type_block)-->
+<tr>
+	<td class="t_th01">별점</td>
+	<td class="t_td01">
+		<label><input type="radio" name="s_point" value="" class="ipt01" checked/> 전체 </label> &nbsp;
+		<label><input type="radio" name="s_point" value="5" class="ipt01"/> ★★★★★ </label> &nbsp;
+		<label><input type="radio" name="s_point" value="4" class="ipt01"/> ★★★★ </label> &nbsp;
+		<label><input type="radio" name="s_point" value="3" class="ipt01"/> ★★★ </label> &nbsp;
+		<label><input type="radio" name="s_point" value="2" class="ipt01"/> ★★ </label> &nbsp;
+		<label><input type="radio" name="s_point" value="1" class="ipt01"/> ★ </label> &nbsp;
+	</td>
+</tr>
+<!--/if(recomm_type_block)-->
+<tr>
+	<td class="t_th01">검색</td>
+	<td class="t_td01">
+		<select name="s_field" onchange="document.forms['form1']['s_keyword'].focus();">
+			<option value=""> - 전체 - </option>
+			<option value="a.writer"> 작성자 </option>
+			<option value="u.login_id"> 회원아이디 </option>
+			<option value="a.subject"> 제목 </option>
+			<option value="a.contenr"> 내용 </option>
+		</select>
+		<input type="text" name="s_keyword" size="30" onfocus="this.select();">
+		<button type="submit" class="bttn2">검색</button>
+	</td>
+</tr>
+</table>
+
+<table class="a_tb01" cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td class="a_th01">{{list_total}}</td>
+	<td class="a_td01">
+		<button type="button" class="bttn2" onclick="document.forms['form1']['mode'].value='excel';document.forms['form1'].submit();document.forms['form1']['mode'].value='';">EXCEL</button>
+		<!--@if(list_type_block)-->
+		<button type="button" class="bttn2 sky" onclick="location.href='post_insert.jsp?bid={{bid}}&{{list_query}}';">등록</button>
+		<!--/if(list_type_block)-->
+	</td>
+</tr>
+</table>
+
+</form>
+{{form_script}}
+
+<form name="form2" method="post">
+<table class="l_tb01" cellpadding="0" cellspacing="0">
+<colgroup>
+<col width="50">
+<col width="100">
+<col>
+<!--@if(recomm_type_block)--><col width="100"><!--/if(recomm_type_block)-->
+<col width="150">
+<col width="110">
+<col width="60">
+</colgroup>
+<thead>
+<tr align="center">
+	<td class="l_th01">No</td>
+	<td class="l_th01">게시판명</td>
+	<td class="l_th01"><span class="l_sort01" id="CL_a.subject" onclick="ListSort(this, '{{ord}}')">제목</span></td>
+	<!--@if(recomm_type_block)-->
+	<td class="l_th01"><span class="l_sort01" id="CL_a.point" onclick="ListSort(this, '{{ord}}')">별점</span></td>
+	<!--/if(recomm_type_block)-->
+	<td class="l_th01"><span class="l_sort01" id="CL_a.writer" onclick="ListSort(this, '{{ord}}')">작성자</span></td>
+	<td class="l_th01"><span class="l_sort01" id="CL_a.reg_date" onclick="ListSort(this, '{{ord}}')">등록일</span></td>
+	<!--@nif(qna_type_block)-->
+	<td class="l_th01"><span class="l_sort01" id="CL_a.hit_cnt" onclick="ListSort(this, '{{ord}}');">조회수</span></td>
+	<!--/nif(qna_type_block)-->
+	<!--@if(qna_type_block)-->
+	<td class="l_th01"><span class="l_sort01" id="CL_a.proc_status" onclick="ListSort(this, '{{ord}}');">답변상태</span></td>
+	<!--/if(qna_type_block)-->
+</tr>
+</thead>
+<tbody>
+<!--@loop(list)-->
+<tr class="l_tr_{{list.ROW_CLASS}}" align="center">
+	<td class="l_td01">{{list.__ord}}</td>
+	<td class="l_td01">{{list.board_nm}}</td>
+	<td class="l_td01" align="left" title="{{list.subject}}">
+		<a href="post_view.jsp?id={{list.id}}&bid={{bid}}&{{list_query}}">{{list.subject}}</a> 
+		<!--@if(list.new_block)--><img src="../html/images/admin/icon/ico_new.gif" align="absmiddle"><!--/if(list.new_block)-->
+		<!--@if(list.secret_yn)--><img src="../html/images/admin/icon/ico_secret.gif" align="absmiddle"><!--/if(list.secret_yn)-->
+	</td>
+	<!--@if(recomm_type_block)-->
+	<td class="l_td01"><span class="pointArea">{{list.point}}</span></td>
+	<!--/if(recomm_type_block)-->
+	<td class="l_td01">{{list.writer}} ( {{list.login_id}} )</td>
+	<td class="l_td01">{{list.reg_date_conv}}</td>
+	<!--@nif(qna_type_block)--><td class="l_td01">{{list.hit_cnt_conv}}</td><!--/nif(qna_type_block)-->
+	<!--@if(qna_type_block)--><td class="l_td01">{{list.proc_status_conv}}</td><!--/if(qna_type_block)-->
+</tr>
+<!--/loop(list)-->
+</tbody>
+</table>
+<!--@nif(list)-->
+<table class="n_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td>해당 자료가 없습니다.</td>
+</tr>
+</table>
+<!--/nif(list)-->
+
+<table class="p_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="p_td01">{{pagebar}}</td>
+</tr>
+</table>
+
+<script>ListSort(null, "{{ord}}");</script>
+
+</form>

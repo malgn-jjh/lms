@@ -1,0 +1,72 @@
+<style>
+.f_th04 { 
+	font-weight:normal;
+	/* font-family:dotum, arial; */
+	font-size:12px;
+	color:#333333;
+	text-align:left;
+	padding:4px 5px;
+	letter-spacing:-1px;
+	border:1px solid #d1d1d1;
+	width:110px;
+	height:18px;
+	background: #f4f4f4; 
+}
+.f_td04 {
+	/* font-family:dotum, arial, 돋움; */
+	font-size:12px;
+	padding:4px;
+	border:1px solid #d1d1d1;
+}
+</style>
+<table class="f_tb01" cellpadding="0" cellspacing="0" style="table-layout:fixed;">
+<col width="100"><col>
+<tr>
+	<td class="f_th04">과정 구분</td>
+	<td class="f_td04">{{course.onoff_type_conv}}</td>
+</tr>
+<tr>
+	<td class="f_th04">과정 카테고리</td>
+	<td class="f_td04">{{course.cate_name}}</td>
+</tr>
+<tr>
+	<td class="f_th04">년도 / 기수</td>
+	<td class="f_td04">{{course.year}}년 / {{course.step}}기</td>
+</tr>
+<tr>
+	<td class="f_th04">과정명</td>
+	<td class="f_td04"><strong>{{course.course_nm_conv}}</strong></td>
+</tr>
+<tr>
+	<td class="f_th04">정규/상시</td>
+	<td class="f_td04">{{course.course_type_conv}}</td>
+</tr>
+<tr>
+	<td class="f_th04">수강신청기간</td>
+	<td class="f_td04">{{course.request_date}}</td>
+</tr>
+<tr>
+	<td class="f_th04">학습기간</td>
+	<td class="f_td04">{{course.study_date}}</td>
+</tr>
+<tr>
+	<td class="f_th04">학습일수 / 시수</td>
+	<td class="f_td04">{{course.lesson_day}}일 / {{course.lesson_time}}시간</td>
+</tr>
+<tr>
+	<td class="f_th04">메인 이미지</td>
+	<td class="f_td04">
+		<!--@if(course.course_file)-->
+		<a href="../main/download_file.jsp?file={{course.course_file_conv}}&ek={{course.course_file_ek}}">{{course.course_file}}</a>
+		<!--/if(course.course_file)-->
+	</td>
+</tr>
+<tr>
+	<td class="f_th04">수강생수</td>
+	<td class="f_td04">{{course.user_cnt}}명</td>
+</tr>
+<tr>
+	<td class="f_th04">상태</td>
+	<td class="f_td04">{{course.display_conv}}</td>
+</tr>
+</table>

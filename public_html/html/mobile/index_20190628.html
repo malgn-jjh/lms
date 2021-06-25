@@ -1,0 +1,76 @@
+		<div id="container">
+			<div class="rollingbanner">
+				<div id="slides">
+					<!--@loop(banners)-->
+					<div style=""><a href="{{banners.link}}"><img src="{{banners.banner_file_url}}" alt="{{banners.banner_nm}}" /></a></div>
+					<!--/loop(banners)-->
+				</div>
+				<script type="text/javascript">
+					$(function() {
+						if($('#slides div').length > 1) {
+							$('#slides').slidesjs({
+								effect: {
+									fade: {
+										speed: 2000,
+										crossfade: true
+									}
+								},
+								Pagination: false,
+								play: {
+									active: true,
+									auto: true,
+									effect: "fade",
+									interval: 4000,
+									swap: true
+								}
+							});
+						}
+					});
+				</script>
+			</div>
+			<div class="lecture">
+				<div class="page_title">
+					<h3 class="title">추천강의</h3>
+				</div>
+				<div class="main_list" id="main_etc1">
+					<!--@execute(../mobile/course_main_list.jsp?type=recomm&cnt=4)-->
+				</div>
+<!--
+				<div class="page_title">
+					<h3 class="title">카테고리2</h3>
+				</div>
+				<div class="main_list" id="main_etc2">
+					<!--@execute(../mobile/course_main_list.jsp?type=etc2&cnt=4)-->
+				</div>
+
+				<div class="page_title">
+					<h3 class="title">카테고리3</h3>
+				</div>
+				<div class="main_list" id="main_etc3">
+					<!--@execute(../mobile/course_main_list.jsp?type=etc3&cnt=4)-->
+				</div>
+
+				<div class="page_title">
+					<h3 class="title">카테고리4</h3>
+				</div>
+				<div class="main_list" id="main_etc4">
+					<!--@execute(../mobile/course_main_list.jsp?type=etc4&cnt=4)-->
+				</div>
+
+				<div class="page_title">
+					<h3 class="title">카테고리5</h3>
+				</div>
+				<div class="main_list" id="main_etc5">
+					<!--@execute(../mobile/course_main_list.jsp?type=etc5&cnt=4)-->
+				</div>
+-->
+				<div class="page_title">
+					<h3 class="title">공지사항</h3>
+				</div>
+				<div>
+					<!--@execute(../mobile/post_main_list.jsp?code=notice&cnt=5)-->
+				</div>			
+			</div>
+		</div>
+
+<!--@execute(../mobile/popup.jsp)-->

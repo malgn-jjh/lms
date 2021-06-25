@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{SYS_TITLE}}</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="js/jquery.mobile-1.4.2.css" />
+	<script type="text/javascript" src="js/underscore-min.js"></script>
+	<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery.mobile-1.4.2.min.js"></script>
+	<script type="text/javascript" src="js/mobile.js"></script>
+	<!--@if(is_ios)-->
+	<!--
+	<script type="text/javascript" src="cordova_350_ios.js"></script>
+	<script type="text/javascript" src="mg_phonegap_plugin.js"></script>
+	-->
+	<!--/if(is_ios)-->
+	<!--@if(is_android)-->
+	<!--
+	<script type="text/javascript" src="cordova_350_android.js"></script>
+	<script type="text/javascript" src="mg_phonegap_plugin.js"></script>
+	-->
+	<!--/if(is_android)-->
+	<style>
+		.ui-background { background:url(img/bg-metro.jpg) no-repeat center center;background-attachment: fixed;background-size: cover; }
+	</style>
+
+	<script>
+	( function( $, undefined ) {
+
+	// Helper function that splits a URL just the way we want it
+	var processHash = function( url ) {
+		var parsed = $.mobile.path.parseUrl( url ),
+			hashQuery = parsed.hash.split( "?" );
+
+		return {
+			parsed: parsed,
+			cleanHash: ( hashQuery.length > 0 ? hashQuery[ 0 ] : "" ),
+			queryParameters: ( hashQuery.length > 1 ? hashQuery[ 1 ] : "" )
+		};
+	};
+
+	//해쉬뒤에 변수 파라미터를 고정시켜주는 기능을 한다.
+	$.mobile.document
+		.on( "pagecontainerbeforetransition", function( event, data ) {
+			var queryParameters = {},
+			processedHash = processHash( data.absUrl );
+
+			// Set the url of the page - this will be used by navigation to set the
+			// URL in the location bar
+			$( processedHash.cleanHash ).jqmData( "url", processedHash.parsed.hash );
+
+		});
+	})( jQuery );
+	</script>
+</head>
+
+<body>
+	<!--메인페이지-->
+	<div data-role="page" id="main" class="ui-background">
+		<div role="main" class="ui-content">
+			<div id="" class="ui-body ui-page-theme-b" style="background:transparent">
+				<h1 style="text-align:center;">{{SYS_TITLE}}</h1>
+				<div class="ui-grid-b ui-responsive">
+					<div class="ui-block-a"><a href="#mypage" onclick="return CourseList('on')" data-transition="slide" class="ui-nodisc-icon ui-btn ui-btn-b ui-icon-edit ui-btn-icon-top ui-corner-all ui-icon-large" style="background-color:#85af5d">나의강의실</a></div>
+					<!--div class="ui-block-b"><a href="#cnotice" onclick="return CNoticeList()" data-transition="slide" class="ui-nodisc-icon ui-btn ui-btn-b ui-icon-audio ui-btn-icon-top ui-corner-all ui-icon-large" style="background-color:#c53238">과정공지</a></div-->
+					<div class="ui-block-c"><a href="#notice" onclick="return NoticeList()" data-transition="slide" class="ui-nodisc-icon ui-btn ui-btn-b ui-icon-info ui-btn-icon-top ui-corner-all ui-icon-large" style="background-color:#29aae3">공지사항</a></div>
+					<div class="ui-block-c"><a href="#faq" onclick="return FaqList()" data-transition="slide" class="ui-nodisc-icon ui-btn ui-btn-b ui-icon-comment ui-btn-icon-top ui-corner-all ui-icon-large" style="background-color:#f17225">FAQ</a></div>
+					<div class="ui-block-c"><a href="javascript:callViewer('http://api.wecandeo.com/video.mp4?k=BOKNS9AQWrEqEiiiih2SgClI7Pwlv2KLJis4jZKKRm9ouNtC5yW4naTVgieie','1','1','1','10','60')" data-transition="slide" class="ui-nodisc-icon ui-btn ui-btn-b ui-icon-info ui-btn-icon-top ui-corner-all ui-icon-large" style="background-color:#035486" id="moviePlayer">동영상플레이</a></div>
+					<div class="ui-block-c"><a href="javascript:callViewer('http://lms.malgn.co.kr/data/Contents/test/index.html?chasi=01','2','2','2','0','-1')" data-transition="slide" class="ui-nodisc-icon ui-btn ui-btn-b ui-icon-info ui-btn-icon-top ui-corner-all ui-icon-large" style="background-color:#035486" id="html5Player">웹콘텐츠뷰어</a></div>
+					<div class="ui-block-c"><a href="MalgnLMS.apk" data-transition="slide" class="ui-nodisc-icon ui-btn ui-btn-b ui-icon-info ui-btn-icon-top ui-corner-all ui-icon-large" style="background-color:#035486">안드로이드</a></div>
+					<div class="ui-block-c"><a href="ios/index.html" data-transition="slide" class="ui-nodisc-icon ui-btn ui-btn-b ui-icon-info ui-btn-icon-top ui-corner-all ui-icon-large" style="background-color:#035486">아이폰</a></div>
+					<!--
+					<div class="ui-block-c"><a href="#guide" data-transition="slide" class="ui-nodisc-icon ui-btn ui-btn-b ui-icon-info ui-btn-icon-top ui-corner-all ui-icon-large" style="background-color:#035486">이용안내</a></div>
+					<div class="ui-block-c"><a href="#login" data-transition="slide" class="ui-nodisc-icon ui-btn ui-btn-b ui-icon-info ui-btn-icon-top ui-corner-all ui-icon-large" style="background-color:#035486">로그인</a></div>
+					-->
+				</div>
+				<p style="text-align:center;">Copyright 2014 Malgnsoft</p>
+			</div>
+		</div><!-- /content -->
+	</div>
+
+	<!--로그인-->
+	<div data-role="page" id="login" class="ui-background">
+		<div role="main" class="ui-content">
+			<div id="" class="ui-body ui-page-theme-b" style="background:transparent">
+				<h1 style="text-align:center;">{{SYS_TITLE}}</h1>
+				<form class="ui-grid-b ui-responsive" method="POST" onsubmit="return Login(this);">
+					<label for="user_id">아이디:</label>
+					<input type="text" name="id" id="user_id" value="" style="background-color:white;color:#000;">
+					<label for="user_pw">비밀번호:</label>
+					<input type="text" name="passwd" id="user_pw" value="" style="background-color:white;color:#000;">
+					<input type="submit" value="로그인" style="background-color:#29aae3">
+				</form>
+				<p style="text-align:center;">Copyright 2014 Malgnsoft</p>
+			</div>
+		</div><!-- /content -->
+	</div>
+
+	<!--나의강의실-->
+	<div data-role="page" id="mypage">
+		<div data-role="header" data-theme="b">
+			<a href="#leftmenu" class="ui-nodisc-icon ui-btn-b ui-btn-left ui-btn ui-icon-bars ui-btn-icon-notext" data-role="button" role="button">Menu</a>
+			<h1>나의 강의실</h1>
+			<a href="#main" data-transition="slide" data-direction="reverse" class="ui-nodisc-icon ui-btn ui-btn-b ui-btn-right ui-icon-back ui-btn-icon-notext" data-role="button" role="button">Back</a>
+		</div><!-- /header -->
+
+		<div role="main" class="ui-content">
+			<div data-role="navbar">
+				<ul>
+					<li><a id="mypage-link-on" href="#mypage?type=on" onclick="return CourseList('on')" class="">수강 중인 과정</a></li>
+					<li><a id="mypage-link-done" href="#mypage?type=done" onclick="return CourseList('done')">종료된 과정</a></li>
+				</ul>
+			</div><!-- /navbar -->
+			<ul data-role="listview" id="my_course_list">
+			</ul>
+			<script id="my_course_list_tpl" type="text/template">
+				<li>
+					<% if(open_block) { %>
+					<a href="#lesson?cuid=<%=id%>" data-transition="slide" onclick="return LessonList(<%=id%>)">
+					<% } else { %>
+					<a href="#" data-transition="" onclick="alert('복습기간이 아닙니다.');">
+					<% } %>
+						<img src="<%=course_file_url%>" height="100%">
+						<h2><%=course_nm%></h2>
+						<p><%=study_date_conv%> | <%=status_conv%></p>
+					</a>
+				</li>
+			</script>
+		</div><!-- /content -->
+	</div>
+
+	<!--강의실-강의목차-->
+	<div data-role="page" id="lesson">
+		<div data-role="header" data-theme="b">
+			<a href="#leftmenu" class="ui-nodisc-icon ui-btn ui-btn-b ui-btn-left ui-icon-bars ui-btn-icon-notext" data-role="button" role="button">Menu</a>
+			<h1>강의실</h1>
+			<a href="#mypage" onclick="return CourseList('on')" data-transition="slide" data-direction="reverse" class="ui-nodisc-icon ui-btn ui-btn-b ui-btn-right ui-icon-back ui-btn-icon-notext" data-role="button" role="button">Back</a>
+		</div><!-- /header -->
+
+		<div role="main" class="ui-content">
+			<div data-role="navbar">
+				<ul data-role="navbar">
+					<li><a id="lesson_tab1" href="#" data-transition="none" class="ui-btn-active ui-state-persist ui-btn-a">강의목차</a></li>
+					<li><a id="lesson_tab2" href="#" data-transition="none">공지사항</a></li>
+				</ul>
+			</div><!-- /navbar -->
+			<div class="ui-bar ui-bar-a">
+				<h3 class="course_name"></h3>
+			</div>
+			<ul data-role="listview" id="lesson_list">
+			</ul>
+			<script type="text/template"  id="lesson_list_tpl">
+				<li>
+					<h2><%=chapter%>. <%=lesson_nm%></h2>
+					<p>
+						<% if(period_yn == "Y") { %><%=data_conv%> | <% } %>
+						진도율 : <%=ratio_conv%> |
+						<%=complete_conv%>
+					</p>
+					<% if(online_block && open_block) { %>
+					<button class="ui-btn ui-btn-inline ui-btn-right ui-corner-all" 
+						onclick="javascript:callViewer('<%=lesson_url%>','<%=cuid%>','<%=chapter%>','<%=lesson_id%>','<%=curr_time%>','<%=last_time%>')"
+					>학습</button>
+					<% } else if(online_block && !open_block) { %>
+					<button class="ui-btn ui-btn-inline ui-btn-right ui-corner-all" onclick="alert('<%=msg%>')">학습</button>
+					<% } %>
+				</li>
+			</script>
+		</div><!-- /content -->
+	</div>
+
+	<!--강의실-공지사항-->
+	<div data-role="page" id="cnotice">
+		<div data-role="header" data-theme="b">
+			<a href="#leftmenu" class="ui-nodisc-icon ui-btn ui-btn-b ui-btn-left ui-icon-bars ui-btn-icon-notext" data-role="button" role="button">Menu</a>
+			<h1>강의실</h1>
+			<a href="#mypage" onclick="return CourseList('on')" data-transition="slide" data-direction="reverse" class="ui-nodisc-icon ui-btn ui-btn-b ui-btn-right ui-icon-back ui-btn-icon-notext" data-role="button" role="button">Back</a>
+		</div><!-- /header -->
+
+		<div role="main" class="ui-content">
+			<div data-role="navbar">
+				<ul data-role="navbar">
+					<li><a id="cnotice_tab1" href="#" data-transition="none">강의목차</a></li>
+					<li><a id="cnotice_tab2" href="#" data-transition="none" class="ui-btn-active ui-state-persist ui-btn-a">공지사항</a></li>
+				</ul>
+			</div><!-- /navbar -->
+			<div class="ui-bar ui-bar-a">
+				<h3 class="course_name"></h3>
+			</div>
+			<ul data-role="listview" id="cnotices">
+			</ul>
+			<div class="moreArea" style="padding:10px;">
+				<a id="cnoticeMore" href="#"  data-transition="slide" class="ui-btn ui-corner-all" data-role="button" role="button">더 보 기</a>
+			</div>
+			<script type="text/template" id="cnotices_tpl">
+				<li>
+					<a href="#cnotice_view?cuid=<%=cuid%>&id=<%=id%>&pn=<%=pn%>" onclick="return CNoticeView(<%=cuid%>, <%=id%>, <%=pn%>)" >
+						<h2><%=subject_conv%></h2>
+						<p>
+							작성자 : <%=writer%> |
+							<%=reg_date_conv%>
+						</p>
+					</a>
+				</li>
+			</script>
+		</div><!-- /content -->
+	</div>
+
+	
+
+	<!--강의실-공지상세-->
+	<div data-role="page" id="cnotice_view">
+		<div data-role="header" data-theme="b">
+			<a href="#leftmenu" class="ui-nodisc-icon ui-btn ui-btn-b ui-btn-left ui-icon-bars ui-btn-icon-notext" data-role="button" role="button">Menu</a>
+			<h1>과정공지사항</h1>
+			<a id="cnotices-back" href="#cnotices?cuid=" onclick="" data-transition="slide" data-direction="reverse" class="ui-nodisc-icon ui-btn ui-btn-b ui-btn-right ui-icon-back ui-btn-icon-notext" data-role="button" role="button">Back</a>
+		</div><!-- /header -->
+
+		<div role="main" class="ui-content">
+			<div data-role="navbar">
+				<ul data-role="navbar">
+					<li><a id="cnotice_view_tab1" href="#" data-transition="none">강의목차</a></li>
+					<li><a id="cnotice_view_tab2" href="#" data-transition="none" class="ui-btn-active ui-state-persist ui-btn-a">공지사항</a></li>
+				</ul>
+			</div><!-- /navbar -->
+
+			<div class="ui-bar ui-bar-a">
+				<h3 class="subject"></h3>
+			</div>
+			<ul data-role="listview" id="cnotice_info">
+			</ul>
+			<script type="text/template" id="cnotice_info_tpl">
+				<li style="text-align:right; height:20px; padding:2px 10px 10px 5px;">
+					<p>작성자 : <%=writer%> | <%=reg_date_conv%></p>
+				</li>
+				<li style="min-height:200px; overflow-x:auto;">
+					<%=content%>
+				</li>
+			</script>
+		</div><!-- /content -->
+	</div>
+
+	<!--전체공지-->
+	<div data-role="page" id="notice">
+		<div data-role="header" data-theme="b">
+			<a href="#leftmenu" class="ui-nodisc-icon ui-btn ui-btn-b ui-btn-left ui-icon-bars ui-btn-icon-notext" data-role="button" role="button">Menu</a>
+			<h1>공지사항</h1>
+			<a href="#main" data-transition="slide" data-direction="reverse" class="ui-nodisc-icon ui-btn ui-btn-b ui-btn-right ui-icon-back ui-btn-icon-notext" data-role="button" role="button">Back</a>
+		</div><!-- /header -->
+
+		<div role="main" class="ui-content">
+			<ul data-role="listview" id="notice_list">
+			</ul>
+			<div class="moreArea" style="padding:10px;">
+				<a id="noticeMore" href="#notice?pn=2" onclick="return NoticeList(2)" data-transition="slide" class="ui-btn ui-corner-all" data-role="button" role="button">더 보 기</a>
+			</div>
+			<script type="text/template" id="notice_list_tpl">
+				<li>
+					<a href="#notice_view?id=<%=id%>&pn=<%=pn%>" data-transition="slide" onclick="return NoticeView(<%=id%>, '<%=pn%>')">
+						<h2><%=subject_conv%></h2>
+						<p>
+							작성자 : <%=writer%> |
+							<%=reg_date_conv%>
+						</p>
+					</a>
+				</li>
+			</script>
+		</div><!-- /content -->
+	</div>
+
+	<!--전체공지상세-->
+	<div data-role="page" id="notice_view">
+		<div data-role="header" data-theme="b">
+			<a href="#leftmenu" class="ui-nodisc-icon ui-btn ui-btn-b ui-btn-left ui-icon-bars ui-btn-icon-notext" data-role="button" role="button">Menu</a>
+			<h1>공지사항</h1>
+			<a id="notice-back" href="#notice" data-transition="slide" data-direction="reverse" class="ui-nodisc-icon ui-btn ui-btn-b ui-btn-right ui-icon-back ui-btn-icon-notext" data-role="button" role="button">Back</a>
+		</div><!-- /header -->
+
+		<div role="main" class="ui-content">
+			<div class="ui-bar ui-bar-a">
+				<h3 class="subject"></h3>
+			</div>
+			<ul data-role="listview" id="notice_info">
+			</ul>
+			<script type="text/template" id="notice_info_tpl">
+				<li style="text-align:right; height:20px; padding:2px 10px 10px 5px;">
+					<p>작성자 : <%=writer%> | <%=reg_date_conv%></p>
+				</li>
+				<li style="min-height:200px; overflow-x:auto;">
+					<%=content%>
+				</li>
+			</script>
+		</div><!-- /content -->
+	</div>
+
+	<!--FAQ-->
+	<div data-role="page" id="faq">
+		<div data-role="header" data-theme="b">
+			<a href="#leftmenu" class="ui-nodisc-icon ui-btn ui-btn-b ui-btn-left ui-icon-bars ui-btn-icon-notext" data-role="button" role="button">Menu</a>
+			<h1>FAQ</h1>
+			<a href="#main" data-transition="slide" data-direction="reverse" class="ui-nodisc-icon ui-btn ui-btn-b ui-btn-right ui-icon-back ui-btn-icon-notext" data-role="button" role="button">Back</a>
+		</div><!-- /header -->
+
+		<div role="main" class="ui-content">
+			<div data-role="navbar">
+				<ul data-role="navbar">
+					<!--@loop(categories)-->
+					<li><a id="faq-link-{{categories.id}}" href="#faq?s_category={{categories.id}}" onclick="return FaqList({{categories.id}})" data-transition="none" class="">{{categories.category_nm}}</a></li>
+					<!--/loop(categories)-->
+				</ul>
+			</div><!-- /navbar -->
+
+			<ul data-role="listview" id="faq_list">
+			</ul>
+			<script type="text/template" id="faq_list_tpl">
+				<li>
+					<a href="#faq_view?id=<%=id%>&s_category=<%=cid%>" data-transition="slide" onclick="return FaqView(<%=id%>, '<%=cid%>')">
+						<h2><%=subject_conv%></h2>
+						<p>
+							작성자 : <%=writer%> |
+							<%=reg_date_conv%>
+						</p>
+					</a>
+				</li>
+			</script>
+		</div><!-- /content -->
+	</div>
+
+	<!--FAQ상세-->
+	<div data-role="page" id="faq_view">
+		<div data-role="header" data-theme="b">
+			<a href="#leftmenu" class="ui-nodisc-icon ui-btn ui-btn-b ui-btn-left ui-icon-bars ui-btn-icon-notext" data-role="button" role="button">Menu</a>
+			<h1>FAQ</h1>
+			<a id="faq-back" href="#faq" data-transition="slide" data-direction="reverse" class="ui-nodisc-icon ui-btn ui-btn-b ui-btn-right ui-icon-back ui-btn-icon-notext" data-role="button" role="button">Back</a>
+		</div><!-- /header -->
+
+		<div role="main" class="ui-content">
+			<div class="ui-bar ui-bar-a">
+				<h3 class="subject"></h3>
+			</div>
+			<ul data-role="listview" id="faq_info">
+			</ul>
+			<script type="text/template" id="faq_info_tpl">
+				<li style="text-align:right; height:20px; padding:2px 10px 10px 5px;">
+					<p>작성자 : <%=writer%> | <%=reg_date_conv%></p>
+				</li>
+				<li style="min-height:200px; overflow-x:auto;">
+					<%=content%>
+				</li>
+			</script>
+		</div><!-- /content -->
+	</div>
+	
+	<!--로그아웃-->
+	<div data-role="page" id="logout">
+	</div>
+
+	<!--이용안내-->
+	<div data-role="page" id="guide">
+		<div data-role="header" data-theme="b">
+			<a href="#leftmenu" class="ui-nodisc-icon ui-btn ui-btn-b ui-btn-left ui-icon-bars ui-btn-icon-notext" data-role="button" role="button">Menu</a>
+			<h1>이용 안내</h1>
+			<a href="#main" data-transition="slide" class="ui-nodisc-icon ui-btn-b ui-btn-right ui-btn ui-icon-home ui-btn-icon-notext" data-role="button" role="button">Home</a>
+		</div><!-- /header -->
+
+		<div role="main" class="ui-content">
+			<p>이용안내 페이지</p>
+		</div><!-- /content -->
+	</div>
+
+	<!--왼쪽메뉴-->
+	<div data-role="panel" id="leftmenu" data-position="left" data-display="overlay" data-theme="b" class="ui-panel ui-panel-position-left ui-panel-display-push ui-body-a ui-panel-animate ui-panel-closed">
+		<div class="ui-panel-inner">
+			<ul class="ui-nodisc-icon ui-listview">
+				<li data-icon="home" class="ui-first-child"><a href="#main" data-transition="slide" class="ui-btn ui-btn-icon-right ui-icon-home">Home</a></li>
+				<li><a href="#mypage" onclick="return CourseList()" data-transition="slide" class="ui-btn ui-btn-icon-right ui-icon-edit">나의강의실</a></li>
+				<!--li><a href="#cnotice" onclick="return CNoticeList()" data-transition="slide" class="ui-btn ui-btn-icon-right ui-icon-audio">과정공지</a></li-->
+				<li><a href="#notice" onclick="return NoticeList()" data-transition="slide" class="ui-btn ui-btn-icon-right ui-icon-info">공지사항</a></li>
+				<li><a href="#faq" onclick="return FaqList()" data-transition="slide" class="ui-btn ui-btn-icon-right ui-icon-info">FAQ</a></li>
+				<li><a href="#main" onclick="return Logout()" class="ui-btn ui-btn-icon-right ui-icon-power">로그아웃</a></li>
+				<li><a href="#" data-rel="close" class="ui-btn ui-btn-icon-right ui-icon-delete">닫기</a></li>
+			</ul>
+		</div>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+				<div id="contet_area">
+				<div class="path">
+					<ol class="path_list">
+						<li>강의실</li>
+						<li>강의목차</li>
+					</ol>
+				</div>
+				<div class="content_title">
+					<div class="class_tt">
+						<!--@nif(course.alltime_block)--><em class="em1">[{{course.year}}년 / {{course.step}}기] </em><!--/nif(course.alltime_block)-->
+						<em class="em2">{{cuinfo.course_nm}}</em>
+					</div>
+				</div>
+				<div class="content_body">
+					<div class="tb_top">
+						<h5 class="tb_title">강의목차</h5>
+					</div>
+					<div class="tb_box tb_list">
+						<table summary="현과정의 목차를 알수 있습니다.">
+							<caption>강의목차</caption>
+							<colgroup>
+								<col style="width:50px" />
+								<col style="width:*%" />
+								<!--@if(course.period_yn)--><col style="width:200px" /><!--/if(course.period_yn)-->
+								<col style="width:60px" />
+								<col style="width:40px" />
+								<col style="width:40px" />
+								<col style="width:80px" />
+							</colgroup>
+							<thead>
+								<tr>
+									<th scope="col">강의</th>
+									<th scope="col">강의명</th>
+									<!--@if(course.period_yn)-->
+									<th scope="col">학습기간</th>
+									<!--/if(course.period_yn)-->
+									<th scope="col">진도율</th>
+									<th scope="col">완료</th>
+									<th scope="col">교안</th>
+									<th scope="col">학습하기</th>
+								</tr>
+							</thead>
+							<tbody>
+								<!--@loop(list)-->
+								<tr>
+									<td class="tac">{{list.chapter}}장</td>
+									<td class="tac" style="text-align:left">
+										<!--@nif(list.online_block)-->
+										[{{list.lesson_type_conv}}]
+										<!--/nif(list.online_block)-->
+										{{list.lesson_nm_conv}}
+									</td>
+									<!--@if(course.period_yn)-->
+									<td class="tac">{{list.date_conv}}</td>
+									<!--/if(course.period_yn)-->
+									<td class="tac"><strong>{{list.ratio_conv}}</strong>%</td>
+									<td class="tac">{{list.complete_conv}}</td>
+									<td class="tac">
+										<!--@if(list.lesson_file)-->
+										<a href="../main/download_file.jsp?file={{list.lesson_file_conv}}&ek={{list.lesson_file_ek}}">
+											{{list.lesson_file_ext}}
+										</a>
+										<!--/if(list.lesson_file)-->
+									</td>
+									<td class="tac">
+										<!--@if(list.online_block)-->
+										<!--@if(list.open_block)-->
+										<button type="button" onclick="OpenWindow('viewer.jsp?cuid={{cuid}}&lid={{list.lesson_id}}&chapter={{list.chapter}}', '', {{list.content_width}}, {{list.content_height}});" class="button small blue">학습하기</button>
+										<!--/if(list.open_block)-->
+
+										<!--@nif(list.open_block)-->
+										<button type="button" onclick="alert('{{list.msg}}');"class="button small blue">학습하기</button>
+										<!--/nif(list.open_block)-->
+										<!--/if(list.online_block)-->
+										<!--@nif(list.online_block)-->
+										-
+										<!--/nif(list.online_block)-->
+									</td>
+								</tr>
+								<!--/loop(list)-->
+								
+							</tbody>
+						</table>
+
+						<!--@nif(list)-->
+						<p class="nodata" colspan="7">등록된 강의목차가 없습니다.</p>
+						<!--/nif(list)-->
+					</div>
+				</div>
+			</div>
+			
+			<!--@if(prev_block)-->
+			<script>
+			alert("{{prev.msg}}");
+			location.href = "{{prev.link}}";
+			</script>
+			<!--/if(prev_block)-->

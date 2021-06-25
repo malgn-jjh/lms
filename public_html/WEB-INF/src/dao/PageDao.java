@@ -1,0 +1,32 @@
+package dao;
+
+import malgnsoft.db.*;
+import java.io.File;
+
+public class PageDao extends DataObject {
+
+	public String[] statusList = { "1=>사용", "0=>중지" };
+	
+	public String[] statusListMsg = { "1=>list.page.status_list.1", "0=>list.page.status_list.0" };
+
+	public PageDao() {
+		this.table = "TB_PAGE";
+	}
+
+	public DataSet getLayouts(String path) throws Exception {
+		DataSet ds = new DataSet();
+		File dir = new File(path);
+		if(!dir.exists()) return ds;
+
+		File[] files = dir.listFiles();
+		for(int i=0; i<files.length; i++) {
+			String filename = files[i].getName();
+			if("layout_".equals(filename.substring(0, 7))) {
+				ds.addRow();
+				ds.put("id", filename.substring(7, filename.length() - 5));
+				ds.put("name", filename);
+			}
+		}
+		return ds;
+	}
+}

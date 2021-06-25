@@ -1,0 +1,171 @@
+<div class="tabs" style="float:left;height:23px;margin-bottom:5px;position:relative;">
+	<div style="position:absolute;width:100%;height:1px;top:22px;border-top:1px solid #91A7B4;"></div>
+	<div style="position:absolute;">
+		<ul style="float:left;">
+			<li class='current'><span>평가현황</span></li>
+			<li><span><a href="course_user_log.jsp?{{log_query}}">수강기록</a></span></li>
+		</ul>
+	</div>
+</div>
+<div style="clear:both;"></div>
+
+<table class="c_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="c_th01">수강정보</td>
+	<td class="c_td01"></td>
+</tr>
+</table>
+
+<table class="t_tb01" cellpadding="0" cellspacing="0" style="table-layout:fixed;">
+<col width="120"><col><col width="120"><col>
+<tr>
+	<td class="t_th01">수료상태</td>
+	<td class="t_td01" colspan="3">{{cuinfo.status_conv}}</td>
+</tr>
+<tr>
+	<td class="t_th01">년도 / 기수</td>
+	<td class="t_td01">{{cuinfo.year}}년 / {{cuinfo.step}}기</td>
+	<td class="t_th01">수강기한</td>
+	<td class="t_td01">
+		<form method="POST" name="form1" onsubmit="return goSubmit(this);">
+		<input type="text" name="start_date" size="10" class="cal02" value="{{cuinfo.start_date_conv}}">
+		~ <input type="text" name="end_date" size="10" class="cal02" value="{{cuinfo.end_date_conv}}">
+		<button type="submit" class="bttn2">기간수정</button>
+		</form>
+		{{form_script}}
+		<script language="javascript">
+		function goSubmit(f) {
+			if(!validate(f)) { return false }
+			if(!confirm("수강기간을 수정 하시겠습니까?")) {
+				return false;
+			}
+		}
+		</script>
+	</td>
+</tr>
+<tr>
+	<td class="t_th01">과정명</td>
+	<td class="t_td01" colspan="3">{{cuinfo.step_nm}}</td>
+</tr>
+<tr>
+	<td class="t_th01">회원</td>
+	<td class="t_td01"><a href="javascript:OpenCRM('{{cuinfo.user_id}}');">{{cuinfo.user_nm}}({{cuinfo.user_id}})</a></td>
+	<td class="t_th01">진도율 / 총점</td>
+	<td class="t_td01">{{cuinfo.progress_ratio}}% / {{cuinfo.total_score}} 점</td>
+</tr>
+</table>
+
+<table class="b_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="b_th01"><button type="button" class="bttn2" onclick="location.href='course_user_stat.jsp?{{list_query}}'">목록</button></td>
+	<td class="b_td01"></td>
+</tr>
+</table>
+
+<table class="c_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="c_th01">채점내역</td>
+	<td class="c_td01"></td>
+</tr>
+</table>
+
+<table class="t_tb01" cellpadding="0" cellspacing="0" style="table-layout:fixed;">
+<col width="120"><col><col><col>
+<tr align="center">
+	<td class="t_th01">구분</td>
+	<td class="t_th01">비중</td>
+	<td class="t_th01">수료점수</td>
+	<td class="t_th01">회원점수</td>
+</tr>
+<tr align="center">
+	<td class="t_th01">진도</td>
+	<td class="t_td01">{{cuinfo.assign_progress}} 점</td>
+	<td class="t_td01">{{cuinfo.limit_progress}} 점</td>
+	<td class="f_td01">{{cuinfo.progress_score}} 점</td>
+</tr>
+<tr align="center">
+	<td class="t_th01">시험</td>
+	<td class="t_td01">{{cuinfo.assign_exam}} 점</td>
+	<td class="t_td01">{{cuinfo.limit_exam}} 점</td>
+	<td class="f_td01">{{cuinfo.exam_score}} 점</td>
+</tr>
+<tr align="center">
+	<td class="t_th01">과제</td>
+	<td class="t_td01">{{cuinfo.assign_homework}} 점</td>
+	<td class="t_td01">{{cuinfo.limit_homework}} 점</td>
+	<td class="f_td01">{{cuinfo.homework_score}} 점</td>
+</tr>
+
+<tr align="center">
+	<td class="t_th01">토론</td>
+	<td class="t_td01">{{cuinfo.assign_forum}} 점</td>
+	<td class="t_td01">{{cuinfo.limit_forum}} 점</td>
+	<td class="f_td01">{{cuinfo.forum_score}} 점</td>
+</tr>
+
+<tr align="center">
+	<td class="t_th01">기타</td>
+	<td class="t_td01">{{cuinfo.assign_etc}} 점</td>
+	<td class="t_td01">{{cuinfo.limit_etc}} 점</td>
+	<td class="f_td01">{{cuinfo.etc_score}} 점</td>
+</tr>
+</table>
+
+<table class="c_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="c_th01">진도현황</td>
+	<td class="c_td01"><input type="button" value="전체 완료처리" class="btn_simp" onclick="completeLesson('all');"></td>
+</tr>
+</table>
+<table class="l_tb01" cellpadding="0" cellspacing="0">
+<thead>
+<tr align="center">
+	<td class="l_th03">차시</td>
+	<td class="l_th03">제목</td>
+	<td class="l_th03">최종학습일</td>
+	<td class="l_th03">진도율</td>
+	<td class="l_th03">완료여부</td>
+</tr>
+</thead>
+<tbody>
+<!--@loop(lesson_list)-->
+<tr class="l_tr_{{list.ROW_CLASS}}" align="center">
+	<td class="l_td01">{{lesson_list.chapter}}</td>
+	<td class="l_td01" align="left">{{lesson_list.lesson_nm}}</td>
+	<td class="l_td01">{{lesson_list.last_date_conv}}</td>
+	<td class="l_td01">{{lesson_list.ratio}}</td>
+	<td class="l_td01">{{lesson_list.complete_yn}}
+	<!--@nif(lesson_list.complete_block)-->
+	&nbsp;&nbsp;<input type="button" value="완료처리" class="btn_simp" onclick="completeLesson('{{lesson_list.chapter}}');" style="color:blue;">
+	<!--/nif(lesson_list.complete_block)-->
+	<!--@if(lesson_list.complete_block)-->
+	&nbsp;&nbsp;<input type="button" value="완료취소" class="btn_simp" onclick="cancelComplete('{{lesson_list.chapter}}');" style="color:red;">
+	<!--/if(lesson_list.complete_block)-->
+	</td>
+</tr>
+<!--/loop(lesson_list)-->
+</tbody>
+</table>
+
+<!--@nif(lesson_list)-->
+<table class="n_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td>등록된 차시 없습니다.</td>
+</tr>
+</table>
+<!--/nif(lesson_list)-->
+
+<script language="JavaScript">
+<!--
+	function completeLesson(chapter) {
+		if(confirm((chapter == "all" ? "전체" : chapter) + " 차시를 완료 처리하시겠습니까?")) {
+			location.href = "course_user_attend.jsp?mode=complete&cp=" + chapter + "&{{query}}";
+		}
+	}
+	function cancelComplete(chapter) {
+		if(confirm((chapter + "차시를 완료취소 처리하시겠습니까?"))) {
+			location.href = "course_user_attend.jsp?mode=cancel&cp=" + chapter + "&{{query}}";
+		}
+	}
+//-->
+</script>

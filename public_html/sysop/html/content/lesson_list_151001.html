@@ -1,0 +1,251 @@
+<script language="javascript" type="text/javascript" src="/common/js/grid.prototype.js"></script>
+<div class="tabs" style="height:23px;margin-bottom:5px;position:relative;">
+	<div style="position:absolute;width:100%;height:1px;top:22px;border-top:1px solid #91A7B4;"><!----></div>
+	<div style="position:absolute;">
+		<ul style="float:left;">
+			<li><span><a href="content_modify.jsp?id={{cid}}">콘텐츠정보</a></span></li>
+			<li class="current"><span>강의목차</span></li>
+			<li><span><a href="file.jsp?cid={{cid}}">파일관리</a></span></li>
+		</ul>
+	</div>
+</div>
+<div style="clear:both;"></div>
+
+
+<table class="c_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="c_th01">콘텐츠 정보</td>
+	<td class="c_td01"></td>
+</tr>
+</table>
+
+<table class="f_tb01" cellpadding="0" cellspacing="0">
+<col width="120"><col>
+<tr>
+	<td class="f_th01">과정카테고리</td>
+	<td class="f_td01" colspan="3">{{content.cate_name}}</td>
+</tr>
+<tr>
+	<td class="f_th01">콘텐츠명</td>
+	<td class="f_td01" colspan="3">{{content.content_nm}}</td>
+</tr>
+</table>
+
+<form name="form1" method="POST" target="sysfrm">
+<table class="a_tb01" cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td class="a_th01"><span style="font-weight:normal">total : <span id="lesson_cnt" style="color:blue;">{{lesson_cnt}}</span> 강</span></td>
+	<td class="a_td01" style="font-weight:normal">
+		<button type="button" class="bttn2" onclick="OpenWindow('../content/lesson_insert.jsp?cid={{cid}}', '_CLI', 800, 680);">강의등록</button>
+		<!-- button type="button" class="bttn2" onclick="addLesson();">다른 콘텐츠의 강의 추가</button -->
+		<button type="button" class="bttn2" onclick="moveLesson();">선택이동</button>
+	</td>
+</tr>
+</table>
+
+<table class="c_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="c_th01">강의목차</td>
+	<td class="c_td01"></td>
+</tr>
+</table>
+
+<table id="grid" class="l_tb01" cellpadding="0" cellspacing="0" style="margin-top:0px">
+<col width="70">
+<col width="100">
+<col>
+<col width="80">
+<col width="150">
+<col width="80">
+<col width="70">
+<col width="30">
+<thead>
+<tr>
+	<td class="l_th03">강의</td>
+	<td class="l_th03">콘텐츠타입</td>
+	<td class="l_th03">콘텐츠 강의명</td>
+	<td class="l_th03">학습시간</td>
+	<td class="l_th03">지원장치</td>
+	<td class="l_th03">미리보기</td>
+	<td class="l_th03">순서</td>
+	<td class="l_th03"><input type="checkbox" onclick="AutoCheck('form1', 'lesson_idx');" id="check_all"/></td>
+</tr>
+</thead>
+<tbody>
+<!--@loop(list)-->
+<tr class="l_tr_{{list.ROW_CLASS}}" align="center">
+	<td class="l_td01"><select name="chapter" onchange="moveRow(grid.findRow(this), this.value);"></select></td>
+	<td class="l_td01">{{list.lesson_type_conv}}</td>
+	<td class="l_td01" align="left">
+		<a href="javaScript:OpenWindows('../content/lesson_modify.jsp?cid={{cid}}&id={{list.id}}', 'CLM77', 800, 700);">{{list.lesson_nm}}</a>
+	</td>
+	<td class="l_td01">{{list.total_time}} 분</td>
+	<td class="l_td01">
+		<!--@if(list.use_block)-->
+			<!--@if(list.pc_block)--><span class="label blue">PC</span><!--/if(list.pc_block)-->
+			<!--@nif(list.pc_block)--><span class="label gray">PC</span><!--/nif(list.pc_block)-->
+			<!--@if(list.android_block)--><span class="label green">Android</span><!--/if(list.android_block)-->
+			<!--@nif(list.android_block)--><span class="label gray">Android</span><!--/nif(list.android_block)-->
+			<!--@if(list.ios_block)--><span class="label sky">iOS</span><!--/if(list.ios_block)-->
+			<!--@nif(list.ios_block)--><span class="label gray">iOS</span><!--/nif(list.ios_block)-->
+		<!--/if(list.use_block)-->
+		<!--@nif(list.use_block)-->
+			비활성
+		<!--/nif(list.use_block)-->
+	</td>
+	<td class="l_td01">
+		<!--@if(list.pc_block)-->
+		<input type="button" value="미리보기" class="btn_simp" onclick="OpenWindow('../content/preview_lesson.jsp?id={{list.id}}', 'CPL77', {{list.content_width}}, {{list.content_height}})">
+		<!--/if(list.pc_block)-->
+	</td>
+	<td class="l_td01">
+		<span onclick="grid.up(this);" class="mvarrow">▲</span> <span onclick="grid.down(this);" class="mvarrow">▼</span>
+	</td>
+	<td class="l_td01">
+		<input type="hidden" name="content_id"  value="{{list.content_id}}">
+		<input type="hidden" name="old_chapter"  value="{{list.chapter}}">
+		<input type="hidden" name="lesson_id"  value="{{list.lesson_id}}">
+		<input type="checkbox" name="lesson_idx"  value="{{list.id}}">
+	</td>
+</tr>
+<!--/loop(list)-->
+</tbody>
+</table>
+
+<!--@nif(list)-->
+<table class="n_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td>등록된 강의가 없습니다.</td>
+</tr>
+</table>
+<!--/nif(list)-->
+
+<table class="b_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="b_th01">
+		<!--<button type="button" class="bttn2" onclick="location.href='content_list.jsp';">목록</button>-->
+	</td>
+	<td class="b_td01">
+		<button type="submit" class="bttn2">순서저장</button>
+	</td>
+</tr>
+</table>
+</form>
+{{form_script}}
+
+<script id="sortArea" type="text/template">
+<!--@loop(sort_list)-->
+<option value="{{sort_list.id}}">{{sort_list.name}}</option>
+<!--/loop(sort_list)-->
+</script>
+
+<script type="text/javascript">
+var grid = new MGRID("grid");
+grid.rowActiveColor = "#F4FAFF";
+grid.cellAligns = new Array("center", "center", "left", "center",  "center", "center", "center");
+grid.callbackInsert = grid.callbackDelete = grid.callbackSwap = "setChapter";
+grid.setActiveColor(-1);
+
+var lessonWindow;
+
+//추가
+function addLesson() {
+	lessonWindow = window.open("../content/lesson_select.jsp?cid={{cid}}", "SL66", "width=800,height=680,left=" + (window.screen.width/2 - 400) + ",top=" + (window.screen.height/2 - 350) + ",toolbar=no,status=yes,scrollbars=no,resizable=no");
+}
+
+function setChapter() {
+	$("select[name='chapter']").each(function(idx) {
+		$(this).html($("#sortArea").html());
+		$(this).children("option:eq(" + idx + ")").attr("selected", "selected");
+	});
+}
+
+function moveRow(row, v) {
+	if(row.rowIndex == v) {	setChapter(); return; }
+	swapRow(row, v);
+}
+
+function swapRow(row, v) {
+	v = parseInt(v);
+	var fromElement = row.rowIndex < v ? row.nextSibling : row.previousSibling;
+	try {
+		var clone = row.cloneNode(true);
+		var parent = row.parentNode;
+		fromElement = parent.replaceChild(clone, fromElement);
+		parent.replaceChild(fromElement, row);
+		parent.replaceChild(row, clone);
+		clone = null;
+	} catch(e) { }
+
+	moveRow(row, v);
+}
+
+//강의수
+function setItemCnt() {
+	document.getElementById("lesson_cnt").innerHTML = grid.getLength();
+}
+
+//삭제
+/*
+function delItem() {
+	document.getElementById("check_all").checked = false;
+	AUTO_CHECK_STATUS = true;
+	var elements = document.getElementsByName("lesson_idx");
+	var arr = new Array();
+	for(var i=0; i<elements.length; i++) {
+		if(elements[i].checked) {
+			arr.push(i);
+		}
+	}
+	if(arr.length == 0) { alert("선택 강의가 없습니다."); return; }
+	if(!confirm("삭제하시겠습니까?")) return;
+
+	var element = document.getElementById("grid").getElementsByTagName("tbody")[0];
+	for(var i=arr.length - 1; i>=0; i--) {
+		element.deleteRow(arr[i]);
+	}
+	try {
+		if(lessonWindow) lessonWindow.location.href = lessonWindow.location.href;
+	} catch(e) {}
+
+	init();
+}
+*/
+function init() {
+	setChapter();
+	setItemCnt();
+}
+
+//삭제
+function delLesson() {
+	var elements = document.getElementsByName("lesson_idx");
+	var arr = new Array();
+	for(var i=0; i<elements.length; i++) {
+		if(elements[i].checked) { arr.push(elements[i].value); }
+	}
+	if(arr.length == 0) { alert("선택된 강의가 없습니다."); return; }
+	if(!confirm("삭제하시겠습니까?")) return;
+
+	location.href = "lesson_list.jsp?mode=del&idx=" + arr.join(",") + "&{{query}}";
+}
+
+//변경
+function changeLesson() {
+	var elements = document.getElementsByName("lesson_idx");
+	var arr = new Array();
+	for(var i=0; i<elements.length; i++) {
+		if(elements[i].checked) { arr.push(elements[i].value); }
+	}
+	if(arr.length == 0) { alert("선택된 강의가 없습니다."); return; }
+	if(!confirm("변경하시겠습니까?")) { return; }
+
+	location.href = "lesson_list.jsp?mode=use&useYn=" + document.forms['form1']['a_use_yn'].value + "&idx=" + arr.join(",") + "&{{query}}";
+}
+
+//이동
+function moveLesson() {
+	alert("개발중");
+}
+
+addEvent("load", init);
+</script>

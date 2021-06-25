@@ -1,0 +1,106 @@
+<table class="c_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="c_th01">설문정보</td>
+	<td class="c_td01"></td>
+</tr>
+</table>
+
+<table class="f_tb01" cellpadding="0" cellspacing="0">
+<col width="120"><col>
+<col width="120"><col>
+<tr>
+	<td class="f_th01">과정</td>
+	<td class="f_td01" colspan="3">
+		[{{info.year}}년 / {{info.step}}기] &nbsp; {{info.step_nm}}
+	</td>
+</tr>
+<tr>
+	<td class="f_th01">설문명</td>
+	<td class="f_td01" colspan="3">{{info.survey_nm}}</td>
+</tr>
+<tr>
+	<td class="f_th01">문제</td>
+	<td class="f_td01" colspan="3">{{info.question}}</td>
+</tr>
+</table>
+
+<form name="form1" method="get">
+<input type="hidden" name="ord" value="">
+<input type="hidden" name="mode" value="">
+<input type="hidden" name="id" value="{{id}}">
+<input type="hidden" name="qid" value="{{qid}}">
+<input type="hidden" name="iid" value="{{iid}}">
+
+<table class="t_tb01" cellpadding="0" cellspacing="0">
+<col width="120"><col>
+<tr>
+	<td class="t_th01">검색</td>
+	<td class="t_td01" colspan="3">
+		<select name="s_field" onchange="document.forms['form1']['s_keyword'].focus();">
+			<option value="">-전체-</option>
+			<option value="c.user_nm">회원명</option>
+			<option value="c.login_id">회원아이디</option>
+		</select>
+		<input type="text" name="s_keyword" size="35" onfocus="this.select();">
+		<button type="submit" class="bttn2">검색</button>
+	</td>
+</tr>
+</table>
+
+<table class="a_tb01" cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td class="a_th01">{{list_total}}</td>
+	<td class="a_td01">
+		수강생 : {{info.u_cnt_conv}} 명, 참여자(참여율) : {{info.s_cnt_conv}} 명&nbsp;({{info.survey_rate}}%)
+		&nbsp;&nbsp;<button type="button" class="bttn2" onclick="document.forms['form1']['mode'].value='excel';document.forms['form1'].submit();document.forms['form1']['mode'].value='';">EXCEL</button>
+	</td>
+</tr>
+</table>
+
+</form>
+{{form_script}}
+
+<table class="l_tb01" cellpadding="0" cellspacing="0">
+<col width="45"><col><col><col width="450"><col width="80">
+<thead>
+<tr align="center">
+	<td class="l_th03">No</td>
+	<td class="l_th03"><span class="l_sort01" id="CL_c.user_nm" onclick="ListSort(this, '{{ord}}')">회원명</span></td>
+	<td class="l_th03"><span class="l_sort01" id="CL_c.login_id" onclick="ListSort(this, '{{ord}}')">회원아이디</span></td>
+	<td class="l_th03">답변</td>
+	<td class="l_th03"><span class="l_sort01" id="CL_a.reg_date" onclick="ListSort(this, '{{ord}}')">참여일</span></td>
+</tr>
+</thead>
+<tbody>
+<!--@loop(list)-->
+<tr class="l_tr_{{list.ROW_CLASS}}" align="center">
+	<td class="l_td01">{{list.__ord}}</td>
+	<td class="l_td01">{{list.user_nm}}</td>
+	<td class="l_td01">{{list.login_id}}</td>
+	<td class="l_td01" align="left">
+
+		<div <!--@if(text_block)-->style="overflow:auto; width:440px; word-wrap:break-word;padding:3px;text-align:left;height:40px;"<!--/if(text_block)-->>
+			{{list.answer_conv}}
+		</div>
+
+	</td>
+	<td class="l_td01">{{list.reg_date_conv}}</td>
+</tr>
+<!--/loop(list)-->
+</tbody>
+</table>
+<!--@nif(list)-->
+<table class="n_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td>참여한 회원이 없습니다..</td>
+</tr>
+</table>
+<!--/nif(list)-->
+
+<table class="p_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="p_td01">{{pagebar}}</td>
+</tr>
+</table>
+
+<script>ListSort(null, "{{ord}}");</script>

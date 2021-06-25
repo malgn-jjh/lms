@@ -1,0 +1,124 @@
+<form name="form1" method="get">
+<input type="hidden" name="tab" value="{{tab}}">
+<input type="hidden" name="ord" value="">
+<input type="hidden" name="mode" value="">
+
+<table class="t_tb01" cellpadding="0" cellspacing="0" style="table-layout:fixed;">
+<col width="120"><col>
+<col width="120"><col>
+<tr>
+	<td class="t_th01">과정명</td>
+	<td class="t_td01" colspan="3">
+		<select name="s_subject">
+		<option value=""> - 전체 - </option>
+		<!--@loop(subjects)-->
+		<option value="{{subjects.id}}">{{subjects.course_nm}}</option>
+		<!--/loop(subjects)-->
+		</select>
+	</td>
+</tr>
+<tr>
+	<td class="t_th01">등록일</td>
+	<td class="t_td01">
+		<input type="text" name="s_sdate" class="cal01" size="12">
+		- <input type="text" name="s_edate" class="cal01" size="12">
+	</td>
+	<td class="t_th01">상태</td>
+	<td class="t_td01">
+		<label><input type="radio" name="s_status" value="" class="ipt01" checked/> 전체 </label> &nbsp;
+		<!--@loop(status_list)-->
+		<label><input type="radio" name="s_status" value="{{status_list.id}}" class="ipt01"/> {{status_list.name}} </label> &nbsp;
+		<!--/loop(status_list)-->
+	</td>
+</tr>
+<tr>
+	<td class="t_th01">검색</td>
+	<td class="t_td01" colspan="3">
+		<select name="s_field" onchange="document.forms['form1']['s_keyword'].focus();">
+		<option value=""> - 전체 - </option>
+		<option value="a.book_nm">교재명</option>
+		<option value="a.author">저자</option>
+		<option value="a.publisher">출판사</option>
+		</select>
+		<input type="text" name="s_keyword" size="30" onfocus="this.select();">
+		<button type="submit" class="bttn2">검색</button>
+	</td>
+</tr>
+</table>
+
+<table class="a_tb01" cellpadding="0" cellspacing="0" border="0">
+<tr>
+	<td class="a_th01">{{list_total}}</td>
+	<td class="a_td01">
+		<button type="button" class="bttn2" onclick="document.forms['form1']['mode'].value='excel';document.forms['form1'].submit();document.forms['form1']['mode'].value='';">EXCEL</button>
+		<button type="button" class="bttn2 sky" onclick="location.href='book_insert.jsp?{{list_query}}';">등록</button>
+	</td>
+</tr>
+</table>
+
+</form>
+{{form_script}}
+
+<form name="form2" method="post">
+<table class="l_tb01" cellpadding="0" cellspacing="0">
+<colgroup>
+<col width="50">
+<col>
+<col width="80">
+<col width="120">
+<col width="80">
+<col width="80">
+</colgroup>
+<thead>
+<tr align="center">
+	<td class="l_th01">No</td>
+	<td class="l_th01"><span class="l_sort01" id="CL_a.book_nm" onclick="ListSort(this, '{{ord}}')">교재명</span></td>
+	<td class="l_th01"><span class="l_sort01" id="CL_a.book_price" onclick="ListSort(this, '{{ord}}')">가격</span></td>
+	<td class="l_th01"><span class="l_sort01" id="CL_a.publisher" onclick="ListSort(this, '{{ord}}')">출판사</span></td>
+	<td class="l_th01"><span class="l_sort01" id="CL_a.reg_date" onclick="ListSort(this, '{{ord}}')">등록일</span></td>
+	<td class="l_th01"><span class="l_sort01" id="CL_a.status" onclick="ListSort(this, '{{ord}}')">상태</span></td>
+</tr>
+</thead>
+<tbody>
+<!--@loop(list)-->
+<tr class="l_tr_{{list.ROW_CLASS}}" align="center">
+	<td class="l_td01">{{list.__ord}}</td>
+	<td class="l_td01" align="left">
+		<div style="float:left; width:30px; margin-right:5px;">
+			<img src="{{list.img_url}}" onerror="ImageError(this)" width="30" height="30">
+		</div>
+		<p class="cate01">[ {{list.course_nm}} ]</p>
+		<a href="book_modify.jsp?id={{list.id}}&{{list_query}}">
+			{{list.book_nm}}
+		</a>
+	</td>
+	<td class="l_td01">{{list.price_conv}} 원</td>
+	<td class="l_td01">{{list.publisher}}</td>
+	<td class="l_td01">{{list.reg_date_conv}}</td>
+	<td class="l_td01"><span class="status">{{list.status_conv}}</span></td>
+</tr>
+<!--/loop(list)-->
+</tbody>
+</table>
+
+<!--@nif(list)-->
+<table class="n_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td>해당 자료가 없습니다.</td>
+</tr>
+</table>
+<!--/nif(list)-->
+
+<table class="p_tb01" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="p_td01">{{pagebar}}</td>
+</tr>
+</table>
+</form>
+
+<script>ListSort(null, "{{ord}}");</script>
+<script>
+addEvent("onload", function() {
+	setStatus();
+});
+</script>
