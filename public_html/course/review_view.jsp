@@ -72,6 +72,7 @@ p.setVar(info);
 //p.setVar("prev", prev);
 //p.setVar("next", next);
 p.setVar("modify_block", info.i("user_id") != 0 && info.i("user_id") == userId);
+p.setVar("reply_block", "Y".equals(SiteConfig.s("review_reply_yn")));
 p.display();
 
 %>

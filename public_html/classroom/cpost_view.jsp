@@ -4,6 +4,7 @@
 int id = m.ri("id");
 String code = m.rs("code");
 if(id == 0 && "".equals(code)) { m.jsError(_message.get("alert.common.required_key")); return; }
+boolean replyBlock = "free".equals(code) || ("Y".equals(SiteConfig.s("review_reply_yn")) && "review".equals(code));
 
 //객체
 ClBoardDao board = new ClBoardDao();
@@ -115,6 +116,7 @@ p.setVar("next", next);
 p.setLoop("files", files);
 
 p.setVar("answer", ainfo);
+p.setVar("reply_block", replyBlock);
 p.setLoop("afiles", afiles);
 
 p.display();

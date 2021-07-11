@@ -100,9 +100,9 @@ while(list.next()) {
 
 	list.put("pay_price_conv", m.nf(list.i("pay_price") - list.i("refund_price")));
 	list.put("certificate_no", m.time(_message.get("format.date.dot"), list.s("start_date")) + "-" + m.strrpad(id + "", 5, "0"));
-	list.put("today", m.time(_message.get("format.date.local"), sysToday));
-	list.put("today2", m.time(_message.get("format.date.dot"), sysToday));
-	list.put("today3", m.time(_message.get("format.dateshort.dot"), sysToday));
+	list.put("today", m.time(_message.get("format.date.local"), list.s("complete_date")));
+	list.put("today2", m.time(_message.get("format.date.dot"), list.s("complete_date")));
+	list.put("today3", m.time(_message.get("format.dateshort.dot"), list.s("complete_date")));
 
 	//강사
 	DataSet tutors = courseTutor.query(

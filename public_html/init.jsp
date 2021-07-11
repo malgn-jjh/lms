@@ -2,7 +2,7 @@
 
 //request.setCharacterEncoding("utf-8");
 
-final String BUILDVERSION = "21.22.01";
+final String BUILDVERSION = "21.27.02";
 
 String docRoot = Config.getDocRoot();
 String jndi = Config.getJndi();
@@ -23,17 +23,19 @@ if(1 != siteinfo.i("status") || "".equals(siteinfo.s("doc_root"))) {
 
 //Hashtable<String, String> siteconfig = SiteConfig.getSiteConfig(siteinfo.s("id"));
 
+boolean isDevServer = -1 < request.getServerName().indexOf("lms.malgn.co.kr");
 String webUrl = request.getScheme() + "://" + request.getServerName();
 int port = request.getServerPort();
 if(port != 80 && port != 443) webUrl += ":" + port;
 String dataDir = siteinfo.s("doc_root") + "/data";
 String tplRoot = siteinfo.s("doc_root") + "/html";
+if(isDevServer && siteinfo.i("skin_cd") == 5) tplRoot = siteinfo.s("doc_root") + "/html_v5";
 f.dataDir = dataDir;
 m.dataDir = dataDir;
 //m.dataUrl = "https://cdn.malgnlms.com/cdndata/" + siteinfo.s("ftp_id");
 m.dataUrl = Config.getDataUrl() + (!"/data".equals(Config.getDataUrl()) ? siteinfo.s("ftp_id") : "");
 
-boolean isDevServer = -1 < request.getServerName().indexOf("lms.malgn.co.kr");
+
 if(!"".equals(siteinfo.s("logo"))) siteinfo.put("logo_url", m.getUploadUrl(siteinfo.s("logo")));
 else siteinfo.put("logo_url", "/common/images/default/malgn_logo.jpg");
 
@@ -49,6 +51,7 @@ p.setRequest(request);
 p.setPageContext(pageContext);
 p.setWriter(out);
 p.setBaseRoot("/home/lms/public_html/html");
+if(siteinfo.i("skin_cd") == 5) p.setBaseRoot("/home/lms/public_html/html_v5");
 
 //언어
 String sysLocale = "".equals(siteinfo.s("locale")) ? "default" : siteinfo.s("locale");

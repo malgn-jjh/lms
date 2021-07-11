@@ -144,8 +144,8 @@ if(m.isPost() && f.validate()) {
 		examUser.execute("UPDATE " + examUser.table + " SET submit_yn = 'Y', submit_date = '" + now + "', unload_date = '" + now + "', ip_addr = '" + userIp + "' WHERE " + whrPK);
 
 		//자동채점-객관식만 있을 경우
-		if("Y".equals(info.s("auto_complete_yn")) && (info.i("tcnt1") + info.i("tcnt2") + info.i("tcnt3") + info.i("tcnt4") + info.i("tcnt5") + info.i("tcnt6")) == 0) {
-
+		//if("Y".equals(info.s("auto_complete_yn")) && (info.i("tcnt1") + info.i("tcnt2") + info.i("tcnt3") + info.i("tcnt4") + info.i("tcnt5") + info.i("tcnt6")) == 0) {
+		if("Y".equals(info.s("auto_complete_yn")) && (info.i("tcnt1") + info.i("tcnt2") + info.i("tcnt3") + info.i("tcnt4") + info.i("tcnt5")) == 0) {
 			DataSet results = examResult.query(
 				"SELECT a.question_id, a.answer user_answer, b.* "
 				+ " FROM " + examResult.table + " a "

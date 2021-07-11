@@ -15,11 +15,10 @@ public class SessionDao {
 	private HttpServletRequest request;
 	private HttpServletResponse response;
 	private static String encoding = Config.getEncoding();
-	private String sessionId;
 	private String dataString = "";
 	private JSONObject dataJson;
 
-	private String keyName = "_sessdata";
+	private String keyName = "sessdata";
 	public int maxAge = -1;
 
 	public SessionDao(HttpServletRequest request, HttpServletResponse response) {
@@ -37,7 +36,7 @@ public class SessionDao {
 		}
 
 		if("".equals(dataString)) {
-			sessionId = Malgn.sha1("" + System.currentTimeMillis() + Malgn.getUniqId());
+			String sessionId = Malgn.sha1("" + System.currentTimeMillis() + Malgn.getUniqId());
 			dataString = "{\"id\":\"" + sessionId + "\"}";
 			dataJson = new JSONObject(dataString);
 			Cookie cookie = new Cookie(keyName, encodeData(dataString));
@@ -50,22 +49,22 @@ public class SessionDao {
 
 	private final String decodeData(String encodedString) {
 		try {
-			return URLDecoder.decode(SimpleAES.decrypt(encodedString), "UTF-8");
+			return SimpleAES.decrypt(encodedString.replaceAll("(\r\n|\r|\n|\n\r)", ""));
 		} catch(Exception e) {
 			Malgn.errorLog("SessionDao.decodeData() : " + e.getMessage(), e);
 			return "";
 		}
-
 	}
 
 	private final String encodeData(String dataString) {
 		try {
-			return SimpleAES.encrypt(URLEncoder.encode(dataString, "UTF-8"));
+			return SimpleAES.encrypt(dataString.replaceAll("(\r\n|\r|\n|\n\r)", ""));
 		} catch(Exception e) {
 			Malgn.errorLog("SessionDao.encodeData() : " + e.getMessage(), e);
 			return "";
 		}
 	}
+
 
 	public boolean delSession() {
 		Cookie cookie = new Cookie(keyName, "");
@@ -81,6 +80,7 @@ public class SessionDao {
 		try {
 			dataString = dataJson.toString();
 			Cookie cookie = new Cookie(keyName, encodeData(dataString));
+			cookie.setMaxAge(maxAge);
 			cookie.setPath("/");
 			if(request.isSecure()) cookie.setSecure(true);
 			response.addCookie(cookie);

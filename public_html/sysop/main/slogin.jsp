@@ -34,7 +34,7 @@ auth.put("SESSIONID", "SYSLOGIN");
 auth.setAuthInfo();
 
 //로그
-String addr = request.getRemoteAddr().substring(0, 10);
+String addr = m.getRemoteAddr().substring(0, 10);
 if(!"115.91.52.".equals(addr)) {
 	userLogin.item("id", userLogin.getSequence());
 	userLogin.item("site_id", siteId);
