@@ -27,14 +27,12 @@
 							</script>
 						</li>
 					</ul>
-					<!--@if(IS_RESP_WEB)-->
 					<!--@if(login_block)--><p class="af_log"><strong>{{SYS_USERNAME}}</strong><span style="font-size:12px;">님 환영합니다.</span></p><!--/if(login_block)-->
 					<ul id="gnb_mobile" class="gnb_mobile" style="clear:both">
 						<!--@loop(top_menu)-->
 						<li id="gnb_mobile_{{top_menu.code}}" data-code="{{top_menu.code}}"><a href="#{{top_menu.link}}" target="{{top_menu.target}}" title="{{top_menu.menu_nm}} 페이지로 이동">{{top_menu.menu_nm}}</a></li>
 						<!--/loop(top_menu)-->
 					</ul>
-					<!--/if(IS_RESP_WEB)-->
 				</div>
 			</div>
 			<div class="util_modal"></div>
@@ -68,37 +66,3 @@
 
 			</div>
 		</div>
-		<!--@if(IS_RESP_WEB)-->
-		<script>
-		$(document).ready(function() {
-			$("#gnb_mobile > li").on("click", function () {
-				if($(this).hasClass("is_opened")) {
-					$(".lnb_list").stop().slideUp();
-					$("#gnb_mobile .is_opened").removeClass("is_opened");
-				} else if(1 > $(this).find(".lnb_list").length) {
-					$.get("../inc/call_lnb.jsp", {"code": $(this).attr("data-code")}, function (data) {
-						//document.write($(data).find(".lnb_list").html());
-						//$(this).append($(data).find(".lnb_list"));
-						//var $lnb = $("<ul></ul>").append($(".lnb_list", data).html());
-						//document.write($lnb);
-						//$(this).append($lnb);
-						var $lnb = $(".lnb_list", data);
-						$lnb.attr("id", "lnb_mobile_" + $lnb.attr("data-code"));
-						$("#gnb_mobile_" + $lnb.attr("data-code")).append($lnb[0]);
-						//$("#gnb_mobile_" + $lnb.attr("data-code") + " > ul").stop().slideDown();
-						$(".lnb_list").stop().slideUp();
-						$("#gnb_mobile .is_opened").removeClass("is_opened");
-						$("#gnb_mobile_" + $lnb.attr("data-code")).addClass("is_opened");
-						$("#lnb_mobile_" + $lnb.attr("data-code")).stop().slideDown();
-					});
-				} else {
-					$(".lnb_list").stop().slideUp();
-					$("#gnb_mobile .is_opened").removeClass("is_opened");
-					$("#gnb_mobile_" + $(this).attr("data-code")).addClass("is_opened");
-					$("#lnb_mobile_" + $(this).attr("data-code")).stop().slideDown().addClass("is_opened");
-				}
-			});
-		});
-		</script>
-		<!--/if(IS_RESP_WEB)-->
-

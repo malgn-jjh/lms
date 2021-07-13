@@ -90,6 +90,7 @@ while(list.next()) {
 m.p(list.toString());
 
 //출력
+p.setDebug(out);
 p.setLayout(ch);
 p.setBody(ch + ".index_test");
 

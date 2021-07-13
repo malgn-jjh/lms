@@ -6,7 +6,7 @@
 							<li>과정정보</li>
 						</ol>
 					</div>
-					<h4 class="content_title"><div class="content_title_course">{{course_nm}}</div></h4>
+					<h4 class="content_title">{{course_nm}}</h4>
 					<div class="content_body">
 						<div class="course_infomation">
 							<div class="info_img"><img src="{{course_file_url}}" alt="과정 이미지" />
@@ -174,12 +174,12 @@
 								<a name="cview1"></a>
 								<!--@nif(is_package)-->
 								<ul class="tab_tt skin_hide skin_show_1_ib">								
-									<li class="tab_title on"><a href="#self">과정소개</a></li>
+									<li class="tab_title on"><a href="#self">{{content1_title}}</a></li>
 									<!--@if(lessons)--><li class="tab_title "><a href="#self">강의목차</a></li><!--/if(lessons)-->
 									<!--@if(review_yn)--><li class="tab_title title03 "><a href="#self">수강후기</a></li><!--/if(review_yn)-->
 								</ul>
 								<ul class="tab_cview tab_tt2 skin_hide skin_show_2_b">								
-									<li class="tab_title on"><a href="#cview1">과정소개</a></li>
+									<li class="tab_title on"><a href="#cview1">{{content1_title}}</a></li>
 									<!--@if(lessons)--><li class="tab_title "><a href="#cview2">강의목차</a></li><!--/if(lessons)-->
 									<!--@if(review_yn)--><li class="tab_title title03 "><a href="#cview3">수강후기</a></li><!--/if(review_yn)-->
 								</ul>
@@ -262,41 +262,15 @@
 											</table>
 										</div>
 										<!--/if(courses)-->
-										<h6 class="page_title">{{content1_title}}</h6>
 										<div class="cv_text">{{content1}}</div>
+										<!--@if(content2)-->
 										<h6 class="page_title">{{content2_title}}</h6>
 										<div class="cv_text">{{content2}}</div>
+										<!--/if(content2)-->
 										<!--@if(course_address)-->
 										<h6 class="page_title">교육장소 : {{course_address}}</h6>
 										<div class="cv_text" style="display:none;">
-											
-											<!-- script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
-
-											<div id="map_canvas" style="width:100%;height:400px;">
-												<script type="text/javascript">
-												var map;
-												var geocoder = new google.maps.Geocoder();
-												var geocodemarker = new Array();
-												// Google Map
-												gMap();
-												function gMap() {
-													var address = "{{course_address}}";
-													geocoder.geocode( {'address': address}, function(results, status) {
-														if (status == google.maps.GeocoderStatus.OK) {
-															for(var i=0;i<results.length;i++) {
-																map.setCenter(results[i].geometry.location);
-																geocodemarker.push(new google.maps.Marker({center: results[i].geometry.location, position: results[i].geometry.location, map: map, title: address}));
-															}
-														}
-													});
-													var myOptions = {
-														zoom: 16,
-														mapTypeId: google.maps.MapTypeId.ROADMAP
-													}
-													map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-												}
-												</script>
-											</div -->
+											<!-- 추가 지도 연동 -->
 										</div>
 										<!--/if(course_address)-->
 										<!--@if(evaluation_yn)-->
@@ -381,7 +355,7 @@
 									<!--@if(lessons)-->
 									<a name="cview2"></a>
 									<ul class="tab_cview tab_tt2 skin_hide skin_show_2_b">
-										<li class="tab_title"><a href="#cview1">과정소개</a></li>
+										<li class="tab_title"><a href="#cview1">{{content1_title}}</a></li>
 										<li class="tab_title on"><a href="#cview2">강의목차</a></li>
 										<!--@if(review_yn)--><li class="tab_title title03"><a href="#cview3">수강후기</a></li><!--/if(review_yn)-->
 									</ul>
@@ -440,58 +414,16 @@
 											</table>
 										</div>
 										<!--/if(lessons)-->
-										<!--
-										<h6 class="page_title">평가정보</h6>
-										<div class="tb_box type_table">
-											<table summary="평가정보를 나타냅니다.">
-												<caption>평가정보</caption>
-												<colgroup>
-													<col style="width:120px" />
-													<col style="width:120px" />
-													<col style="width:*%" />
-												</colgroup>
-												<thead>
-													<tr>
-														<th scope="col">구분</th>
-														<th scope="col">배점</th>
-														<th scope="col">평가명</th>
-													</tr>
-												</thead>
-												<tbody>
-													<!--@loop(modules)-->
-													<tr>
-														<th class="tac" rowspan="{{modules.cnt}}">{{modules.module_conv}}</th>
-														<!--@loop(sub)-->
-														<!--@nif(sub.__first)-->
-													</tr>
-													<tr>
-														<!--/nif(sub.__first)-->
-														<td class="tac">{{sub.assign_score}}점</td>
-														<td>{{sub.name}}</td>
-														<!--/loop(sub)-->
-													</tr>
-													<!--/loop(modules)-->
-
-													<!--@nif(modules)-->
-													<tr>
-														<td colspan="3" class="nodata">평가정보가 없습니다.</td>
-													</tr>
-													<!--/nif(modules)-->
-												</tbody>
-											</table>
-										</div>
-										-->
 									</div>
 
 									<!--@if(review_yn)-->
 									<a name="cview3"></a>
 									<ul class="tab_cview tab_tt2 skin_hide skin_show_2_b">								
-										<li class="tab_title"><a href="#cview1">과정소개</a></li>
+										<li class="tab_title"><a href="#cview1">{{content1_title}}</a></li>
 										<!--@if(lessons)--><li class="tab_title"><a href="#cview2">강의목차</a></li><!--/if(lessons)-->
 										<li class="tab_title title03 on"><a href="#cview3">수강후기</a></li>
 									</ul>
 									<div class="tab_con cv">
-										<!-- <h6 class="page_title">수강후기</h6> -->
 										<iframe src="cpost.jsp?cid={{id}}" id="cpostifrm" name="cpostifrm" width="100%" height="0" scrolling="no" frameborder="0"></iframe>
 									</div>
 									<!--/if(review_yn)-->

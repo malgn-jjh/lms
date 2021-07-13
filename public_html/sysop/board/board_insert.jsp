@@ -26,7 +26,7 @@ if("CHECK".equals(m.rs("mode"))) {
 f.addElement("code", null, "hname:'코드', required:'Y', pattern:'^[a-zA-Z]{1}[a-zA-Z0-9]{1,19}$', errmsg:'영문으로 시작하는 2-20자로 영문, 숫자 조합으로 입력하세요.'");
 f.addElement("board_type", null, "hname:'게시판 타입', required:'Y'");
 f.addElement("board_nm", null, "hname:'게시판명', required:'Y'");
-f.addElement("layout", null, "hname:'레이아웃', required:'Y'");
+f.addElement("layout", null, "hname:'레이아웃'");
 f.addElement("breadscrumb", "학습지원센터", "hname:'분류명'");
 f.addElement("admins", null, "hmame:'관리자'");
 f.addElement("auth_list", null, "hname:'목록 권한'");
@@ -62,7 +62,7 @@ if(m.isPost() && f.validate()) {
 	board.item("code", f.get("code"));
 	board.item("board_nm", f.get("board_nm"));
 
-	board.item("layout", f.get("layout"));
+	board.item("layout", f.get("layout", "board"));
 	board.item("breadscrumb", f.get("breadscrumb"));
 	board.item("admin_idx", "||");
 	board.item("auth_list", "|" + m.join("|", f.getArr("auth_list")) + "|");

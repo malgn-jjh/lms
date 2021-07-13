@@ -18,14 +18,14 @@
 									<ul class="join_oauth_list">
 										<li class="join_oauth_normal">
 											<a href="javascript:goNormalJoin();">
-												<img src="../common/images/icon/oauth_logo_normal.png" alt="일반 가입" title="일반 가입">
+												<img src="/common/images/icon/oauth_logo_normal.png" alt="일반 가입" title="일반 가입">
 												<div>일반 가입</div>
 											</a>
 										</li>
 										<!--@loop(oauth_list)-->
 										<li class="join_oauth_{{oauth_list.id}}">
 											<a href="javascript:OpenWindows('../member/login_{{oauth_list.id}}.jsp', '_oauth_login_', 700, 600);">
-												<img src="../common/images/icon/oauth_logo_{{oauth_list.id}}.png" alt="{{oauth_list.vendor_nm}} 계정으로 가입" title="{{oauth_list.vendor_nm}} 계정으로 가입">
+												<img src="/common/images/icon/oauth_logo_{{oauth_list.id}}.png" alt="{{oauth_list.vendor_nm}} 계정으로 가입" title="{{oauth_list.vendor_nm}} 계정으로 가입">
 												<div>{{oauth_list.vendor_nm}} 계정으로 가입</div>
 											</a>
 										</li>
@@ -39,9 +39,9 @@
 						<div class="join_normal">
 							<form name="form1" method="POST" target="sysfrm" onsubmit="return goSubmit(this);">
 							<ol class="agreement_list">
-								<li class="first"><img src="/html/images/common/join01_on.gif" alt="회원가입 3단계중 1단계 약관동의 현재페이지" /></li>
-								<li><img src="/html/images/common/join02_off.gif" alt="회원가입 3단계중 2단계 회원가입" /></li>
-								<li><img src="/html/images/common/join03_off.gif" alt="회원가입 3단계중 3단계 가입완료" /></li>
+								<li class="first"><img src="/common/images/default/join01_on.gif" alt="회원가입 3단계중 1단계 약관동의 현재페이지" /></li>
+								<li><img src="/common/images/default/join02_off.gif" alt="회원가입 3단계중 2단계 회원가입" /></li>
+								<li><img src="/common/images/default/join03_off.gif" alt="회원가입 3단계중 3단계 가입완료" /></li>
 							</ol>
 
 							<h5 class="box_title">
