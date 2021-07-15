@@ -6,11 +6,11 @@
 			</script>
 			<!--@if(board.type_recomm)-->
 			<script>
-			new Image().src = "/html/images/common/star_on.jpg";
-			new Image().src = "/html/images/common/star_off.jpg";
+			new Image().src = "/common/images/icon/star_on.jpg";
+			new Image().src = "/common/images/icon/star_off.jpg";
 			addEvent("onload", function() {
-				var starOn = "<img src='/html/images/common/star_on.jpg'>";
-				var starOff = "<img src='/html/images/common/star_off.jpg'>";
+				var starOn = "<img src='/common/images/icon/star_on.jpg'>";
+				var starOff = "<img src='/common/images/icon/star_off.jpg'>";
 				$(".pointArea").each(function() {
 					var point = $(this).html() * 1;
 					var max = 5;
@@ -61,13 +61,13 @@
 									<td class="col_cpost_subject">
 										<a href="cpost_view.jsp?id={{list.id}}&{{list_query}}">{{list.subject_conv}}</a>
 										<!--@if(list.new_block)-->
-										<span class="ic_new"><img src="/html/images/icon/icon_new.png" alt="새로운글" /></span>
+										<span class="ic_new"><img src="/common/images/icon/icon_new.png" alt="새로운글" /></span>
 										<!--/if(list.new_block)-->
 										<!--@if(list.file_block)-->
-										<span class="ic_file"><img src="/html/images/icon/icon_file.png" alt="파일첨부" /></span>
+										<span class="ic_file"><img src="/common/images/icon/icon_file.png" alt="파일첨부" /></span>
 										<!--/if(list.file_block)-->
 										<!--@if(list.secret_yn)-->
-										<span class="ic_secret"><img src="/html/images/icon/icon_secret.gif" alt="비밀글" /></span>
+										<span class="ic_secret"><img src="/common/images/icon/icon_secret.gif" alt="비밀글" /></span>
 										<!--/if(list.secret_yn)-->
 									</td>
 									<!--@if(board.type_recomm)-->

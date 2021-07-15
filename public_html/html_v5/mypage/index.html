@@ -24,14 +24,14 @@
 								<h6>쪽지함<span class="h6_sub">나에게 온 쪽지를 확인하세요</span></h6>
 								<ul class="my_note_in">
 									<!--@loop(messages)-->
-									<li><p><a href="../mypage/message_view.jsp?id={{messages.id}}"><img src="/html/images/common/note{{messages.img_str}}.jpg" alt="미확인" />{{messages.subject_conv}}</a></p><span class="note_day">{{messages.reg_date_conv}}</span></li>
+									<li><p><a href="../mypage/message_view.jsp?id={{messages.id}}"><img src="/common/images/default/note{{messages.img_str}}.jpg" alt="미확인" />{{messages.subject_conv}}</a></p><span class="note_day">{{messages.reg_date_conv}}</span></li>
 									<!--/loop(messages)-->
 									<!--@nif(messages)-->
 									<li class="nodata">받은 쪽지가 없습니다.</li>
 									<!--/nif(messages)-->
 
 								</ul>
-								<span class="btn_more"><a href="../mypage/message_list.jsp" title="쪽지함 더보기"><img src="/html/images/common/btn_more.png" alt="쪽지함 더보기" /></a></span>
+								<span class="btn_more"><a href="../mypage/message_list.jsp" title="쪽지함 더보기"><img src="/common/images/default/btn_more.png" alt="쪽지함 더보기" /></a></span>
 							</div>
 						</div>
 						<!--@if(courses)-->

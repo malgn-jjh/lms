@@ -78,10 +78,10 @@
 												<a href="../course/review_view.jsp?id={{prev.id}}&{{list_query}}">{{prev.subject_conv}}</a>
 											</p>
 											<!--@if(prev.new_block)-->
-											&nbsp;<span class="ic_new"><img src="/html/images/icon/icon_new.png" alt="새로운글" /></span>
+											&nbsp;<span class="ic_new"><img src="/common/images/icon/icon_new.png" alt="새로운글" /></span>
 											<!--/if(prev.new_block)-->
 											<!--@if(prev.file_block)-->
-											&nbsp;<span class="ic_file"><img src="/html/images/icon/icon_file.png" alt="파일첨부" /></span>
+											&nbsp;<span class="ic_file"><img src="/common/images/icon/icon_file.png" alt="파일첨부" /></span>
 											<!--/if(prev.file_block)-->
 											&nbsp;<span class="ic_count">{{prev.comment_conv}}</span>
 										</td>
@@ -101,10 +101,10 @@
 												<a href="../course/review_view.jsp?id={{next.id}}&{{list_query}}">{{next.subject_conv}}</a>
 											</p>
 											<!--@if(next.new_block)-->
-											&nbsp;<span class="ic_new"><img src="/html/images/icon/icon_new.png" alt="새로운글" /></span>
+											&nbsp;<span class="ic_new"><img src="/common/images/icon/icon_new.png" alt="새로운글" /></span>
 											<!--/if(next.new_block)-->
 											<!--@if(next.file_block)-->
-											&nbsp;<span class="ic_file"><img src="/html/images/icon/icon_file.png" alt="파일첨부" /></span>
+											&nbsp;<span class="ic_file"><img src="/common/images/icon/icon_file.png" alt="파일첨부" /></span>
 											<!--/if(next.file_block)-->
 											&nbsp;<span class="ic_count">{{next.comment_conv}}</span>
 										</td>
@@ -125,11 +125,11 @@
 				<script>
 				addEvent("onload", function() { ResizeIframe("cpostifrm"); });
 
-				new Image().src = "/html/images/common/star_on.jpg";
-				new Image().src = "/html/images/common/star_off.jpg";
+				new Image().src = "/common/images/icon/star_on.jpg";
+				new Image().src = "/common/images/icon/star_off.jpg";
 				addEvent("onload", function() {
-					var starOn = "<img src='/html/images/common/star_on.jpg'>";
-					var starOff = "<img src='/html/images/common/star_off.jpg'>";
+					var starOn = "<img src='/common/images/icon/star_on.jpg'>";
+					var starOff = "<img src='/common/images/icon/star_off.jpg'>";
 					$(".pointArea").each(function() {
 						var point = $(this).html() * 1;
 						var max = 5;
