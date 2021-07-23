@@ -1,0 +1,33 @@
+<form name="form1" method="post" onsubmit="goSubmit(this)">
+    <div style="padding:10px;font-size:1.2em;font-weight:bold;text-align:center;width:900px;">랜선에듀 API 테스트</div>
+    <table style="width:900px;">
+        <tr>
+            <td>
+                <label>REQUEST URL<input type="url" name="url" value="{{url}}" style="padding:5px;width:100%"></label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>AUTH TOKEN<input type="text" name="token" value="{{token}}" style="padding:5px;width:100%"></label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>REQUEST BODY<input type="text" name="data" value="{{data}}" style="padding:5px;width:100%"></label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit" style="width:100%;">요청</button>
+            </td>
+        </tr>
+    </table>
+    <div style="margin-top:20px;padding:10px;font-size:1.2em;font-weight:bold;text-align:center;width:900px;">RESPONSE RESULT</div>
+    <textarea name="result" style="width:900px;height:400px;padding:10px;">{{result}}</textarea>
+</form>
+
+<script>
+function goSubmit(f) {
+
+}
+</script>

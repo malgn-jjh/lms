@@ -13,7 +13,7 @@ if(!info.next()) { m.jsError(_message.get("alert.common.nodata")); return; }
 
 //제한
 if(info.i("user_id") != userId && !isBoardAdmin) { m.jsError(_message.get("alert.common.permission_modify")); return; }
-info.put("content", m.htmlentities(info.s("content")));
+//info.put("content", m.htmlentities(info.s("content")));
 
 //파일
 DataSet finfo = file.getFileList(id, "post");
@@ -50,12 +50,16 @@ if(m.isPost() && f.validate()) {
 	post.item("secret_yn", f.get("secret_yn", "N"));
 	post.item("subject", f.get("subject"));
 	post.item("youtube_cd", f.get("youtube_cd"));
-	post.item("content", content);
+	post.item("content", f.get("content"));
 
 	if(!post.update("id = " + id + "")) { m.jsAlert(_message.get("alert.common.error_insert")); return; }
 
 	//갱신-파일갯수
 	post.updateFileCount(id);
+
+	mSession.put("file_module", "");
+	mSession.put("file_module_id", 0);
+	mSession.save();
 
 	//이동
 	m.jsReplace("post_view.jsp?" + m.qs("pid"), "parent");
@@ -67,8 +71,12 @@ if(finfo.next()) {
 	finfo.put("file_ext", file.getFileExt(finfo.s("filename")));
 	finfo.put("filename_conv", m.urlencode(Base64Coder.encode(finfo.s("filename"))));
 	finfo.put("ext", file.getFileIcon(finfo.s("filename")));
-	finfo.put("ek", m.encrypt(finfo.s("id")));
+	finfo.put("ek", m.encrypt(finfo.s("id") + m.time("yyyyMMdd")));
 }
+
+mSession.put("file_module", "post");
+mSession.put("file_module_id", id);
+mSession.save();
 
 //출력
 p.setLayout(ch);

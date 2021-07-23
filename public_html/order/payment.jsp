@@ -524,7 +524,7 @@ p.setLoop("coupons", clist);
 p.setLoop("methods", methods);
 p.setLoop("escrows", escrows);
 
-p.setVar("PG_SCRIPT", "/home/lms/public_html/html/order/payment_"+ siteinfo.s("pg_nm") +".html");
+p.setVar("PG_SCRIPT", "/order/payment_"+ siteinfo.s("pg_nm") +".html");
 p.setVar("SITE_CONFIG", siteconfig);
 
 p.display();

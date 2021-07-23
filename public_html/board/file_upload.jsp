@@ -14,19 +14,21 @@ FileDao file = new FileDao();
 
 //변수
 String allowExt = "jpg|jpeg|gif|png|pdf|hwp|txt|doc|docx|xls|xlsx|ppt|pptx|zip|alz|7z|rar|egg|mp3"; //file.allowExt;
-int maxPostSize = 100; //Config.getInt("maxPostSize");
+int maxPostSize = 10; //Config.getInt("maxPostSize");
 
 //폼체크
 f.addElement("filename", "", "hname:'파일', required:'Y', allow:'" + allowExt + "'");
+
+//m.jsAlert("test");
 
 //업로드
 if(m.isPost()) {
 
 	//제한-파일유형
 	if(!f.validate()) { out.print("{\"success\":false, \"error\":\"" + f.errMsg + "\", \"reset\":true}"); return; }
-	
+
 	//제한-파일크기
-	if((maxPostSize * 1024 * 1024) < f.getLong("filesize")) { out.print("{\"success\":false, \"error\":\"100MB를 초과하여 업로드 할 수 없습니다.\", \"reset\":true}"); return; }
+	if((maxPostSize * 1024 * 1024) < f.getLong("filesize")) { out.print("{\"success\":false, \"error\":\"" + maxPostSize + "MB를 초과하여 업로드 할 수 없습니다.\", \"reset\":true}"); return; }
 
 	//등록
 	File attFile = f.saveFile("filename");
@@ -51,7 +53,7 @@ if(m.isPost()) {
 			Image img = new ImageIcon(m.getUploadPath(f.getFileName("filename"))).getImage();
 			if(700 < img.getWidth(null)) {
 				String imgPath = m.getUploadPath(f.getFileName("filename"));
-				String cmd = "convert -resize 700x " + imgPath + " " + imgPath;
+				String cmd = "convert -resize 1100x> " + imgPath + " " + imgPath;
 				Runtime.getRuntime().exec(cmd);
 			}
 		}

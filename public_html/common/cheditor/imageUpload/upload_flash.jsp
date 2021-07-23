@@ -48,7 +48,7 @@ try {
 	
 	try {
 		String imgPath = dataDir + "/file/" + saveFileName;
-		String cmd = "convert -resize 1200x " + imgPath + " " + imgPath;
+		String cmd = "convert -resize 1100x> " + imgPath + " " + imgPath;
 		Runtime.getRuntime().exec(cmd);
 	}
 	catch(Exception e) { }

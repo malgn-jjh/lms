@@ -60,6 +60,7 @@ lm.setTable(
 lm.setFields("a.*, u.user_nm manager_name, COUNT(l.id) lesson_cnt");
 lm.addWhere("a.status != -1");
 lm.addWhere("a.site_id = " + siteId);
+lm.addWhere("a.id != " + cid);
 lm.addSearch("a.status", f.get("s_status"));
 if(!"".equals(f.get("s_category_id"))) {
 	lm.addWhere("a.category_id IN ( '" + m.join("','", category.getChildNodes(f.get("s_category_id"))) + "' )");
@@ -68,7 +69,7 @@ if(!"".equals(f.get("s_field"))) lm.addSearch(f.get("s_field"), f.get("s_keyword
 else if("".equals(f.get("s_field")) && !"".equals(f.get("s_keyword"))) {
 	lm.addSearch("a.content_nm", f.get("s_keyword"), "LIKE");
 }
-lm.setGroupBy("l.content_id");
+lm.setGroupBy("l.content_id, a.id");
 lm.setOrderBy(!"".equals(m.rs("ord")) ? m.rs("ord") : "a.id DESC");
 
 //포멧팅

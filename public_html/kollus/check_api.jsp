@@ -87,7 +87,7 @@ cpinfo.put("prev_playtime",  !"".equals(cpinfo.s("paragraph")) ? m.split("\\-", 
 //제한
 if(lid == 0 || currTime == 0) {
 	m.log("kollus"
-		, "NOT ENOUGH DATA - lid or last_play_at \r\nuserId=" + clientUserId + ", cuid=" + cuid + ", lid=" + lid + ", add_study_time=" + studyTime + ", last_play_at=" + currTime + ", cp.study_time=" + cpinfo.i("study_time") + ", cp.start_at=" + cpinfo.s("start_at") + ", cp.prev_playtime=" + cpinfo.i("prev_playtime") + ", play_time=" + playTime + ", normal_play_time=" + normalPlayTime + ", showtime=" + showTime
+		, "NOT ENOUGH DATA - lid or last_play_at \r\nuserId=" + clientUserId + ", cuid=" + cuid + ", lid=" + lid + ", add_study_time=" + studyTime + ", last_play_at=" + currTime + ", cp.study_time=" + cpinfo.s("study_time") + ", cp.start_at=" + cpinfo.s("start_at") + ", cp.prev_playtime=" + cpinfo.s("prev_playtime") + ", play_time=" + playTime + ", normal_play_time=" + normalPlayTime + ", showtime=" + showTime
 	);
 	if(isLog) {
 		em.append("\r\nEND LOG - " + m.getUnixTime() + " -- " + m.time("yyyy.MM.dd HH:mm:ss") + "\r\n\r\n");
@@ -103,7 +103,7 @@ if(m.parseLong(startTime) == cpinfo.l("start_at")) { //세션 유지(폼값 == �
     if(studyTime < 0) studyTime = 0;
 } else  if(m.parseLong(startTime) < cpinfo.l("start_at")) { //세션 무시-순서 잘못됬거나 역순 데이터인 경우
 	m.log("kollus"
-		, "IGNORE DATA - start_at < cp.start_at \r\nuserId=" + clientUserId + ", cuid=" + cuid + ", lid=" + lid + ", add_study_time=" + studyTime + ", last_play_at=" + currTime + ", cp.study_time=" + cpinfo.i("study_time") + ", cp.start_at=" + cpinfo.s("start_at") + ", cp.prev_playtime=" + cpinfo.i("prev_playtime") + ", play_time=" + playTime + ", normal_play_time=" + normalPlayTime + ", showtime=" + showTime + ", start_at=" + startTime
+		, "IGNORE DATA - start_at < cp.start_at \r\nuserId=" + clientUserId + ", cuid=" + cuid + ", lid=" + lid + ", add_study_time=" + studyTime + ", last_play_at=" + currTime + ", cp.study_time=" + cpinfo.s("study_time") + ", cp.start_at=" + cpinfo.s("start_at") + ", cp.prev_playtime=" + cpinfo.s("prev_playtime") + ", play_time=" + playTime + ", normal_play_time=" + normalPlayTime + ", showtime=" + showTime + ", start_at=" + startTime
 	);
 	if(isLog) {
 		em.append("\r\nEND LOG - " + m.getUnixTime() + " -- " + m.time("yyyy.MM.dd HH:mm:ss") + "\r\n\r\n");
@@ -158,7 +158,7 @@ courseProgress.item("paragraph", startTime + "-" + normalPlayTime);
 int ret = courseProgress.updateProgress(cuid, lid, chapter);
 
 m.log("kollus"
-	, "SUCCESS :: userId=" + clientUserId + ", cuid=" + cuid + ", lid=" + lid + ", add_study_time=" + studyTime + ", last_play_at=" + currTime + ", cp.study_time=" + cpinfo.i("study_time") + ", cp.start_at=" + cpinfo.i("start_at") + ", cp.prev_playtime=" + cpinfo.i("prev_playtime") + ", play_time=" + playTime + ", normal_play_time=" + normalPlayTime + ", showtime=" + showTime + ", start_at=" + startTime + ", ret=" + ret
+	, "SUCCESS :: userId=" + clientUserId + ", cuid=" + cuid + ", lid=" + lid + ", add_study_time=" + studyTime + ", last_play_at=" + currTime + ", cp.study_time=" + cpinfo.s("study_time") + ", cp.start_at=" + cpinfo.s("start_at") + ", cp.prev_playtime=" + cpinfo.s("prev_playtime") + ", play_time=" + playTime + ", normal_play_time=" + normalPlayTime + ", showtime=" + showTime + ", start_at=" + startTime + ", ret=" + ret
 );
 
 //수강생 정보 업데이트
@@ -169,8 +169,8 @@ if(ret == 2) {
 }
 
 if(isLog) {
-	em.append("add_study_time - " + studyTime + " | last_play_at - " + currTime + " | cp.study_time - " + cpinfo.i("study_time") + "\r\n");
-	em.append("cp.start_at - " + cpinfo.i("start_at") + " | cp.prev_playtime - " + cpinfo.i("prev_playtime") + " | play_time - " + playTime + " | normal_play_time - " + normalPlayTime + "\r\n");
+	em.append("add_study_time - " + studyTime + " | last_play_at - " + currTime + " | cp.study_time - " + cpinfo.s("study_time") + "\r\n");
+	em.append("cp.start_at - " + cpinfo.s("start_at") + " | cp.prev_playtime - " + cpinfo.s("prev_playtime") + " | play_time - " + playTime + " | normal_play_time - " + normalPlayTime + "\r\n");
 	em.append("showtime - " + showTime + " | start_at - " + startTime + "\r\n");
 	em.append("\r\nEND LOG - " + m.getUnixTime() + " -- " + m.time("yyyy.MM.dd HH:mm:ss") + "\r\n\r\n");
 	m.log("kollus_log", em.toString());

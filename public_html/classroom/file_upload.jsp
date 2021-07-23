@@ -50,7 +50,7 @@ if(m.isPost()) {
 		if(f.getFileName("filename").matches("(?i)^.+\\.(jpg|jpeg|png|gif|bmp)$")) {
 			if(300 * 1024 < attFile.length()) { //300KB
 				String imgPath = m.getUploadPath(f.getFileName("filename"));
-				String cmd = "convert -resize 700x " + imgPath + " " + imgPath;
+				String cmd = "convert -resize 1100x> " + imgPath + " " + imgPath;
 				Runtime.getRuntime().exec(cmd);
 
 			}

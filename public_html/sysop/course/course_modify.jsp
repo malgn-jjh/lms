@@ -433,7 +433,9 @@ if(m.isPost() && f.validate()) {
 
 		courseLesson.clear();
 		courseLesson.item("start_date", ssdate);
+		courseLesson.item("start_time", "");
 		courseLesson.item("end_date", sedate);
+		courseLesson.item("end_time", "");
 
 		ArrayList<Integer> lidx = new ArrayList<Integer>();
 		while(cllist.next()) {

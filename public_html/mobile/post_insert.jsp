@@ -81,7 +81,7 @@ if(m.isPost() && f.validate()) {
 	post.item("secret_yn", pid == 0 ? f.get("secret_yn", "N") : pinfo.s("secret_yn"));
 	post.item("subject", f.get("subject"));
 	post.item("youtube_cd", f.get("youtube_cd"));
-	post.item("content", content);
+	post.item("content", f.get("content"));
 	post.item("reg_date", m.time("yyyyMMddHHmmss"));
 	post.item("display_yn", "Y");
 	post.item("proc_status", 0);
@@ -94,6 +94,10 @@ if(m.isPost() && f.validate()) {
 
 	//갱신-파일갯수
 	post.updateFileCount(newId);
+
+	mSession.put("file_module", "");
+	mSession.put("file_module_id", 0);
+	mSession.save();
 
 	//관리자메일발송
 	p.setVar("board_nm", binfo.s("board_nm"));
@@ -118,6 +122,12 @@ if(m.isPost() && f.validate()) {
 	return;
 }
 
+int tempId = m.getRandInt(-2000000, 1990000);
+
+mSession.put("file_module", "post");
+mSession.put("file_module_id", tempId);
+mSession.save();
+
 //출력
 p.setLayout(ch);
 p.setBody("mobile.post_insert");
@@ -128,7 +138,7 @@ p.setVar("form_script", f.getScript());
 
 p.setVar("board", binfo);
 p.setVar(pinfo);
-p.setVar("post_id", m.getRandInt(-2000000, 1990000));
+p.setVar("post_id", tempId);
 
 p.setVar("reply_block", pid > 0);
 p.setLoop("categories", categories);

@@ -24,7 +24,7 @@ if(m.isPost() && f.validate()) {
 				//파일리사이징
 				try {
 					String imgPath = m.getUploadPath(f.getFileName("qqfile"));
-					String cmd = "convert -resize 500x " + imgPath + " " + imgPath;
+					String cmd = "convert -resize 500x> " + imgPath + " " + imgPath;
 					Runtime.getRuntime().exec(cmd);
 				} catch(Exception e) { }
 

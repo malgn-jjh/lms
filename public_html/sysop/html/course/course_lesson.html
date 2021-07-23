@@ -91,11 +91,20 @@
 				}
 			});
 		}
+		function fullTime() {
+
+		}
+		function resetTime() {
+			
+		}
+
 		</script>
 		<!--@nif(course.onoff_type:F)-->
 		<!--@if(course.period_yn)-->
-		<button type="button" class="bttn2" onclick="fullPeriod();">전체기간설정</button>
-		<button type="button" class="bttn2" onclick="splitPeriod();">기간분할</button>
+		<button type="button" class="bttn2" onclick="fullPeriod();">전체날짜설정</button>
+		<button type="button" class="bttn2" onclick="splitPeriod();">날짜분할</button>
+		<button type="button" class="bttn2 green" onclick="fullPeriod();">전체시간설정</button>
+		<button type="button" class="bttn2 green" onclick="splitPeriod();">전체시간초기화</button>
 		<!--/if(course.period_yn)-->
 		<!--/nif(course.onoff_type:F)-->
 		<button type="button" class="bttn2 sky" onclick="OpenWindows('lesson_select.jsp?cid={{cid}}&idx=' + getIdx(), '_CLS01', 1100, 900);">기존강의추가</button>
@@ -126,7 +135,7 @@
 <col>
 <col width="70">
 <col width="70">
-<!--@if(course.period_yn)--><col width="200"><!--/if(course.period_yn)-->
+<!--@if(course.period_yn)--><col width="265"><!--/if(course.period_yn)-->
 <!--/if(course.online_block)-->
 <!--@nif(course.onoff_type:F)--><col width="80"><!--/nif(course.onoff_type:F)-->
 <col width="40">
@@ -208,9 +217,7 @@
 	</td>
 	<td class="l_td01"><span class="label">{{list.onoff_type_conv}}</span></td>
 	<!--@if(course.online_block)-->
-	<td class="l_td01">
-		{{list.lesson_type_conv}}
-	</td>
+	<td class="l_td01">{{list.lesson_type_conv}}</td>
 	<!--/if(course.online_block)-->
 	<td class="l_td01" align="left" title="{{list.lesson_nm}}">
 		<a href="javaScript:OpenWindows('../content/lesson_modify.jsp?cid={{list.content_id}}&id={{list.lesson_id}}', 'CL77', 900, 800);">
@@ -220,7 +227,6 @@
 	</td>
 	<!--@nif(course.online_block)-->
 	<td class="l_td01" class="fontsmallthin">
-
 		<!--@if(list.online_block)-->
 		<input type="text" id="start_date_{{list.lesson_id}}" name="start_date" value="{{list.start_date_conv}}" _cvalue="{{list.start_date_conv}}" class="sdate" onclick="new CalendarFrame.Calendar(this, 'setStudyDate()')" style="width:80px;" data-lesson-id="{{list.lesson_id}}" HNAME="시작일" REQUIRED="Y" readonly> -
 		<input type="text" id="end_date_{{list.lesson_id}}" name="end_date" value="{{list.end_date_conv}}" _cvalue="{{list.end_date_conv}}" class="edate" onclick="new CalendarFrame.Calendar(this, 'setStudyDate()')" style="width:80px;" data-lesson-id="{{list.lesson_id}}" HNAME="마감일" REQUIRED="Y" readonly>
@@ -312,7 +318,6 @@
 			<option value="50">50분</option>
 			<option value="55">55분</option>
 		</select>
-
 		<script>
 			SetElementValue(document.getElementById("start_time_hour_{{list.lesson_id}}"), "{{list.start_time_hour}}");
 			SetElementValue(document.getElementById("start_time_min_{{list.lesson_id}}"), "{{list.start_time_min}}");
@@ -346,13 +351,41 @@
 	<td class="l_td01" align="center">{{list.total_time}}분</td>
 	<td class="l_td01" align="center">{{list.complete_time}}분</td>
 	<!--@if(course.period_yn)-->
-	<td class="l_td01" align="center">
-		<input type="text" name="start_date" value="{{list.start_date_conv}}" _cvalue="{{list.start_date_conv}}" class="sdate" onclick="new CalendarFrame.Calendar(this, 'setStudyDate()')" style="width:80px;" HNAME="시작일" REQUIRED="Y" readonly> -
+	<td class="l_td01" align="center" style="line-height:32px;">
+		<input type="text" name="start_date" value="{{list.start_date_conv}}" _cvalue="{{list.start_date_conv}}" class="sdate" onclick="new CalendarFrame.Calendar(this, 'setStudyDate()')" style="width:80px;" HNAME="시작일" REQUIRED="Y" readonly>
+		<select name="start_time_hour" id="start_time_hour_{{list.lesson_id}}">
+		<option value="">(없음)</option>
+		<!--@loop(hours)-->
+		<option value="{{hours.id}}">{{hours.id}}시</option>
+		<!--/loop(hours)-->
+		</select>
+		<select name="start_time_min" id="start_time_min_{{list.lesson_id}}">
+		<option value="">(없음)</option>
+		<!--@loop(minutes)-->
+		<option value="{{minutes.id}}">{{minutes.id}}분</option>
+		<!--/loop(minutes)-->
+		</select>
+		부터
 		<input type="text" name="end_date" value="{{list.end_date_conv}}" _cvalue="{{list.end_date_conv}}" class="edate" onclick="new CalendarFrame.Calendar(this, 'setStudyDate()')" style="width:80px;" HNAME="마감일" REQUIRED="Y" readonly>
-		<input type="hidden" name="start_time_hour" value="">
-		<input type="hidden" name="start_time_min" value="">
-		<input type="hidden" name="end_time_hour" value="">
-		<input type="hidden" name="end_time_min" value="">
+		<select name="end_time_hour" id="end_time_hour_{{list.lesson_id}}">
+		<option value="">(없음)</option>
+		<!--@loop(hours)-->
+		<option value="{{hours.id}}">{{hours.id}}시</option>
+		<!--/loop(hours)-->
+		</select>
+		<select name="end_time_min" id="end_time_min_{{list.lesson_id}}">
+		<option value="">(없음)</option>
+		<!--@loop(minutes)-->
+		<option value="{{minutes.id}}">{{minutes.id}}분</option>
+		<!--/loop(minutes)-->
+		</select>
+		까지
+		<script>
+			SetElementValue(document.getElementById("start_time_hour_{{list.lesson_id}}"), "{{list.start_time_hour}}");
+			SetElementValue(document.getElementById("start_time_min_{{list.lesson_id}}"), "{{list.start_time_min}}");
+			SetElementValue(document.getElementById("end_time_hour_{{list.lesson_id}}"), "{{list.end_time_hour}}");
+			SetElementValue(document.getElementById("end_time_min_{{list.lesson_id}}"), "{{list.end_time_min}}");
+		</script>
 	</td>
 	<!--/if(course.period_yn)-->
 	<!--/if(course.online_block)-->
@@ -480,26 +513,35 @@ function setStudyDate() {
 	var edate = f['study_edate'].value;
 	if(!sdate || !edate) return;
 
+	//온라인, 오프라인 별도 처리 필요
 	$(".sdate").each(function() {
 		var sd = $(this).val();
-		var ed = $(this).next().val();	
-		
-		if(sd && (sd < sdate || sd > edate)) { 
+		//var ed = $(this).nextAll(".edate").val();
+		var ed = $(this).next().next().next().val();
+
+		if(sd && (sd < sdate || sd > edate)) {
 			alert("강의 시작일이 과정의 학습기간을 벗어놨습니다. 학습 시작일로 자동변경 됩니다.");
 			$(this).val(sdate);
 		}
 		if(ed && (ed < sdate || ed > edate)) {
 			alert("강의 마감일이 과정의 학습기간을 벗어놨습니다. 학습 마감일로 자동변경 됩니다.");
 			$(this).next().val(edate);
+			//$(this).nextAll(".edate").val(edate);
+			$(this).next().next().next().val(edate);
 		}
 		sd = $(this).val();
-		ed = $(this).next().val();	
+		//ed = $(this).nextAll(".edate").val();
+		ed = $(this).next().next().next().val();
 		if(sd && ed && sd > ed) {
 			alert("시작일과 마감일이 잘못 지정되었습니다. 시작일과 마감일이 같은 날짜로 변경됩니다.");
 			$(this).next().val(sd);
+			//$(this).nextAll(".edate").val(sd);
+			$(this).next().next().next().val(edate);
+
 		}
 	});
 }
+
 function setEndDate() {
 	var f = document.forms['form1'];
 	var sdate = f['study_sdate'].value;

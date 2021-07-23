@@ -104,7 +104,7 @@ fileDao.insert();
 if(fileSize > 500000) {
 	try {
 		String imgPath = SAVE_DIR + saveFileName;
-		String cmd = "convert -resize 1200x\\> " + imgPath + " " + imgPath;
+		String cmd = "convert -resize 1100x> " + imgPath + " " + imgPath;
 		Runtime.getRuntime().exec(cmd);
 		Thread.sleep(500);
 	}

@@ -55,7 +55,7 @@ if(m.isPost() && f.validate()) {
 						Image img = new ImageIcon(m.getUploadPath(f.getFileName("filename"))).getImage();
 						if(700 < img.getWidth(null)) {
 							String imgPath = m.getUploadPath(f.getFileName("filename"));
-							String cmd = "convert -resize 700x " + imgPath + " " + imgPath;
+							String cmd = "convert -resize 1100x> " + imgPath + " " + imgPath;
 							Runtime.getRuntime().exec(cmd);
 						}
 					}

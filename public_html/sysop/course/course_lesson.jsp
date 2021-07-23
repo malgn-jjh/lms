@@ -129,8 +129,12 @@ if(m.isPost() && f.validate()) {
 				courseLesson.item("period", f.getArr("period")[i]);
 				courseLesson.item("start_date", m.time("yyyyMMdd", f.getArr("start_date")[i]));
 				courseLesson.item("end_date", m.time("yyyyMMdd", f.getArr("end_date")[i]));
-				courseLesson.item("start_time", f.getArr("start_time_hour")[i] + f.getArr("start_time_min")[i] + "00");
-				courseLesson.item("end_time", f.getArr("end_time_hour")[i] + f.getArr("end_time_min")[i] + "00");
+
+				courseLesson.item("start_time", "");
+				if(!"".equals(f.getArr("start_time_hour")[i]) && !"".equals(f.getArr("start_time_min")[i])) courseLesson.item("start_time", f.getArr("start_time_hour")[i] + f.getArr("start_time_min")[i] + "00");
+				courseLesson.item("end_time", "");
+				if(!"".equals(f.getArr("end_time_hour")[i]) && !"".equals(f.getArr("end_time_min")[i])) courseLesson.item("end_time", f.getArr("end_time_hour")[i] + f.getArr("end_time_min")[i] + "00");
+
 				//courseLesson.item("lesson_hour", Double.parseDouble(String.format("%.2f", f.getArr("lesson_hour")[i]));
 				courseLesson.item("lesson_hour", m.parseDouble(f.getArr("lesson_hour")[i]));
 				courseLesson.item("tutor_id", f.getArr("tutor_id")[i]);
@@ -190,9 +194,12 @@ while(list.next()) {
 
 	list.put("lesson_hour", list.s("lesson_hour").replace(".00", ""));
 
-	if(!"N".equals(cinfo.s("onoff_type")) && "F".equals(list.s("onoff_type"))) {
+	if(list.s("start_time").length() == 6) { //HHmmss
 		list.put("start_time_hour", list.s("start_time").substring(0,2));
 		list.put("start_time_min", list.s("start_time").substring(2,4));
+	}
+
+	if(list.s("start_time").length() == 6) {
 		list.put("end_time_hour", list.s("end_time").substring(0,2));
 		list.put("end_time_min", list.s("end_time").substring(2,4));
 	}

@@ -45,7 +45,7 @@ if(m.isPost() && f.validate()) {
 		try {
 			width = width >= 300 ? (width < 1000 ? width : 1000) : 300;
 			String imgPath = m.getUploadPath(f.getFileName("filename"));
-			String cmd = "convert -resize " + width + "x " + imgPath + " " + imgPath;
+			String cmd = "convert -resize " + width + "x> " + imgPath + " " + imgPath;
 			Runtime.getRuntime().exec(cmd);
 		}
 		catch(Exception e) { }

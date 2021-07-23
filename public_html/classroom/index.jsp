@@ -155,7 +155,6 @@ while(list.next()) {
 		double limitStudyTime = list.i("total_time") * 60 * cinfo.d("limit_ratio");
 		list.put("limit_study_min", (int)limitStudyTime / 60);
 		list.put("limit_study_sec", (int)limitStudyTime % 60);
-			
 	}
 
 	boolean isOpen = true;
