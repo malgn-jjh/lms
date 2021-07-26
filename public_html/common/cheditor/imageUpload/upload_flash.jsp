@@ -51,7 +51,7 @@ try {
 		String cmd = "convert -resize 1100x> " + imgPath + " " + imgPath;
 		Runtime.getRuntime().exec(cmd);
 	}
-	catch(Exception e) { }
+	catch(Exception e) { m.errorLog(e.getMessage(), e); }
 
     String rData = String.format("{\"fileUrl\":\"%s%s\", \"filePath\":\"%s\", \"fileName\":\"%s\", \"fileSize\":\"%d\"}", ("mail".equals(m.rs("mode")) ? "http://" + request.getServerName() : ""), "/data/file/" + saveFileName, saveFileName, saveFileName, fileSize);
 

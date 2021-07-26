@@ -39,7 +39,7 @@ info.put("pay_price_conv", m.nf(info.i("pay_price")));
 info.put("delivery_price_conv", m.nf(info.i("delivery_price")));
 info.put("paymethod_conv", m.getItem(info.s("paymethod"), order.methods));
 String mobile = "";
-if(!"".equals(info.s("ord_mobile"))) try { mobile = SimpleAES.decrypt(info.s("ord_mobile")); } catch(Exception e) { }
+if(!"".equals(info.s("ord_mobile"))) try { mobile = SimpleAES.decrypt(info.s("ord_mobile")); } catch(Exception e) { m.errorLog(e.getMessage(), e); }
 info.put("ord_mobile", mobile);
 info.put("delivery_type_conv", m.getItem(info.s("delivery_type"), order.deliveryTypeList));
 info.put("delivery_block", !"N".equals(info.s("delivery_type")));

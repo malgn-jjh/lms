@@ -102,6 +102,7 @@ public String makeAllParam(HashMap<String, String> reqTemp){
 
 
 	}catch(Exception e){
+		m.errorLog(e.getMessage(), e);
 		//System.out.println("[makeReqAllParam]Exception : " + e);	
 	}
 	//System.out.println("[makeReqAllParam]return : "+reqParam.toString());

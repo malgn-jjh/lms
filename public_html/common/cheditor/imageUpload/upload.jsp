@@ -108,7 +108,7 @@ if(fileSize > 500000) {
 		Runtime.getRuntime().exec(cmd);
 		Thread.sleep(500);
 	}
-	catch(Exception e) { }
+	catch(Exception e) { m.errorLog(e.getMessage(), e); }
 }
 String rData = String.format("{\"fileUrl\":\"%s%s\", \"filePath\":\"%s\", \"fileName\":\"%s\", \"fileSize\":\"%d\"}"
 						, ("mail".equals(m.rs("mode")) ? "http://" + request.getServerName() : "")

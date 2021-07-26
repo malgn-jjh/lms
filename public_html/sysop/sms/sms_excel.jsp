@@ -29,7 +29,7 @@ if("1".equals(m.rs("sample"))) {
 DataSet uinfo = user.find("id = " + userId + " AND site_id = " + siteId + " AND status = 1");
 if(!uinfo.next()) { m.jsError("해당 회원 정보가 없습니다."); return; }
 String mobile = "";
-try { mobile = !"".equals(uinfo.s("mobile")) ? SimpleAES.decrypt(uinfo.s("mobile")) : ""; }catch(Exception e) { }
+try { mobile = !"".equals(uinfo.s("mobile")) ? SimpleAES.decrypt(uinfo.s("mobile")) : ""; }catch(Exception e) { m.errorLog(e.getMessage(), e); }
 
 //폼입력
 int id = m.ri("id");

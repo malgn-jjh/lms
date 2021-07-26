@@ -55,7 +55,7 @@ public class VimeoDao extends DataObject {
 			Json json = new Json(body);
 			res = json.getDataSet(path == null ? "//" : path);
 		} catch(Exception e) {
-
+			Malgn.errorLog( "VimeoDao.apiRequest() : " + e.getMessage(), e);
 		}
 		return res;
 	}

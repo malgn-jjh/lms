@@ -41,7 +41,7 @@ public class WecandeoDao {
 				if(null != out) out.write("<hr>" + msg + "<hr>\n");
 				else Malgn.errorLog(msg);
 			}
-		} catch(Exception ex) {}
+		} catch(Exception ex) { Malgn.errorLog( "WecandeoDao.setError() : " + e.getMessage(), e); }
 	}
 
 	public void setListNum(int num) {
@@ -135,7 +135,7 @@ public class WecandeoDao {
 		sb.append("&sort_item=id&sort_direction=desc&pagesize=20000");
 		if(!"".equals(keyword)) {
 			sb.append("&search_item=title&keyword="); 
-			try { sb.append(URLEncoder.encode(keyword, "UTF-8")); } catch(Exception e) {}
+			try { sb.append(URLEncoder.encode(keyword, "UTF-8")); } catch(Exception e) { Malgn.errorLog( "WecandeoDao.getVideos() : " + e.getMessage(), e); }
 		}
 
 		Json j = new Json(sb.toString());

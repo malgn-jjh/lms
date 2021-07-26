@@ -59,7 +59,7 @@ public class ApiLogDao extends DataObject {
 				out.write(json.toString());
 			}
 		} catch(Exception e) {
-
+			Malgn.errorLog( "ApiLogDao.printList() : " + e.getMessage(), e);
 		}
 	}
 

@@ -93,7 +93,7 @@ if(m.isPost()) {
 					? m.time("yyyy.MM.dd", list.s("start_date")) + " - " + m.time("yyyy.MM.dd", list.s("end_date"))
 					: m.time("yyyy.MM.dd") + " - " + m.time("yyyy.MM.dd", m.addDate("D", cinfo.i("lesson_day") > 0 ? cinfo.i("lesson_day")-1 : 0, m.time("yyyyMMdd")))
 				));
-				try { list.put("mobile_conv", SimpleAES.decrypt(list.s("mobile"))); } catch(Exception e) { }
+				try { list.put("mobile_conv", SimpleAES.decrypt(list.s("mobile"))); } catch(Exception e) { m.errorLog(e.getMessage(), e); }
 			}
 
 			//출력

@@ -42,7 +42,7 @@ f.addElement("passwd", null, "hname:'비밀번호', match:'passwd2'");
 f.addElement("gender", info.s("gender"), "hname:'성별', required:'Y'");
 f.addElement("birthday", m.time("yyyy-MM-dd", info.s("birthday")), "hname:'생년월일'");
 String mobile = "";
-if(!"".equals(info.s("mobile"))) try { mobile = SimpleAES.decrypt(info.s("mobile")); } catch(Exception e) { }
+if(!"".equals(info.s("mobile"))) try { mobile = SimpleAES.decrypt(info.s("mobile")); } catch(Exception e) { m.errorLog(e.getMessage(), e); }
 f.addElement("mobile", mobile, "hname:'휴대전화'");
 f.addElement("email1", m.split("@", info.s("email"), 2)[0], "hname:'이메일', required:'Y', option:'email', glue:'email2', delim:'@'");
 f.addElement("email2", m.split("@", info.s("email"), 2)[1], "hname:'이메일', required:'Y'");

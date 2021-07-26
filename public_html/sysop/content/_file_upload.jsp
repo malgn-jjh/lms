@@ -1,15 +1,15 @@
 <%@ page contentType="text/html; charset=utf-8" %><%@ include file="../../init.jsp" %><%
 
-//ÆûÀÔ·Â
+//ï¿½ï¿½ï¿½Ô·ï¿½
 String mid = m.rs("mid");
 String md = m.rs("md", "post");
 String allow = m.rs("allow", "image,media,file");
 
-//°´Ã¼
+//ï¿½ï¿½Ã¼
 BoardDao board = new BoardDao();
 FileDao file = new FileDao();
 
-//ÆÄÀÏÀÌ ¾÷·ÎµåµÈ °æ¿ì
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ï¿½ ï¿½ï¿½ï¿½
 File attFile = f.saveFile("filename");
 
 if(attFile != null) {
@@ -26,19 +26,19 @@ if(attFile != null) {
 	file.item("status", 1);
 	file.insert();
 
-	//ÆÄÀÏ¸®»çÀÌÂ¡
+	//ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ï¿½ï¿½Â¡
 	try {
 		if(f.getFileName("filename").matches("(?i)^.+\\.(jpg|png|gif|bmp)$")) {
 			String imgPath = m.getUploadPath(f.getFileName("filename"));
 			String cmd = "convert -resize 700x " + imgPath + " " + imgPath;
 			Runtime.getRuntime().exec(cmd);
 		}
-	} catch(Exception e) { }
+	} catch(Exception e) { m.errorLog(e.getMessage(), e); }
 
 	return;
 }
 
-//Á¦ÇÑ È®ÀåÀÚ
+//ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½
 String limitExt = "|jpg|jpeg|gif|png|swf|mp4|flv|mov|qt|mpeg|wmv|wma|asf|mp3|avi|wmp|rmp|ra";
 String limitExtConv = "";
 String[] allows = !"".equals(allow) ? allow.split("\\,") : null;
@@ -56,11 +56,11 @@ if(null != allows) {
 	}
 }
 
-//Ãâ·Â
+//ï¿½ï¿½ï¿½
 p.setRoot(Config.getDocRoot() + "/sysop/html");
 p.setLayout("blank");
 p.setBody("content.file_upload");
-p.setVar("p_title", "ÆÄÀÏ Ã·ºÎ");
+p.setVar("p_title", "ï¿½ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½");
 p.setVar("md", md);
 p.setVar("mid", mid);
 p.setVar("web_url", webUrl);

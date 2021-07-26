@@ -71,7 +71,7 @@ while(list.next()) {
 	list.put("display_yn_conv", m.getItem(list.s("display_yn"), user.displayYn));
 	list.put("status_conv", m.getItem(list.s("status"), user.statusList));
 	list.put("mobile_conv", "-");
-	try { list.put("mobile_conv", !"".equals(list.s("mobile")) ? SimpleAES.decrypt(list.s("mobile")) : "" );  } catch(Exception e) {}
+	try { list.put("mobile_conv", !"".equals(list.s("mobile")) ? SimpleAES.decrypt(list.s("mobile")) : "" );  } catch(Exception e) { m.errorLog(e.getMessage(), e); }
 
 	list.put("conn_date_conv", m.time("yyyy.MM.dd HH:mm", list.s("conn_date")));
 	list.put("birth_date_conv", m.time("yyyy.MM.dd", list.s("birthday")));

@@ -28,7 +28,7 @@ info.put("writer_conv", "Y".equals(SiteConfig.s("masking_yn")) ? m.masking(info.
 
 //쿠키
 String[] readArray = null;
-try { readArray = m.getCookie("CREAD").split("\\,"); } catch(Exception e) { }
+try { readArray = m.getCookie("CREAD").split("\\,"); } catch(Exception e) { m.errorLog(e.getMessage(), e); }
 if(!m.inArray(""+id + "/" + userId, readArray)) {
 	clPost.updateHitCount(id);
 	String tmp = m.join(",", readArray);

@@ -119,7 +119,7 @@ if(m.isPost() && f.validate()) {
 		if("Y".equals(f.get("mobile_yn"))) {
 			//변수
 			String mobile = "";
-			try { mobile = !"".equals(pinfo.s("mobile")) ? SimpleAES.decrypt(pinfo.s("mobile")) : ""; }catch(Exception e) { }
+			try { mobile = !"".equals(pinfo.s("mobile")) ? SimpleAES.decrypt(pinfo.s("mobile")) : ""; }catch(Exception e) { m.errorLog(e.getMessage(), e); }
 			String scontent = "[" + siteinfo.s("site_nm") + "] 질문하신 사항에 답변이 등록되었습니다.";
 
 			if(siteinfo.b("sms_yn") && sms.isMobile(mobile)) {
@@ -137,7 +137,7 @@ if(m.isPost() && f.validate()) {
 
 //포멧팅
 info.put("mod_date_conv", info.i("proc_status") == 1 ? m.time("yyyy.MM.dd HH:mm", info.s("mod_date")) : "-");
-try { pinfo.put("mobile_conv", !"".equals(pinfo.s("mobile")) ? SimpleAES.decrypt(pinfo.s("mobile")) : "-" );  } catch(Exception e) {}
+try { pinfo.put("mobile_conv", !"".equals(pinfo.s("mobile")) ? SimpleAES.decrypt(pinfo.s("mobile")) : "-" );  } catch(Exception e) { m.errorLog(e.getMessage(), e); }
 
 //출력
 p.setLayout("blank");

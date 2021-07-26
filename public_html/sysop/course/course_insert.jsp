@@ -224,7 +224,7 @@ if(m.isPost() && f.validate()) {
 			String cmd = "convert -resize 1000x " + imgPath + " " + imgPath;
 			Runtime.getRuntime().exec(cmd);
 		}
-		catch(Exception e) { }
+		catch(Exception e) { m.errorLog(e.getMessage(), e); }
 	}
 
 	m.jsAlert(

@@ -244,7 +244,7 @@ if(!"uidx".equals(mode)) {
 
 		list.put("birthday_conv", m.time("yyyy.MM.dd", list.s("birthday")));
 		list.put("mobile_conv", "-");
-		try { list.put("mobile_conv", !"".equals(list.s("mobile")) ? SimpleAES.decrypt(list.s("mobile")) : "-" );  } catch(Exception e) {}
+		try { list.put("mobile_conv", !"".equals(list.s("mobile")) ? SimpleAES.decrypt(list.s("mobile")) : "-" );  } catch(Exception e) { m.errorLog(e.getMessage(), e); }
 		list.put("gender_conv", m.getItem(list.s("gender"), user.genders));
 
 		list.put("deposit_block", "90".equals(list.s("paymethod")) && 2 == list.i("status"));

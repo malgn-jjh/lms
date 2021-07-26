@@ -63,7 +63,7 @@ public class KollusDao {
 				if(null != out) out.write("<hr>" + msg + "<hr>\n");
 				else Malgn.errorLog(msg);
 			}
-		} catch(Exception ex) {}
+		} catch(Exception ex) { Malgn.errorLog( "KollusDao.setError() : " + e.getMessage(), e); }
 	}
 	
 	public void setExpireTime(int expireTime) {
@@ -284,7 +284,7 @@ public class KollusDao {
 				Malgn.errorLog("KollusDao.addCategory: token:" + this.accessToken + ", name:" + name + ", message:" + json.getString("message"));
 				return false;
 			}
-		} catch(Exception e) { }
+		} catch(Exception e) { Malgn.errorLog( "KollusDao.addCategory() : " + e.getMessage(), e); }
 		return true;
 	}
 

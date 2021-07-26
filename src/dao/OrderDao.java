@@ -717,6 +717,7 @@ public class OrderDao extends DataObject {
                 if ( wr != null) wr.close();
                 if ( br != null) br.close();
             } catch(Exception e){
+				Malgn.errorLog( "OrderDao.sendRCVInfo() : " + e.getMessage(), e);
             }
         }
         return result;

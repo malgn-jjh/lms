@@ -25,7 +25,7 @@ FormmailDao formmail = new FormmailDao();
 DataSet uinfo = user.find("id = " + userId + "");
 if(!uinfo.next()) { m.jsAlert("해당 회원 정보가 없습니다."); m.js("parent.CloseLayer();"); return; }
 String mobile = "";
-try { mobile = !"".equals(uinfo.s("mobile")) ? SimpleAES.decrypt(uinfo.s("mobile")) : ""; }catch(Exception e) { }
+try { mobile = !"".equals(uinfo.s("mobile")) ? SimpleAES.decrypt(uinfo.s("mobile")) : ""; }catch(Exception e) { m.errorLog(e.getMessage(), e); }
 
 //폼체크
 f.addElement("sender", siteinfo.s("sms_sender"), "hname:'발신번호', required:'Y'");
@@ -43,7 +43,7 @@ DataSet finfo = formmail.query(
 	, 1
 );
 while(finfo.next()) {
-	try { finfo.put("s_value", !"".equals(finfo.s("mobile")) ? "(" + SimpleAES.decrypt(finfo.s("mobile")) + ")" : "(-)" );  } catch(Exception e) {}
+	try { finfo.put("s_value", !"".equals(finfo.s("mobile")) ? "(" + SimpleAES.decrypt(finfo.s("mobile")) + ")" : "(-)" );  } catch(Exception e) { m.errorLog(e.getMessage(), e); }
 }
 
 //등록
@@ -81,7 +81,7 @@ if(m.isPost() && f.validate()) {
 	finfo.first();
 	while(finfo.next()) {
 		mobile = "";
-		try { mobile = !"".equals(finfo.s("mobile")) ? SimpleAES.decrypt(finfo.s("mobile")) : ""; }catch(Exception e) { }
+		try { mobile = !"".equals(finfo.s("mobile")) ? SimpleAES.decrypt(finfo.s("mobile")) : ""; }catch(Exception e) { m.errorLog(e.getMessage(), e); }
 		smsUser.item("site_id", siteId);
 		smsUser.item("sms_id", newId);
 		smsUser.item("mobile", finfo.s("mobile"));

@@ -48,7 +48,7 @@ if(m.isPost() && f.validate()) {
 			String cmd = "convert -resize " + width + "x> " + imgPath + " " + imgPath;
 			Runtime.getRuntime().exec(cmd);
 		}
-		catch(Exception e) { }
+		catch(Exception e) { m.errorLog(e.getMessage(), e); }
 
 		if("post".equals(md)) {
 			out.print("<script>opener.iContent("

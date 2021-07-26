@@ -107,7 +107,7 @@ for(int i=0; i<brList.length; i++) {
 			if(matcher.find()) { 
 				brVersion = agent.substring(pos).substring(matcher.start(), matcher.end());
 			} 
-		} catch(Exception ex) {}
+		} catch(Exception ex) { m.errorLog(e.getMessage(), e); }
 		break;
 	}
 }

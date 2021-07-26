@@ -172,6 +172,7 @@ public String encryptSHA256(String value){
 
 		return toHexString(hashValue);
 	}catch(Exception e){
+		m.errorLog(e.getMessage(), e);
 		//System.out.println("[encryptSHA256]Exception : " + e);	
 	}
 	
@@ -223,6 +224,7 @@ public String makeAllParam(HashMap<String, String> reqTemp){
 
 
 	}catch(Exception e){
+		m.errorLog(e.getMessage(), e);
 		//System.out.println("[makeReqAllParam]Exception : " + e);	
 	}
 	//System.out.println("[makeReqAllParam]return : "+reqParam.toString());

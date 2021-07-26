@@ -104,7 +104,7 @@ public class MenuDao extends DataObject {
 
 					if(!"".equals(ownerAccount)) {
 						try { Runtime.getRuntime().exec("chown -R " + ownerAccount + ":" + ownerAccount + " " + jsp.getParentFile()); }
-						catch(Exception e) {}
+						catch(Exception e) { Malgn.errorLog( "MenuDao.createFile() : " + e.getMessage(), e); }
 					}
 				}
 
@@ -116,7 +116,7 @@ public class MenuDao extends DataObject {
 
 					if(!"".equals(ownerAccount)) {
 						try { Runtime.getRuntime().exec("chown -R " + ownerAccount + ":" + ownerAccount + " " + html.getParentFile()); }
-						catch(Exception e) {}
+						catch(Exception e) { Malgn.errorLog( "MenuDao.createFile() : " + e.getMessage(), e); }
 					}
 				}
 			}

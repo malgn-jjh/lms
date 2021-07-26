@@ -18,7 +18,7 @@ GroupUserDao groupUser = new GroupUserDao();
 DataSet uinfo = user.find("id = " + userId + " AND site_id = " + siteId + " AND status = 1");
 if(!uinfo.next()) { m.jsError("해당 회원정보가 없습니다."); return; }
 String mobile = "";
-try { mobile = !"".equals(uinfo.s("mobile")) ? SimpleAES.decrypt(uinfo.s("mobile")) : ""; }catch(Exception e) { }
+try { mobile = !"".equals(uinfo.s("mobile")) ? SimpleAES.decrypt(uinfo.s("mobile")) : ""; }catch(Exception e) { m.errorLog(e.getMessage(), e); }
 
 //폼체크
 f.addElement("sms_type", "A", "hname:'SMS유형', required:'Y'");
@@ -84,7 +84,7 @@ if(m.isPost() && f.validate()) {
 	int failCnt = 0;
 	while(users.next()) {
 		mobile = "";
-		try { mobile = !"".equals(users.s("mobile")) ? SimpleAES.decrypt(users.s("mobile")) : ""; }catch(Exception e) { }
+		try { mobile = !"".equals(users.s("mobile")) ? SimpleAES.decrypt(users.s("mobile")) : ""; }catch(Exception e) { m.errorLog(e.getMessage(), e); }
 		smsUser.item("site_id", siteId);
 		smsUser.item("sms_id", newId);
 		smsUser.item("mobile", users.s("mobile"));

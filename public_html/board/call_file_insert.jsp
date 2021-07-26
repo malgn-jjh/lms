@@ -59,7 +59,7 @@ if(m.isPost() && f.validate()) {
 							Runtime.getRuntime().exec(cmd);
 						}
 					}
-				} catch(Exception e) { }
+				} catch(Exception e) { m.errorLog(e.getMessage(), e); }
 
 				//등록-정보
 				int newId = file.getSequence();

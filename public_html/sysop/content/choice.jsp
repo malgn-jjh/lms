@@ -28,7 +28,7 @@ if("DOWNLOAD".equals(m.rs("mode"))) {
 			}
 			outs.close();
 			fin.close();
-		} catch(Exception e) { }
+		} catch(Exception e) { m.errorLog(e.getMessage(), e); }
 	}
 	return;
 }

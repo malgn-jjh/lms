@@ -53,7 +53,7 @@ try {
 
 		}
 	}
-} catch(Exception e) { }
+} catch(Exception e) { m.errorLog(e.getMessage(), e); }
 
 //출력
 out.print("{\"success\":true, \"file\":\"" + ("mail".equals(m.rs("mode")) ? "http://" + siteinfo.s("domain") : "") + "/data/file/" + attFile.getName() + "\"}");

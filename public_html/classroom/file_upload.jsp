@@ -55,7 +55,7 @@ if(m.isPost()) {
 
 			}
 		}
-	} catch(Exception e) { }
+	} catch(Exception e) { m.errorLog(e.getMessage(), e); }
 
 	out.print("{\"success\":true}");
 	return;

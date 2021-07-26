@@ -169,6 +169,7 @@ out.print("rescode=0000&resmsg=Success");
    
 	        return toHexString(hashValue);
         }catch(Exception e){
+			m.errorLog(e.getMessage(), e);
         	//System.out.println("[encryptSHA256]Exception : " + e);	
         }
         
@@ -220,6 +221,7 @@ out.print("rescode=0000&resmsg=Success");
 
 
 		}catch(Exception e){
+			m.errorLog(e.getMessage(), e);
 			//System.out.println("[makeAllParam]Exception : " + e);	
 		}
 		//System.out.println("[makeAllParam]return : "+reqParam.toString());

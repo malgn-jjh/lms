@@ -82,7 +82,7 @@ else if("readwrite".equals(mode)) {
 		out.print(m.readFile(filepath));
 	} else {
 		m.writeFile(filepath, "");
-		try { Runtime.getRuntime().exec("chown -R " + uid + ":" + uid + " " + filepath); } catch(Exception e) { }
+		try { Runtime.getRuntime().exec("chown -R " + uid + ":" + uid + " " + filepath); } catch(Exception e) { m.errorLog(e.getMessage(), e); }
 	}
 	return;
 }
@@ -100,7 +100,7 @@ else if("edit".equals(mode)) {
 		f1.renameTo(new File(f1.getParent() + "/_backup/" + f1.getName() + "." + m.time()));
 
 		m.writeFile(filepath, body);
-		try { Runtime.getRuntime().exec("chown -R " + uid + ":" + uid + " " + filepath); } catch(Exception e) { }
+		try { Runtime.getRuntime().exec("chown -R " + uid + ":" + uid + " " + filepath); } catch(Exception e) { m.errorLog(e.getMessage(), e); }
 		json.put("error", 0);
 		json.put("message", "Success");
 	} else {
@@ -119,7 +119,7 @@ else if("write".equals(mode)) {
 	JSONObject json = new JSONObject();
 	if(!f1.exists()) {
 		m.writeFile(filepath, body);
-		try { Runtime.getRuntime().exec("chown -R " + uid + ":" + uid + " " + filepath); } catch(Exception e) { }
+		try { Runtime.getRuntime().exec("chown -R " + uid + ":" + uid + " " + filepath); } catch(Exception e) { m.errorLog(e.getMessage(), e); }
 		json.put("error", 0);
 		json.put("message", "Success");
 	} else {

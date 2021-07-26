@@ -54,7 +54,7 @@ if("add".equals(mode)) {
 					lesson.item("content_width", tlist.i("Width"));
 					lesson.item("content_height", tlist.i("Height"));
 				}
-			} catch(Exception e) { }
+			} catch(Exception e) { m.errorLog(e.getMessage(), e); }
 		}
 
 		if(!infoBlock) {

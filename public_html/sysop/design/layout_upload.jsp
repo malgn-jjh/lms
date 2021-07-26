@@ -50,6 +50,7 @@ if(m.isPost()) {
 			Runtime.getRuntime().exec(cmd);
 		}
 	} catch (Exception e) {
+		m.errorLog(e.getMessage(), e);
 	}
 
 	out.print("{\"success\":true}");

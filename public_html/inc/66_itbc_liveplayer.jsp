@@ -39,7 +39,7 @@ try {
         int ver = m.parseInt(version);
         if(ver <= 8) ie8 = true;
     }
-} catch(Exception e) {}
+} catch(Exception e) { m.errorLog(e.getMessage(), e); }
 
 //출력
 p.setLayout(null);

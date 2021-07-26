@@ -52,7 +52,7 @@ info.put("reg_date_conv", m.time("yyyy.MM.dd HH:mm:ss", info.s("reg_date")));
 info.put("delete_block", info.i("status") == 2 && ("03".equals(info.s("paymethod")) || "90".equals(info.s("paymethod"))));
 info.put("order_waiting_block", -99 == info.i("status"));
 String mobile = "";
-if(!"".equals(info.s("ord_mobile"))) try { mobile = SimpleAES.decrypt(info.s("ord_mobile")); } catch(Exception e) { }
+if(!"".equals(info.s("ord_mobile"))) try { mobile = SimpleAES.decrypt(info.s("ord_mobile")); } catch(Exception e) { m.errorLog(e.getMessage(), e); }
 info.put("ord_mobile", mobile);
 info.put("delivery_type_conv", m.getItem(info.s("delivery_type"), order.deliveryTypeList));
 info.put("delivery_block", !"N".equals(info.s("delivery_type")));

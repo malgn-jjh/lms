@@ -26,7 +26,7 @@ if(m.isPost() && f.validate()) {
 					String imgPath = m.getUploadPath(f.getFileName("qqfile"));
 					String cmd = "convert -resize 500x> " + imgPath + " " + imgPath;
 					Runtime.getRuntime().exec(cmd);
-				} catch(Exception e) { }
+				} catch(Exception e) { m.errorLog(e.getMessage(), e); }
 
 				//등록-정보
 				//int tempId = 0 < userId ? userId : m.getRandInt(-2000000, 1990000);

@@ -121,7 +121,7 @@ if(m.isPost()) {
 			}
 			list.put("start_date_conv", m.time("yyyy-MM-dd", list.s("start_date")));
 			list.put("end_date_conv", m.time("yyyy-MM-dd", list.s("end_date")));
-			try { list.put("mobile_conv", SimpleAES.decrypt(list.s("mobile"))); } catch(Exception e) { }
+			try { list.put("mobile_conv", SimpleAES.decrypt(list.s("mobile"))); } catch(Exception e) { m.errorLog(e.getMessage(), e); }
 		}
 
 		//출력

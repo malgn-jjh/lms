@@ -63,7 +63,7 @@ if(m.isPost() && f.validate()) {
 	int failCnt = 0;
 	while(users.next()) {
 		String mobile = "";
-		try { mobile = !"".equals(users.s("mobile")) ? SimpleAES.decrypt(users.s("mobile")) : ""; } catch(Exception e) { }
+		try { mobile = !"".equals(users.s("mobile")) ? SimpleAES.decrypt(users.s("mobile")) : ""; } catch(Exception e) { m.errorLog(e.getMessage(), e); }
 		ktalkUser.item("ktalk_id", newId);
 		ktalkUser.item("site_id", siteId);
 		ktalkUser.item("mobile", users.s("mobile"));

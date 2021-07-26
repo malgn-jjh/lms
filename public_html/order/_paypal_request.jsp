@@ -77,7 +77,7 @@ public String encryptSHA512(String input) {
 	try {
 		md = MessageDigest.getInstance("SHA-512");
 		md.update(input.getBytes());
-	} catch(Exception e) { }
+	} catch(Exception e) { m.errorLog(e.getMessage(), e); }
 
 	return byteArrayToHex(md.digest());
 }

@@ -56,7 +56,7 @@ info.put("category_conv", !"".equals(categoryName) ? "[" + categoryName + "]" : 
 
 //업데이트-조회수//쿠키셋팅
 String[] readArray = null;
-try { readArray = m.getCookie("READ").split("\\,"); } catch(Exception e) { }
+try { readArray = m.getCookie("READ").split("\\,"); } catch(Exception e) { m.errorLog(e.getMessage(), e); }
 if(!m.inArray("" + id, readArray)) {
 	post.updateHitCount(id);
 	String tmp = m.join(",", readArray);

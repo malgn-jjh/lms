@@ -14,6 +14,7 @@ try {
 	String[] arr = line.split("\t");
 	out.print(arr[0]);
 } catch(Exception e) {
+	m.errorLog(e.getMessage(), e);
 }
 
 %>

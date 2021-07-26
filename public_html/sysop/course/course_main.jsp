@@ -13,7 +13,7 @@ String types[] = m.split("|", SiteConfig.s("main_course_types"));
 DataSet tlist = new DataSet();
 try {
 	tlist = m.arr2loop(types);
-} catch(Exception e) { }
+} catch(Exception e) { m.errorLog(e.getMessage(), e); }
 tlist.sort("name", "asc");
 if(!tlist.next() || (2 > tlist.size() && "".equals(tlist.s("id")))) {
 	SiteConfig.put("main_course_types", m.join("|", courseMain.defaultTypes));

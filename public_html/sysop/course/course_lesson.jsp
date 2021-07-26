@@ -194,15 +194,10 @@ while(list.next()) {
 
 	list.put("lesson_hour", list.s("lesson_hour").replace(".00", ""));
 
-	if(list.s("start_time").length() == 6) { //HHmmss
-		list.put("start_time_hour", list.s("start_time").substring(0,2));
-		list.put("start_time_min", list.s("start_time").substring(2,4));
-	}
-
-	if(list.s("start_time").length() == 6) {
-		list.put("end_time_hour", list.s("end_time").substring(0,2));
-		list.put("end_time_min", list.s("end_time").substring(2,4));
-	}
+	list.put("start_time_hour", list.s("start_time").length() == 6 ? list.s("start_time").substring(0,2) : "");
+	list.put("start_time_min", list.s("start_time").length() == 6 ? list.s("start_time").substring(2,4) : "");
+	list.put("end_time_hour", list.s("end_time").length() == 6 ?  list.s("end_time").substring(0,2) : "");
+	list.put("end_time_min", list.s("end_time").length() == 6 ? list.s("end_time").substring(2,4) : "");
 
 	sortList.addRow();
 	sortList.put("id", list.i("__asc"));

@@ -96,7 +96,7 @@ while(list.next()) {
 	list.put("status_conv", m.getItem(list.s("status"), bookUser.statusList));
 
 	list.put("mobile_conv", "-");
-	try { list.put("mobile_conv", !"".equals(list.s("mobile")) ? SimpleAES.decrypt(list.s("mobile")) : "-" );  } catch(Exception e) {}
+	try { list.put("mobile_conv", !"".equals(list.s("mobile")) ? SimpleAES.decrypt(list.s("mobile")) : "-" );  } catch(Exception e) { m.errorLog(e.getMessage(), e); }
 	list.put("order_block", 0 < list.i("order_id"));
 	
 	list.put("deposit_block", "90".equals(list.s("paymethod")) && 2 == list.i("status"));

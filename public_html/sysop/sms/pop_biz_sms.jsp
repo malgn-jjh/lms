@@ -19,7 +19,7 @@ BizSMS bizSMS = new BizSMS();
 DataSet uinfo = user.find("id = " + userId + "");
 if(!uinfo.next()) { m.jsAlert("해당 회원 정보가 없습니다."); m.js("parent.CloseLayer();"); return; }
 String mobile = "";
-try { mobile = !"".equals(uinfo.s("mobile")) ? SimpleAES.decrypt(uinfo.s("mobile")) : ""; }catch(Exception e) { }
+try { mobile = !"".equals(uinfo.s("mobile")) ? SimpleAES.decrypt(uinfo.s("mobile")) : ""; }catch(Exception e) { m.errorLog(e.getMessage(), e); }
 
 //정보-SMS
 DataSet binfo = bizSMS.find("cmid = " + cmid + " AND (dest_phone IS NOT NULL OR dest_phone != '')");
