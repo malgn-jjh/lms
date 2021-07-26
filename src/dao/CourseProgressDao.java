@@ -77,11 +77,15 @@ public class CourseProgressDao extends DataObject {
 
 		//제한-차시별학습기간을 벗어날 경우 진도율을 저장하지 않음
 		if("Y".equals(cuinfo.s("period_yn"))) {
-			DataSet clinfo = courseLesson.find("course_id = ? AND lesson_id = ? AND chapter = ?", new Integer[] {cuinfo.i("course_id"), lid, chapter}, "start_date, end_date");
+			DataSet clinfo = courseLesson.find("course_id = ? AND lesson_id = ? AND chapter = ?", new Integer[] {cuinfo.i("course_id"), lid, chapter}, "start_date, end_date, start_time, end_time");
 			if(!clinfo.next()) return -7;
+			
+			String startDateTime = clinfo.s("start_date") + (clinfo.s("start_time").length() == 6 ? clinfo.s("start_time") : "000000");
+			String endDateTime = clinfo.s("end_date") + (clinfo.s("end_time").length() == 6 ? clinfo.s("end_time") : "235959");
+			String now = Malgn.time("yyyyMMddHHmmss");
 
-			if(0 > Malgn.diffDate("D", clinfo.s("start_date"), Malgn.time("yyyyMMdd"))) return -8;
-			else if(0 < Malgn.diffDate("D", clinfo.s("end_date"), Malgn.time("yyyyMMdd"))) return -9;
+			if(0 > Malgn.diffDate("S", startDateTime, now)) return -8;
+			else if(0 < Malgn.diffDate("S", endDateTime, now)) return -9;
 		}
 
 		//정보-차시

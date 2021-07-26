@@ -123,6 +123,13 @@ if(m.isPost() && f.validate()) {
 				//courseSection.item("section_nm", f.getArr("section_nm")[i]);
 				//if(!courseSection.update("id = " + sectionId)) { }
 			} else {
+
+				if("".equals(f.getArr("start_time_hour")[i]) && (!"".equals(f.getArr("start_time_min")[i]) || !"".equals(f.getArr("end_time_hour")[i]) || !"".equals(f.getArr("end_time_min")[i]))
+					|| !"".equals(f.getArr("start_time_hour")[i]) && ("".equals(f.getArr("start_time_min")[i]) || "".equals(f.getArr("end_time_hour")[i]) || "".equals(f.getArr("end_time_min")[i]))) {
+					m.jsAlert("학습기간 시작/종료시간의 설정은 없음 또는 시분 값으로 일치하여야 합니다.");
+					return;
+				}
+
 				courseLesson.item("section_id", sectionId);
 				courseLesson.item("chapter", ++sort);
 				courseLesson.item("start_day", f.getArr("start_day")[i]);

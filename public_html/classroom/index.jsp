@@ -161,10 +161,15 @@ while(list.next()) {
 
 	if(isOpen && limitFlag) { //속진제한
 		isOpen = "Y".equals(list.s("is_study"));
-		list.put("msg", cinfo.i("limit_day") + "일 " +  cinfo.i("limit_lesson") + "차시로 학습이 제한되어 있습니다.\\n관리자에게 문의하십시오.");	
+		list.put("msg", cinfo.i("limit_day") + "일 " + cinfo.i("limit_lesson") + "차시로 학습이 제한되어 있습니다.\\n관리자에게 문의하십시오.");
 	}
 	if(isOpen && cinfo.b("period_yn")) { //수강기간 제한
-		isOpen = list.i("start_date") <= m.parseInt(today) && (cinfo.b("restudy_yn") || list.i("end_date") >= m.parseInt(today));
+
+		String startDateTime = list.s("start_date") + (list.s("start_time").length() == 6 ? list.s("start_time") : "000000");
+		String endDateTime = list.s("end_date") + (list.s("end_time").length() == 6 ? list.s("end_time") : "235959");
+		long nowDateTime = m.parseLong(now);
+
+		isOpen = m.parseLong(startDateTime) <= nowDateTime && (cinfo.b("restudy_yn") || m.parseLong(endDateTime) >= nowDateTime);
 		list.put("msg", "학습기간이 아닙니다.\\n관리자에게 문의하십시오.");
 	}
 	if(isOpen && cinfo.b("lesson_order_yn")) { //순차적용

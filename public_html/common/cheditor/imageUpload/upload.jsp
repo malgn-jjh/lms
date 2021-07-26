@@ -14,14 +14,13 @@ String SAVE_DIR = dataDir + "/file/";
 
 if(!m.isPost()) return;
 
-
 long fileSize = 0;
+int maxPostSize = 10;
+
 String saveFileName = f.get("randomname");
 String fileName = f.get("origname");
 String fileType = "image/";
 String base64Img = f.get("filehtml5");
-
-int maxPostSize = 10; //Config.getInt("maxPostSize");
 
 String ext = m.getFileExt(saveFileName).toLowerCase();
 if(!"gif".equals(ext) && !"jpg".equals(ext) && !"jpeg".equals(ext) && !"png".equals(ext)) {
@@ -77,13 +76,12 @@ else {
 	saveFileName = file.getName();
 }
 
-
-//제한-파일크기
-if((maxPostSize * 1024 * 1024) < fileSize) { throw new Exception("{\"success\":false, \"error\":\"" + maxPostSize + "MB를 초과하여 업로드 할 수 없습니다.\", \"reset\":true}"); return; }
-
 if (fileSize < 1) {
 	throw new Exception("-ERR: File Size 0");
 }
+
+//제한-파일크기
+if((maxPostSize * 1024 * 1024) < fileSize) { throw new Excetion("-ERR : file size too large -> " + fileSize); }
 
 String module = mSession.s("file_module");
 int moduleId = mSession.i("file_module_id");
