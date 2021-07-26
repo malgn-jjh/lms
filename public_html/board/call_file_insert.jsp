@@ -1,4 +1,6 @@
-<%@ page contentType="text/html; charset=utf-8" %><%@ page import="java.awt.Image,javax.swing.ImageIcon" %><%@ include file="init.jsp" %><%
+<%@ page contentType="text/html; charset=utf-8" %><%@ page import="java.awt.Image,javax.swing.ImageIcon" %>
+<%@ page import="java.io.FileNotFoundException" %>
+<%@ include file="init.jsp" %><%
 /*
 DataSet tempInfo = new DataSet();
 tempInfo.addRow();
@@ -59,7 +61,9 @@ if(m.isPost() && f.validate()) {
 							Runtime.getRuntime().exec(cmd);
 						}
 					}
-				} catch(Exception e) { m.errorLog(e.getMessage(), e); }
+				}
+				catch(FileNotFoundException fnfe) { m.errorLog("FileNotFoundException : " + fnfe.getMessage(), fnfe); }
+				catch(Exception e) { m.errorLog("Exception : " + e.getMessage(), e); }
 
 				//등록-정보
 				int newId = file.getSequence();

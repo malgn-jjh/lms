@@ -39,7 +39,9 @@ try {
         int ver = m.parseInt(version);
         if(ver <= 8) ie8 = true;
     }
-} catch(Exception e) { m.errorLog(e.getMessage(), e); }
+}
+catch(NullPointerException npe) { m.errorLog("NullPointerException : " + npe.getMessage(), npe); }
+catch(Exception e) { m.errorLog("Exception : " + e.getMessage(), e); }
 
 //출력
 p.setLayout(null);

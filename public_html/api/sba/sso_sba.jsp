@@ -1,4 +1,6 @@
-<%@ page contentType="text/html; charset=utf-8" %><%@ include file="/init.jsp" %><%@page import="com.initech.eam.api.NXNLSAPI,com.initech.eam.smartenforcer.SECode,java.util.Vector,com.initech.eam.nls.CookieManager,java.util.ArrayList,java.util.List,com.initech.eam.api.NXContext"%><%!
+<%@ page contentType="text/html; charset=utf-8" %><%@ include file="/init.jsp" %><%@page import="com.initech.eam.api.NXNLSAPI,com.initech.eam.smartenforcer.SECode,java.util.Vector,com.initech.eam.nls.CookieManager,java.util.ArrayList,java.util.List,com.initech.eam.api.NXContext"%>
+<%@ page import="javax.crypto.BadPaddingException" %>
+<%!
 /**[INISAFE NEXESS JAVA AGENT]**********************************************************************
 * 업무시스템 설정 사항 (업무 환경에 맞게 변경)
 ***************************************************************************************************/
@@ -76,8 +78,10 @@
 		String retCode = "";
 		try {
 			retCode = CookieManager.verifyNexessCookieAndAgentVaild(request, response, 10, COOKIE_SESSTION_TIME_OUT, PROVIDER_LIST, SERVER_URL, context);
-		} catch(Exception npe) {
+		} catch(NullPointerException npe) {
 			npe.printStackTrace();
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 		return retCode;
 	}
@@ -89,8 +93,10 @@
 		String retCode = "";
 		try {
 			retCode = CookieManager.verifyNexessCookie(request, response, 10, COOKIE_SESSTION_TIME_OUT,PROVIDER_LIST);
-		} catch(Exception npe) {
+		} catch(NullPointerException npe) {
 			npe.printStackTrace();
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 		return retCode;
 	}
@@ -103,8 +109,10 @@
 		try {
 			NXNLSAPI nxNLSAPI = new NXNLSAPI(context);
 			retCode = nxNLSAPI.readNexessCookie(request, response, 10, COOKIE_SESSTION_TIME_OUT);
-		} catch(Exception npe) {
+		} catch(NullPointerException npe) {
 			npe.printStackTrace();
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 		return retCode;
 	}
@@ -167,6 +175,11 @@
 		try {
 			paramId = CookieManager.decryptWithSEED(paramId);
 			paramNm = CookieManager.decryptWithSEED(paramNm);
+		} catch(BadPaddingException bpe) {
+			m.jsAlert("로그인 정보에 오류가 있습니다. 다시 로그인 해 주세요. [1]");
+			m.jsReplace(loginUrl);
+			System.out.println("BadPaddingException : " + bpe.getMessage());
+			return;
 		} catch(Exception e) {
 			m.jsAlert("로그인 정보에 오류가 있습니다. 다시 로그인 해 주세요. [1]");
 			m.jsReplace(loginUrl);

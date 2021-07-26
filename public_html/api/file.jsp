@@ -16,6 +16,7 @@ if(!"221.143.42.212".equals(ip) && !"221.143.42.215".equals(ip) && !"221.143.42.
 
 Form f = new Form("form1");
 try { f.setRequest(request); }
+catch(FileNotFoundException fnfe) { out.print("File not found. - " + fnfe.getMessage()); return; }
 catch(Exception ex) { out.print("Overflow file size. - " + ex.getMessage()); return; }
 
 //if(!m.isPost()) return;
@@ -82,7 +83,9 @@ else if("readwrite".equals(mode)) {
 		out.print(m.readFile(filepath));
 	} else {
 		m.writeFile(filepath, "");
-		try { Runtime.getRuntime().exec("chown -R " + uid + ":" + uid + " " + filepath); } catch(Exception e) { m.errorLog(e.getMessage(), e); }
+		try { Runtime.getRuntime().exec("chown -R " + uid + ":" + uid + " " + filepath); }
+		catch(RuntimeException re) { m.errorLog(re.getMessage(), re); }
+		catch(Exception e) { m.errorLog(e.getMessage(), e); }
 	}
 	return;
 }
@@ -100,7 +103,9 @@ else if("edit".equals(mode)) {
 		f1.renameTo(new File(f1.getParent() + "/_backup/" + f1.getName() + "." + m.time()));
 
 		m.writeFile(filepath, body);
-		try { Runtime.getRuntime().exec("chown -R " + uid + ":" + uid + " " + filepath); } catch(Exception e) { m.errorLog(e.getMessage(), e); }
+		try { Runtime.getRuntime().exec("chown -R " + uid + ":" + uid + " " + filepath); }
+		catch(RuntimeException re) { m.errorLog(re.getMessage(), re); }
+		catch(Exception e) { m.errorLog(e.getMessage(), e); }
 		json.put("error", 0);
 		json.put("message", "Success");
 	} else {
@@ -119,7 +124,9 @@ else if("write".equals(mode)) {
 	JSONObject json = new JSONObject();
 	if(!f1.exists()) {
 		m.writeFile(filepath, body);
-		try { Runtime.getRuntime().exec("chown -R " + uid + ":" + uid + " " + filepath); } catch(Exception e) { m.errorLog(e.getMessage(), e); }
+		try { Runtime.getRuntime().exec("chown -R " + uid + ":" + uid + " " + filepath); }
+		catch(RuntimeException re) { m.errorLog(re.getMessage(), re); }
+		catch(Exception e) { m.errorLog(e.getMessage(), e); }
 		json.put("error", 0);
 		json.put("message", "Success");
 	} else {

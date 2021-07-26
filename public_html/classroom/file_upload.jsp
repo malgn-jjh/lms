@@ -1,3 +1,4 @@
+<%@ page import="java.io.IOException" %>
 <%@ page contentType="text/html; charset=utf-8" %><%@ include file="/init.jsp" %><%
 
 //로그인
@@ -55,7 +56,10 @@ if(m.isPost()) {
 
 			}
 		}
-	} catch(Exception e) { m.errorLog(e.getMessage(), e); }
+	}
+	catch(IOException ioe) { m.errorLog("IOException : " + ioe.getMessage(), ioe); }
+	catch(RuntimeException re) { m.errorLog("RuntimeException : " + re.getMessage(), re); }
+	catch(Exception e) { m.errorLog("Exception : " + e.getMessage(), e); }
 
 	out.print("{\"success\":true}");
 	return;

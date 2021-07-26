@@ -63,7 +63,7 @@ public class KollusDao {
 				if(null != out) out.write("<hr>" + msg + "<hr>\n");
 				else Malgn.errorLog(msg);
 			}
-		} catch(Exception ex) { Malgn.errorLog( "KollusDao.setError() : " + e.getMessage(), e); }
+		} catch(Exception ex) { Malgn.errorLog( "KollusDao.setError() : " + ex.getMessage(), ex); }
 	}
 	
 	public void setExpireTime(int expireTime) {

@@ -1,3 +1,4 @@
+<%@ page import="java.io.IOException" %>
 <%@ page contentType="text/html; charset=utf-8" %><%@ include file="../init.jsp" %><%
 	
 	try {
@@ -8,8 +9,12 @@
 
 		String[] arr = line.split("\t");
 		out.print(arr[0]);
+	} catch(RuntimeException re) {
+		out.print("RuntimeException - " + re.getMessage());
+	} catch(IOException ioe) {
+		out.print("IOException - " + ioe.getMessage());
 	} catch(Exception e) {
-		out.print("-");
+		out.print("Exception - " + e.getMessage());
 	}
 	
 

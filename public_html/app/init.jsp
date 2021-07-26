@@ -9,6 +9,7 @@ Malgn m = new Malgn(request, response, out);
 
 Form f = new Form("form1");
 try { f.setRequest(request); }
+catch(FileNotFoundException fnfe) { out.print("File not found. - " + fnfe.getMessage()); return; }
 catch(Exception ex) { out.print("Overflow file size. - " + ex.getMessage()); return; }
 
 

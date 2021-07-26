@@ -41,7 +41,7 @@ public class WecandeoDao {
 				if(null != out) out.write("<hr>" + msg + "<hr>\n");
 				else Malgn.errorLog(msg);
 			}
-		} catch(Exception ex) { Malgn.errorLog( "WecandeoDao.setError() : " + e.getMessage(), e); }
+		} catch(Exception ex) { Malgn.errorLog( "WecandeoDao.setError() : " + ex.getMessage(), ex); }
 	}
 
 	public void setListNum(int num) {

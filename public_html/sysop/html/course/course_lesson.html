@@ -91,11 +91,19 @@
 				}
 			});
 		}
-		function fullTime() {
 
+		function fullTime() {
+			$(".stime").each(function() { $(this).val("00"); })
+			$(".sminute").each(function() { $(this).val("00"); })
+			$(".etime").each(function() { $(this).val("23"); })
+			$(".eminute").each(function() { $(this).val("55"); })
 		}
+
 		function resetTime() {
-			
+			$(".stime").each(function() { $(this).val(""); })
+			$(".sminute").each(function() {$(this).val(""); })
+			$(".etime").each(function() { $(this).val(""); })
+			$(".eminute").each(function() { $(this).val(""); })
 		}
 
 		</script>
@@ -229,13 +237,13 @@
 	<td class="l_td01" style="line-height:32px;" class="fontsmallthin">
 		<!--@if(list.online_block)-->
 		<input type="text" name="start_date" value="{{list.start_date_conv}}" _cvalue="{{list.start_date_conv}}" class="sdate" onclick="new CalendarFrame.Calendar(this, 'setStudyDate()')" style="width:80px;" HNAME="시작일" REQUIRED="Y" readonly>
-		<select name="start_time_hour" id="start_time_hour_{{list.lesson_id}}" onchange="validateTime(this)">
+		<select name="start_time_hour" id="start_time_hour_{{list.lesson_id}}" class="stime" onchange="validateTime(this)">
 			<option value="">(없음)</option>
 			<!--@loop(hours)-->
 			<option value="{{hours.id}}">{{hours.id}}시</option>
 			<!--/loop(hours)-->
 		</select>
-		<select name="start_time_min" id="start_time_min_{{list.lesson_id}}" onchange="validateTime(this)">
+		<select name="start_time_min" id="start_time_min_{{list.lesson_id}}" class="sminute" onchange="validateTime(this)">
 			<option value="">(없음)</option>
 			<!--@loop(minutes)-->
 			<option value="{{minutes.id}}">{{minutes.id}}분</option>
@@ -244,13 +252,13 @@
 		부터
 		<br>
 		<input type="text" name="end_date" value="{{list.end_date_conv}}" _cvalue="{{list.end_date_conv}}" class="edate" onclick="new CalendarFrame.Calendar(this, 'setStudyDate()')" style="width:80px;" HNAME="마감일" REQUIRED="Y" readonly>
-		<select name="end_time_hour" id="end_time_hour_{{list.lesson_id}}" onchange="validateTime(this)">
+		<select name="end_time_hour" id="end_time_hour_{{list.lesson_id}}" class="etime" onchange="validateTime(this)">
 			<option value="">(없음)</option>
 			<!--@loop(hours)-->
 			<option value="{{hours.id}}">{{hours.id}}시</option>
 			<!--/loop(hours)-->
 		</select>
-		<select name="end_time_min" id="end_time_min_{{list.lesson_id}}" onchange="validateTime(this)">
+		<select name="end_time_min" id="end_time_min_{{list.lesson_id}}" class="eminute" onchange="validateTime(this)">
 			<option value="">(없음)</option>
 			<!--@loop(minutes)-->
 			<option value="{{minutes.id}}">{{minutes.id}}분</option>
@@ -316,13 +324,13 @@
 	<!--@if(course.period_yn)-->
 	<td class="l_td01" align="center" style="line-height:32px;">
 		<input type="text" name="start_date" value="{{list.start_date_conv}}" _cvalue="{{list.start_date_conv}}" class="sdate" onclick="new CalendarFrame.Calendar(this, 'setStudyDate()')" style="width:80px;" HNAME="시작일" REQUIRED="Y" readonly>
-		<select name="start_time_hour" id="start_time_hour_{{list.lesson_id}}" onchange="validateTime(this)">
+		<select name="start_time_hour" id="start_time_hour_{{list.lesson_id}}" class="stime" onchange="validateTime(this)">
 		<option value="">(없음)</option>
 		<!--@loop(hours)-->
 		<option value="{{hours.id}}">{{hours.id}}시</option>
 		<!--/loop(hours)-->
 		</select>
-		<select name="start_time_min" id="start_time_min_{{list.lesson_id}}" onchange="validateTime(this)">
+		<select name="start_time_min" id="start_time_min_{{list.lesson_id}}" class="sminute" onchange="validateTime(this)">
 		<option value="">(없음)</option>
 		<!--@loop(minutes)-->
 		<option value="{{minutes.id}}">{{minutes.id}}분</option>
@@ -330,13 +338,13 @@
 		</select>
 		부터
 		<input type="text" name="end_date" value="{{list.end_date_conv}}" _cvalue="{{list.end_date_conv}}" class="edate" onclick="new CalendarFrame.Calendar(this, 'setStudyDate()')" style="width:80px;" HNAME="마감일" REQUIRED="Y" readonly>
-		<select name="end_time_hour" id="end_time_hour_{{list.lesson_id}}" onchange="validateTime(this)">
+		<select name="end_time_hour" id="end_time_hour_{{list.lesson_id}}" class="etime" onchange="validateTime(this)">
 		<option value="">(없음)</option>
 		<!--@loop(hours)-->
 		<option value="{{hours.id}}">{{hours.id}}시</option>
 		<!--/loop(hours)-->
 		</select>
-		<select name="end_time_min" id="end_time_min_{{list.lesson_id}}" onchange="validateTime(this)">
+		<select name="end_time_min" id="end_time_min_{{list.lesson_id}}" class="eminute" onchange="validateTime(this)">
 		<option value="">(없음)</option>
 		<!--@loop(minutes)-->
 		<option value="{{minutes.id}}">{{minutes.id}}분</option>
@@ -451,7 +459,7 @@ function getIdx() {
 //삭제
 function delLesson() {
 	if(!GetFormValue("form1", "idx") && !GetFormValue("form1", "section_idx")) {
-		alert("선택된 강의가 없습니다."); 
+		alert("선택된 강의가 없습니다.");
 		return;
 	}
 	<!--@if(course.delete_block)-->
@@ -466,6 +474,27 @@ function delLesson() {
 
 function goSubmit(f) {
 	if(!validate(f)) return false;
+
+	var stimeArr = document.getElementsByClassName("stime");
+	var sminuteArr = document.getElementsByClassName("sminute");
+	var etimeArr = document.getElementsByClassName("etime");
+	var eminuteArr = document.getElementsByClassName("eminute");
+
+	
+	for(var i=0; i<stimeArr.length; i++) {
+		var stime = stimeArr[i].value;
+		var sminute = sminuteArr[i].value;
+		var etime = etimeArr[i].value;
+		var eminute = eminuteArr[i].value;
+
+		if("" == stime && ("" != sminute || "" !=  etime || "" != eminute)
+			|| "" != stime && ("" == sminute || "" ==  etime || "" == eminute)) {
+			alert("학습기간 시작/종료시간의 설정은 없음 또는 시분 값으로 일치하여야 합니다.");
+			stimeArr[i].focus();
+			return false;
+		}
+	}
+
 	return true;
 }
 

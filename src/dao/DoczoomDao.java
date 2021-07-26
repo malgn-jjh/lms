@@ -46,7 +46,7 @@ public class DoczoomDao {
 				if(null != out) out.write("<hr>" + msg + "<hr>\n");
 				else Malgn.errorLog(msg);
 			}
-		} catch(Exception ex) { Malgn.errorLog( "DoczoomDao.setError() : " + e.getMessage(), e); }
+		} catch(Exception ex) { Malgn.errorLog( "DoczoomDao.setError() : " + ex.getMessage(), ex); }
 	}
 
     //해당 조건에 부합하는 컨텐츠 개수를 가져옵니다. 각 파라미터에 null값을 지정하면 해당 조건은 사용되지 않습니다.

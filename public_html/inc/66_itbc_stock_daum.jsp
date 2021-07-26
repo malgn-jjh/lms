@@ -1,4 +1,4 @@
-<%@ page contentType="application/json; charset=utf-8" %><%@ include file="../init.jsp" %><%
+<%@ page import="com.oracle.javafx.jmx.json.JSONException"%><%@ page contentType="application/json; charset=utf-8" %><%@ include file="../init.jsp" %><%
 
 //JSON
 Json _ret = new Json();
@@ -15,7 +15,10 @@ if((1 == siteId || 66 == siteId) && "Y".equals(SiteConfig.s("itbc_stock_yn"))) {
 		Http http = new Http("https://finance.daum.net/api/domestic/quotes");
 		http.setHeader("Referer", "https://finance.daum.net/domestic");
 		src = http.send("GET");
-	} catch(Exception e) {			
+	} catch(JSONException jsone) {
+		_ret.put("ret_code", "100");
+		_ret.put("ret_msg", "http error");
+	} catch(Exception e) {
 		_ret.put("ret_code", "100");
 		_ret.put("ret_msg", "http error");
 	}

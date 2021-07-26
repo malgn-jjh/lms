@@ -21,6 +21,8 @@ String fileName = f.get("origname");
 String fileType = "image/";
 String base64Img = f.get("filehtml5");
 
+int maxPostSize = 10; //Config.getInt("maxPostSize");
+
 String ext = m.getFileExt(saveFileName).toLowerCase();
 if(!"gif".equals(ext) && !"jpg".equals(ext) && !"jpeg".equals(ext) && !"png".equals(ext)) {
 	throw new Exception("-ERR: No Image File");
@@ -75,6 +77,10 @@ else {
 	saveFileName = file.getName();
 }
 
+
+//제한-파일크기
+if((maxPostSize * 1024 * 1024) < fileSize) { throw new Exception("{\"success\":false, \"error\":\"" + maxPostSize + "MB를 초과하여 업로드 할 수 없습니다.\", \"reset\":true}"); return; }
+
 if (fileSize < 1) {
 	throw new Exception("-ERR: File Size 0");
 }
@@ -108,7 +114,8 @@ if(fileSize > 500000) {
 		Runtime.getRuntime().exec(cmd);
 		Thread.sleep(500);
 	}
-	catch(Exception e) { m.errorLog(e.getMessage(), e); }
+	catch(RuntimeException re) { m.errorLog("RuntimeException : " + re.getMessage(), re); }
+	catch(Exception e) { m.errorLog("Exception : " + e.getMessage(), e); }
 }
 String rData = String.format("{\"fileUrl\":\"%s%s\", \"filePath\":\"%s\", \"fileName\":\"%s\", \"fileSize\":\"%d\"}"
 						, ("mail".equals(m.rs("mode")) ? "http://" + request.getServerName() : "")

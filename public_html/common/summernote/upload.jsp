@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8" %><%@ include file="/init.jsp" %><%
+<%@ page import="java.io.IOException"%><%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8" %><%@ include file="/init.jsp" %><%
 
 //로그인
 if(0 == userId) { auth.loginForm(); return; }
@@ -53,7 +53,10 @@ try {
 
 		}
 	}
-} catch(Exception e) { m.errorLog(e.getMessage(), e); }
+}
+catch(IOException ioe) { m.errorLog("IOException : " + ioe.getMessage(), ioe); }
+catch(RuntimeException re) { m.errorLog("RuntimeException : " + re.getMessage(), re); }
+catch(Exception e) { m.errorLog("Exception : " + e.getMessage(), e); }
 
 //출력
 out.print("{\"success\":true, \"file\":\"" + ("mail".equals(m.rs("mode")) ? "http://" + siteinfo.s("domain") : "") + "/data/file/" + attFile.getName() + "\"}");

@@ -84,8 +84,10 @@
 		String retCode = "";
 		try {
 			retCode = CookieManager.verifyNexessCookieAndAgentVaild(request, response, 10, COOKIE_SESSTION_TIME_OUT, PROVIDER_LIST, SERVER_URL, context);
-		} catch(Exception npe) {
+		} catch(NullPointerException npe) {
 			npe.printStackTrace();
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 		return retCode;
 	}
@@ -97,8 +99,10 @@
 		String retCode = "";
 		try {
 			retCode = CookieManager.verifyNexessCookie(request, response, 10, COOKIE_SESSTION_TIME_OUT,PROVIDER_LIST);
-		} catch(Exception npe) {
+		} catch(NullPointerException npe) {
 			npe.printStackTrace();
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 		return retCode;
 	}
@@ -111,8 +115,10 @@
 		try {
 			NXNLSAPI nxNLSAPI = new NXNLSAPI(context);
 			retCode = nxNLSAPI.readNexessCookie(request, response, 10, COOKIE_SESSTION_TIME_OUT);
-		} catch(Exception npe) {
+		} catch(NullPointerException npe) {
 			npe.printStackTrace();
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 		return retCode;
 	}

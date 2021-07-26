@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="java.io.IOException"%><%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/init.jsp" %>
 <%
 
@@ -51,14 +51,17 @@ try {
 		String cmd = "convert -resize 1100x> " + imgPath + " " + imgPath;
 		Runtime.getRuntime().exec(cmd);
 	}
-	catch(Exception e) { m.errorLog(e.getMessage(), e); }
+	catch(RuntimeException re) { m.errorLog("RuntimeException : " + re.getMessage(), re); }
+	catch(Exception e) { m.errorLog("Exception : " + e.getMessage(), e); }
 
     String rData = String.format("{\"fileUrl\":\"%s%s\", \"filePath\":\"%s\", \"fileName\":\"%s\", \"fileSize\":\"%d\"}", ("mail".equals(m.rs("mode")) ? "http://" + request.getServerName() : ""), "/data/file/" + saveFileName, saveFileName, saveFileName, fileSize);
 
     out.println(rData);
 
+} catch(IOException ioe) {
+    System.out.println("IOException : " + ioe.getMessage());
 } catch(Exception e) {
-    System.out.println(e.getMessage());
+    System.out.println("Exception : " + e.getMessage());
 }
 
 %>

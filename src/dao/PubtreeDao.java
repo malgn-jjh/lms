@@ -56,7 +56,7 @@ public class PubtreeDao {
 				if(null != out) out.write("<hr>" + msg + "<hr>\n");
 				else Malgn.errorLog(msg);
 			}
-		} catch(Exception ex) { Malgn.errorLog( "PubtreeDao.setError() : " + e.getMessage(), e); }
+		} catch(Exception ex) { Malgn.errorLog( "PubtreeDao.setError() : " + ex.getMessage(), ex); }
 	}
 
 	public void setMode(String mode) {
