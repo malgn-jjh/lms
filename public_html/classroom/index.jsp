@@ -129,12 +129,16 @@ while(list.next()) {
 		list.put("online_block", true);
 		list.put("start_date_conv", m.time(_message.get("format.date.dot"), list.s("start_date")));
 		list.put("end_date_conv", m.time(_message.get("format.date.dot"), list.s("end_date")));
-		list.put("date_conv", list.s("start_date_conv") + " - " + list.s("end_date_conv"));
+		if(list.s("start_time").length() == 6 && list.s("end_time").length() == 6) {
+			list.put("start_date_conv", m.time(_message.get("format.datetime.dot"), list.s("start_date") + list.s("start_time")));
+			list.put("end_date_conv", m.time(_message.get("format.datetime.dot"), list.s("end_date") + list.s("end_time")));
+		}
+		list.put("date_conv", list.s("start_date_conv") + " 부터 <br> " + list.s("end_date_conv") + " 까지");
 	} else if("F".equals(list.s("onoff_type"))) {
 		list.put("online_block", false);
-		list.put("start_date_conv", m.time(_message.get("format.datetime.dot"), list.s("start_date") + list.s("start_time")));
+		list.put("start_date_conv", m.time(_message.get("format.date.dot"), list.s("start_date")));
 		list.put("end_date_conv", m.time("HH:mm", list.s("start_date") + list.s("end_time")));
-		list.put("date_conv", list.s("start_date_conv") + " - " + list.s("end_date_conv"));
+		list.put("date_conv", list.s("start_date_conv") + " <br> " + m.time("HH:mm", list.s("start_date")) + " - " + m.time("HH:mm", list.s("end_date")));
 	}
 
 	DataSet files = file.getFileList(list.i("lesson_id"), "lesson");

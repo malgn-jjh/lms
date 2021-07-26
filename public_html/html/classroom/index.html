@@ -195,7 +195,9 @@
 										{{list.lesson_nm}}
 									</td>
 									<!--@if(course.period_yn)-->
-									<td class="col_lesson_period study_period">{{list.date_conv}}</td>
+									<td class="col_lesson_period study_period">
+										<span class="font12">{{list.date_conv}}</span>
+									</td>
 									<!--/if(course.period_yn)-->
 									<td class="col_lesson_file">
 										<div class="lesson_file_info" id="lesson-file-info-{{list.chapter}}" onclick="javascript:hideInfo();">
