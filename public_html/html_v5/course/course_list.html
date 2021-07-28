@@ -239,15 +239,22 @@
 									
 									<div class="ccont">
 										<!-- 버튼 -->
-										<div class="clabel" style="display:none;">
+										<div class="clabel">
 											<span class="label small">{{list.onoff_type_conv}}</span>
 											<!--@if(list.recomm_yn)-->
 											<span class="label small blue">추천</span>
 											<!--/if(list.recomm_yn)-->
 										</div>
 
+										<div class="ctitle">
+											<a href="../course/course_view.jsp?id={{list.id}}&{{list_query}}">{{list.course_nm_conv}}</a>
+										</div>
 
-										<div class="cday" style="display:none;">
+										<div class="ctext">
+											{{list.subtitle_conv}}
+										</div>
+
+										<div class="cday">
 											<!--@if(list.is_package)-->
 											<span>신청기간<em> : </em></span><span class="days">{{list.request_date}}</span>
 											<!--/if(list.is_package)-->
@@ -260,14 +267,7 @@
 											<!--/nif(list.is_regular)-->
 											<!--/nif(list.is_package)-->
 										</div>
-
-										<div class="ctitle">
-											<a href="../course/course_view.jsp?id={{list.id}}&{{list_query}}">{{list.course_nm_conv}}</a>
-										</div>
 								
-										<div class="ctext">
-											{{list.subtitle_conv}}
-										</div>
 									   
 									   <!--@loop(tutors)-->
 										<div class="cif" style="display:none;">
