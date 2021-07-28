@@ -467,18 +467,18 @@ p.no_install{font-weight:700;color:#e2450e;text-align:right;font-size:15px;paddi
 
 /* 갤러리형 강의 리스트 */
 .course_gallery { display:inline-block; width:auto;padding-top:20px;box-sizing:border-box;text-align:left; }
-.course_gallery li { float:left; width:268px;height:430px; margin:15px 15px 15px 15px; border:1px #dedede solid; }
-.course_gallery .cimg { width:268px; height:180px; }
+.course_gallery li { float:left; width:268px;height:395px; margin:15px 15px 15px 15px; border:1px #dedede solid; }
+.course_gallery .cimg { width:268px; height:180px; border-bottom: 1px #dedede solid;}
 .course_gallery .cimg img { width:268px; height:180px; }
 .course_gallery .ccont { padding:19px; }  
-.course_gallery .ccont .clabel {display:block; }
+.course_gallery .ccont .clabel {display:none;}
 .course_gallery .ccont .label { margin-left:0;  }
 .course_gallery .ccont .cday { float:none; margin-top:10px; font-size:13.5px; text-align:left;height:20px; line-height:20px;padding-left:0px; white-space:normal; overflow:hidden;text-overflow:clip;}
 .course_gallery .ccont .cday span { margin:0px;padding-left:0px; }
 
-.course_gallery .ccont .ctitle a { font-family:"NanumSquare", sans-serif; display:block; line-height:24px; height:48px; font-size:20px; color:#222; font-weight:400; margin:15px 0 10px 0; white-space:normal; overflow:hidden;text-overflow:clip;}
+.course_gallery .ccont .ctitle a { font-family:"NanumSquare", sans-serif; display:block; line-height:24px; height:48px; font-size:20px; color:#222; font-weight:400; white-space:normal; overflow:hidden;text-overflow:clip;}
 .course_gallery .ccont .cprice { text-align:center; font-size:16px; min-height:20px; line-height:24px; margin:10px 0; font-weight:400; padding:10px 0 0 0; border-top:0; white-space:normal; overflow:hidden;text-overflow:clip; }
-.course_gallery .ccont .ctext { font-size:14px; height:40px; font-weight:400; line-height:20px; padding:0; overflow:hidden;text-overflow:ellipsis; }
+.course_gallery .ccont .ctext { display:none; font-size:14px; height:40px; font-weight:400; line-height:20px; padding:0; overflow:hidden;text-overflow:ellipsis; }
 .course_gallery .ccont .cif { font-size:14px; border-top:1px #dedede dashed; padding:10px 0 0 0; margin:10px 0 0 0; }
 .course_gallery .ccont .cbtn { text-align:center; margin-top:15px; height:40px; overflow:hidden; }
 .course_gallery .ccont .cbtn .button.long { width:110px}
@@ -488,17 +488,14 @@ p.no_install{font-weight:700;color:#e2450e;text-align:right;font-size:15px;paddi
 .type_chart .list_li tr td {padding-bottom:15px;}
 .type_chart .list_li tr td .course_name {height:60px;line-height:30px;overflow:hidden; margin-top:0;}
 .type_chart .list_li tr td .course_name a{font-family:"NanumSquare", sans-serif;color:#000;font-size:20px;font-weight:500; padding-left:0;padding-right:10px;}
-.type_chart .list_li tr td .course_name .label { vertical-align:3px;width:60px;text-align:center; }
+.type_chart .list_li tr td .course_name .label { display:none; vertical-align:3px;width:60px;text-align:center; }
 .type_chart .list_li tr td .course_subtitle {height:48px;overflow:hidden;line-height:20px;margin-top:10px}
 .type_chart .list_li tr td .course_tutor_period {overflow:hidden;margin-top:10px;height:20px;line-height:20px;} 
-.type_chart .list_li tr td .course_period {float:none; padding-right:10px;} 
-.type_chart .list_li tr td .course_period span.days {margin-right:10px;} 
+.type_chart .list_li tr td .course_period {float:none;} 
 .type_chart .list_li tr td .course_tutor {float:left; padding-right:10px;} 
 .type_chart .list_li tr td.col_course_name {padding-top: 20px !important;vertical-align:top;}
 .type_chart .list_li tr td.col_course_price {text-align:center;}
 .type_chart .list_li tr td.col_course_button {text-align:center;}
-
-
 
 
 /* 웹진형 강의 리스트 */
@@ -514,7 +511,7 @@ p.no_install{font-weight:700;color:#e2450e;text-align:right;font-size:15px;paddi
 .type_chart .list_li .webtv_img a img{width:220px;height:125px;display:block}
 
 .type_chart .list_li .top_td{padding-top:5px;}
-.type_chart .list_li .top_td span:not(.label){margin-right:8px}
+.type_chart .list_li .top_td span:not(.label){margin-right:2px}
 .type_chart .list_li .bot_td span:not(.label){margin-left:0}
 .type_chart .list_li .bot_td{padding-bottom:15px; border-bottom:1px solid #d1d1d1}
 .type_chart .list_li .bot_td.tac{text-align:center}
@@ -541,7 +538,7 @@ p.no_install{font-weight:700;color:#e2450e;text-align:right;font-size:15px;paddi
 .col_course_price {width:120px;}
 .col_course_button {width:100px;}
 */
-
+/*
 @media all and (min-width:1000px) and (max-width:1299px) {
 	.type_chart.course_chart .list_li colgroup col:nth-child(1) {width:230px !important;}
 	.type_chart.course_chart .list_li .course_img {width:200px;height:142px;}
@@ -549,11 +546,10 @@ p.no_install{font-weight:700;color:#e2450e;text-align:right;font-size:15px;paddi
 	.type_chart.course_chart .list_li .course_img a img {width:200px;height:134px;}
 	.type_chart.course_chart .list_li tr td .course_subtitle {height:36px;}
 }
-
-@media all and (min-width:768px) and (max-width:999px) {
-	.type_chart.course_chart .list_li colgroup col:nth-child(1) {width:210px !important;}
-	.type_chart.course_chart .list_li colgroup col:nth-child(3) {width:170px !important;}
-	.type_chart.course_chart .list_li colgroup col:nth-child(4) {display:none; visibility:hidden;}
+*/
+@media all and (max-width:991px) {
+	.type_chart.course_chart .list_li colgroup {display:none; visibility:hidden;}
+	.type_chart.course_chart .list_li col {display:none; visibility:hidden;}
 
 	.type_chart.course_chart .list_li .course_img {width:180px;height:128px;}
 	.type_chart.course_chart .list_li .course_img a {width:180px;height:120px;}
@@ -570,30 +566,26 @@ p.no_install{font-weight:700;color:#e2450e;text-align:right;font-size:15px;paddi
 	.type_chart.course_chart .list_li tr td:nth-child(4) .button { display:inline-block; }
 
 }
-
-/*
 @media all and (max-width:767px) {
-	
-	.type_chart.course_chart .list_li colgroup, .type_chart.course_chart .list_li col {display:none; visibility:hidden;}
-	.type_chart.course_chart .list_li tr {}
-	.type_chart.course_chart .list_li tr td {display:block; border-bottom:0 none;padding-bottom:0;width:100%;box-sizing:border-box;}
-	.type_chart.course_chart .list_li tr td:nth-child(1) { text-align:center; }
-	.type_chart.course_chart .list_li tr td:nth-child(2) { height:auto; border-bottom:1px solid #d1d1d1;padding:15px 10px !important; }
-	.type_chart.course_chart .list_li tr td:nth-child(3) { margin:0 !important;padding-top:15px;background-color:#F8F8f8;}
-	.type_chart.course_chart .list_li tr td:nth-child(3) div { display:inline; }
-	.type_chart.course_chart .list_li tr td:nth-child(3) div:not(:last-child) { margin-right:10px; }
-	.type_chart.course_chart .list_li tr td:nth-child(4) { padding-top:15px;padding-bottom:15px;background-color:#F8F8f8;}
-	.type_chart.course_chart .list_li tr td:nth-child(4) .button{ width:150px; }
-	.type_chart.course_chart .list_li .course_img {width:100%; height:auto; box-sizing:border-box;max-width:400px;display:inline-block;}
-	.type_chart.course_chart .list_li .course_img a {width:100%; height:auto; box-sizing:border-box;}
-	.type_chart.course_chart .list_li .course_img a img {width:100%; height:auto; box-sizing:border-box;}
+	.type_chart.course_chart .list_li colgroup {display:none; visibility:hidden;}
+	.type_chart.course_chart .list_li col {display:none; visibility:hidden;}
 
-	.type_chart.course_chart .list_li tr td .course_name {height:auto;min-height:30px;}
-	.type_chart.course_chart .list_li tr td .course_name a {padding-right:0;}
-	.type_chart.course_chart .list_li tr td .course_subtitle {height:auto;max-height:60px;}
-	.type_chart.course_chart .list_li tr td .course_tutor_period .course_tutor li:after { content: '·' }
+	.type_chart.course_chart .list_li .course_img {width:140px;height:100px;}
+	.type_chart.course_chart .list_li .course_img a {width:140px;height:100px;}
+	.type_chart.course_chart .list_li .course_img a img {width:140px;height:100px;}
+
+	.type_chart.course_chart .list_li tr td:nth-child(1) { width:155px;vertical-align:top; }
+	.type_chart.course_chart .list_li tr td:nth-child(2) { box-sizing:border-box;display:block;width:100%;height:auto;padding:10px 0 0 0;}
+	.type_chart.course_chart .list_li tr td:nth-child(3) { box-sizing:border-box;display:block;width:100%;height:auto;padding:0;}
+	.type_chart.course_chart .list_li tr td:nth-child(4) { box-sizing:border-box;display:none;width:100%;height:auto;padding:0;margin-top:-38px;}
+
+	.type_chart .list_li tr td {padding-bottom: 20px;}
+	.type_chart .list_li tr td .course_name .label {width:30px;}
+	.type_chart .list_li tr td .course_name a {font-size:18px;}
+	.type_chart .list_li tr td .course_subtitle {display:none;}
+	.type_chart .list_li tr td.col_course_price {text-align:left;}
+	.type_chart .list_li tr td.col_course_button {text-align:right;}
 }
-*/
 
 /* 강의 상세보기 */
 .course_infomation {border-top:0 solid #333333;padding:0 0 0 0;overflow:hidden}
@@ -2173,34 +2165,12 @@ button.button::-moz-focus-inner {margin:0}
 	.type_webzine .webzine_img a {width:100px; height:70px;}
 	.type_webzine .webzine_img a img {width:100px; height:70px; min-height:70px;}
 
-	.course_gallery li {width:98%; height:calc(56vw + 250px); margin:1%; box-sizing:border-box;}
-	.course_gallery .cimg { width:100%; height:56vw; }
+	.course_gallery li {width:98%; height:auto; margin:1%; box-sizing:border-box;}
+	.course_gallery .cimg { width:100%; height:56vw; border-bottom: 1px #dedede solid; }
 	.course_gallery .cimg img { width:100%; height:56vw; }
-
-
-	/* .type_chart.course_chart tbody tr {position:relative; overflow:hidden; border-bottom:1px solid #ddd;} */
-	/*
-	.type_chart.course_chart {}
-	.type_chart.course_chart colgroup, .type_chart.course_chart col {display:none; visibility:hidden;}
-	.type_chart.course_chart tbody tr td {display:block; float:left; box-sizing:border-box; border-bottom:0 none;}
-	.type_chart.course_chart tbody tr .course_img {width:100%; height:auto; box-sizing:border-box;}
-	.type_chart.course_chart tbody tr .course_img a {width:100%; height:auto; box-sizing:border-box; border:0 none; border-bottom:1px solid #d1d1d1;}
-	.type_chart.course_chart tbody tr .course_img a img {width:100%; height:auto; box-sizing:border-box;}
-	.type_chart.course_chart tbody tr:nth-child(odd) {border:1px solid #d1d1d1; border-bottom:0 none;}
-	.type_chart.course_chart tbody tr:nth-child(odd) td { padding-left:10px; padding-right:10px; width:100%;}
-	.type_chart.course_chart tbody tr:nth-child(odd) .bot_td {border-bottom:0 none;}
-	.type_chart.course_chart tbody tr:nth-child(odd) td:nth-child(2) {height:auto; text-align:center;}
-	.type_chart.course_chart tbody tr:nth-child(odd) td:nth-child(3) {height:auto;}
-	.type_chart.course_chart tbody tr:nth-child(odd) td:nth-child(3) br {display:none;}
-	.type_chart.course_chart tbody tr:nth-child(odd) td:nth-child(4) {height:auto;}
-	.type_chart.course_chart tbody tr:nth-child(even) td {width:100%; border:1px solid #d1d1d1; border-top:0 none; margin-bottom:15px;}
-	.type_chart.course_chart tbody tr td .ct_text {margin-top:0; padding:0 10px; text-align:center;}
-	.type_chart.course_chart tbody tr td .ct_if {padding:0 10px; text-align:center;}
-	.type_chart.course_chart tbody tr td .ct_if .tutor {float:none; margin-right:0;}
-	.type_chart.course_chart tbody tr td .ct_if .p {padding-right:0;}
-	.type_chart.course_chart tbody tr td .ct_if .p span.days {margin-right:0;}
-	.type_chart.course_chart tbody tr td.nodata {display:block !important; visibility:visible !important; float:none !important; padding:40px 0 !important; width:100% !important; height:auto !important; text-align:center !important;}
-	*/
+	.course_gallery .ccont .clabel {display:none;}
+	.course_gallery .ccont .ctitle a {margin:0;}
+	.course_gallery .ccont .ctext {display:none;}
 
 	.type_chart.book_chart.table.striped tbody tr:nth-child(odd) td, .type_list tbody tr:nth-child(odd) th {background-color:transparent;}
 	.type_chart.book_chart.table.striped tbody tr:nth-child(odd) {background-color:#f9f9f9;}
