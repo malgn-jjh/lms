@@ -1,6 +1,7 @@
 package dao;
 
 import malgnsoft.db.*;
+import malgnsoft.util.*;
 import java.io.File;
 
 public class PageDao extends DataObject {
@@ -17,15 +18,18 @@ public class PageDao extends DataObject {
 		DataSet ds = new DataSet();
 		File dir = new File(path);
 		if(!dir.exists()) return ds;
-
-		File[] files = dir.listFiles();
-		for(int i=0; i<files.length; i++) {
-			String filename = files[i].getName();
-			if("layout_".equals(filename.substring(0, 7))) {
-				ds.addRow();
-				ds.put("id", filename.substring(7, filename.length() - 5));
-				ds.put("name", filename);
+		try {
+			File[] files = dir.listFiles();
+			for (int i = 0; i < files.length; i++) {
+				String filename = files[i].getName();
+				if ("layout_".equals(filename.substring(0, 7))) {
+					ds.addRow();
+					ds.put("id", filename.substring(7, filename.length() - 5));
+					ds.put("name", filename);
+				}
 			}
+		} catch (NullPointerException npe) {
+			Malgn.errorLog("NullPointerException : PageDao.getLayouts() : " + npe.getMessage(), npe);
 		}
 		return ds;
 	}

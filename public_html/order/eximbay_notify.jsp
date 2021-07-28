@@ -1,4 +1,6 @@
-<%@ page contentType="text/html; charset=utf-8" %><%@ page import="java.security.*" %><%@ include file="/init.jsp" %><%
+<%@ page contentType="text/html; charset=utf-8" %><%@ page import="java.security.*" %>
+<%@ page import="java.io.UnsupportedEncodingException" %>
+<%@ include file="/init.jsp" %><%
 
 //로그
 m.log("eximbay_noti", m.reqMap("").toString());
@@ -168,9 +170,16 @@ out.print("rescode=0000&resmsg=Success");
 	        hashValue = md.digest(plainText);
    
 	        return toHexString(hashValue);
-        }catch(Exception e){
-			m.errorLog(e.getMessage(), e);
-        	//System.out.println("[encryptSHA256]Exception : " + e);	
+        }
+		catch(UnsupportedEncodingException uee){
+			System.out.println("[encryptSHA256]UnsupportedEncodingException : " + uee.getMessage());
+        }
+		catch(NoSuchAlgorithmException nsae){
+			System.out.println("[encryptSHA256]NoSuchAlgorithmException : " + nsae.getMessage());
+        }
+		catch(Exception e){
+			System.out.println("[encryptSHA256]Exception : " + e.getMessage());
+        	//System.out.println("[encryptSHA256]Exception : " + e);
         }
         
         return "";
@@ -197,34 +206,26 @@ out.print("rescode=0000&resmsg=Success");
 		List<String> reqList = new ArrayList<String>();
 
 
-		try{
-			reqList = new ArrayList<String>(reqTemp.keySet());
-			Collections.sort(reqList);
 
-			for (String str : reqList) {	
-				String key = str;
-				String value = (String) reqTemp.get(str);  
-				
-				if ("fgkey".equals(key))  {
-					listSize++;
-					continue;
-				}			
-				if(reqList.size() ==  listSize)
-					reqParam.append(key).append("=").append(value);
-				else 
-					reqParam.append(key).append("=").append(value).append("&");   
+		reqList = new ArrayList<String>(reqTemp.keySet());
+		Collections.sort(reqList);
+
+		for (String str : reqList) {
+			String key = str;
+			String value = (String) reqTemp.get(str);
+
+			if ("fgkey".equals(key))  {
 				listSize++;
+				continue;
 			}
-			//System.out.println("[makeAllParam]sorting : "+reqParam.toString());
-			return reqParam.toString();
-
-
-
-		}catch(Exception e){
-			m.errorLog(e.getMessage(), e);
-			//System.out.println("[makeAllParam]Exception : " + e);	
+			if(reqList.size() ==  listSize)
+				reqParam.append(key).append("=").append(value);
+			else
+				reqParam.append(key).append("=").append(value).append("&");
+			listSize++;
 		}
-		//System.out.println("[makeAllParam]return : "+reqParam.toString());
+		//System.out.println("[makeAllParam]sorting : "+reqParam.toString());
+
 		return reqParam.toString();
 	}
 	//null 체크 함수

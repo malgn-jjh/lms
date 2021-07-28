@@ -1,3 +1,5 @@
+<%@ page import="javax.xml.ws.http.HTTPException" %>
+<%@ page import="com.oracle.javafx.jmx.json.JSONException" %>
 <%@ page contentType="text/html; charset=utf-8" %><%@ include file="init.jsp" %><%
 
 //제한
@@ -69,7 +71,19 @@ try {
 	//m.log("ymdr", m.stripTags(ret));
 	m.log("ymdr", ret);
 	json.setJson(ret);
-} catch(Exception e) {
+}
+catch(HTTPException httpe) {
+	m.errorLog("HTTPException : " + httpe.getMessage(), httpe);
+	m.jsAlert("결제하는 중 오류가 발생했습니다.");
+	return;
+}
+catch(JSONException jsone) {
+	m.errorLog("JSONException : " + jsone.getMessage(), jsone);
+	m.jsAlert("결제하는 중 오류가 발생했습니다.");
+	return;
+}
+catch(Exception e) {
+	m.errorLog("Exception : " + e.getMessage(), e);
 	m.jsAlert("결제하는 중 오류가 발생했습니다.");
 	return;
 }
@@ -173,7 +187,19 @@ if("00".equals(resultCode)) {
 				//m.log("ymdr", m.stripTags(ret));
 				m.log("ymdr", ret);
 				json.setJson(ret);
-			} catch(Exception e) {
+			}
+			catch(HTTPException httpe) {
+				m.errorLog("HTTPException : " + httpe.getMessage(), httpe);
+				m.jsAlert("취소처리하는 중 오류가 발생했습니다.");
+				//return;
+			}
+			catch(JSONException jsone) {
+				m.errorLog("JSONException : " + jsone.getMessage(), jsone);
+				m.jsAlert("취소처리하는 중 오류가 발생했습니다.");
+				//return;
+			}
+			catch(Exception e) {
+				m.errorLog("Exception : " + e.getMessage(), e);
 				m.jsAlert("취소처리하는 중 오류가 발생했습니다.");
 				//return;
 			}

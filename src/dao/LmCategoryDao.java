@@ -101,7 +101,10 @@ public class LmCategoryDao extends DataObject {
 		String[] parents = new String[] {};
 		try {
 			parents = this.getParentNodes(categoryId + "");
-		} catch (Exception e) { return new DataSet(); }
+		}
+		catch (IllegalArgumentException iae) { return new DataSet(); }
+		catch (ArrayIndexOutOfBoundsException aioobe) { return new DataSet(); }
+		catch (Exception e) { return new DataSet(); }
 		if(1 > parents.length) return new DataSet();
 
 		DataSet tree = find("id IN (" + Malgn.join(",", parents) + ") AND status = 1 AND site_id = " + siteId + " AND module = '" + module + "'" + (!"".equals(where) ? " AND " + where : ""), "*", "depth ASC");

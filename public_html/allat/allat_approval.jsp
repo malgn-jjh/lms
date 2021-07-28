@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=euc-kr" %><%@ include file="../init.jsp" %>
-<!-- ì˜¬ì•³ê´€ë ¨ í•¨ìˆ˜ Import //-->
+<!-- ¿Ã¾Ü°ü·Ã ÇÔ¼ö Import //-->
 <%@ page import="java.util.*,java.net.*,com.allat.util.AllatUtil" %>
 
 <%
@@ -7,41 +7,41 @@
   //----------------------
 
   // Service Code
-  String sCrossKey = siteinfo.s("pg_key");	//ì„¤ì •í•„ìš” [ì‚¬ì´íŠ¸ ì°¸ì¡° - http://www.allatpay.com/servlet/AllatBiz/support/sp_install_guide_scriptapi.jsp#shop]
-  String sShopId   = siteinfo.s("pg_id");		//ì„¤ì •í•„ìš”
-  String sAmount   = "1000";				//ê²°ì œ ê¸ˆì•¡ì„ ë‹¤ì‹œ ê³„ì‚°í•´ì„œ ë§Œë“¤ì–´ì•¼ í•¨(í•´í‚¹ë°©ì§€)  ( session, DB ì‚¬ìš© )
+  String sCrossKey = siteinfo.s("pg_key");	//¼³Á¤ÇÊ¿ä [»çÀÌÆ® ÂüÁ¶ - http://www.allatpay.com/servlet/AllatBiz/support/sp_install_guide_scriptapi.jsp#shop]
+  String sShopId   = siteinfo.s("pg_id");		//¼³Á¤ÇÊ¿ä
+  String sAmount   = "1000";				//°áÁ¦ ±İ¾×À» ´Ù½Ã °è»êÇØ¼­ ¸¸µé¾î¾ß ÇÔ(ÇØÅ·¹æÁö)  ( session, DB »ç¿ë )
 
   String sEncData  = request.getParameter("allat_enc_data");
   String strReq = "";
 m.jsAlert(sEncData);
 if(true)return;
-  // ìš”ì²­ ë°ì´í„° ì„¤ì •
+  // ¿äÃ» µ¥ÀÌÅÍ ¼³Á¤
   //----------------------
   strReq  ="allat_shop_id="   +sShopId;
   strReq +="&allat_amt="      +sAmount;
   strReq +="&allat_enc_data=" +sEncData;
   strReq +="&allat_cross_key="+sCrossKey;
 
-  // ì˜¬ì•³ ê²°ì œ ì„œë²„ì™€ í†µì‹   : AllatUtil.approvalReq->í†µì‹ í•¨ìˆ˜, HashMap->ê²°ê³¼ê°’
+  // ¿Ã¾Ü °áÁ¦ ¼­¹ö¿Í Åë½Å  : AllatUtil.approvalReq->Åë½ÅÇÔ¼ö, HashMap->°á°ú°ª
   //-----------------------------------------------------------------------------
   AllatUtil util = new AllatUtil();
   HashMap hm     = null;
   //hm = util.approvalReq(strReq, "NOSSL");
   hm = util.approvalReq(strReq, "SSL");
 
-  // ê²°ì œ ê²°ê³¼ ê°’ í™•ì¸
+  // °áÁ¦ °á°ú °ª È®ÀÎ
   //------------------
   String sReplyCd     = (String)hm.get("reply_cd");
   String sReplyMsg    = (String)hm.get("reply_msg");
 
-  /* ê²°ê³¼ê°’ ì²˜ë¦¬
+  /* °á°ú°ª Ã³¸®
   --------------------------------------------------------------------------
-     ê²°ê³¼ ê°’ì´ '0000'ì´ë©´ ì •ìƒì„. ë‹¨, allat_test_yn=Y ì¼ê²½ìš° '0001'ì´ ì •ìƒì„.
-     ì‹¤ì œ ê²°ì œ   : allat_test_yn=N ì¼ ê²½ìš° reply_cd=0000 ì´ë©´ ì •ìƒ
-     í…ŒìŠ¤íŠ¸ ê²°ì œ : allat_test_yn=Y ì¼ ê²½ìš° reply_cd=0001 ì´ë©´ ì •ìƒ
+     °á°ú °ªÀÌ '0000'ÀÌ¸é Á¤»óÀÓ. ´Ü, allat_test_yn=Y ÀÏ°æ¿ì '0001'ÀÌ Á¤»óÀÓ.
+     ½ÇÁ¦ °áÁ¦   : allat_test_yn=N ÀÏ °æ¿ì reply_cd=0000 ÀÌ¸é Á¤»ó
+     Å×½ºÆ® °áÁ¦ : allat_test_yn=Y ÀÏ °æ¿ì reply_cd=0001 ÀÌ¸é Á¤»ó
   --------------------------------------------------------------------------*/
   if( sReplyCd.equals("0000") ){
-    // reply_cd "0000" ì¼ë•Œë§Œ ì„±ê³µ
+    // reply_cd "0000" ÀÏ¶§¸¸ ¼º°ø
     String sOrderNo        = (String)hm.get("order_no");
     String sAmt            = (String)hm.get("amt");
     String sPayType        = (String)hm.get("pay_type");
@@ -72,79 +72,79 @@ if(true)return;
     String sTicketNm       = (String)hm.get("ticket_nm");
     String sPointAmt       = (String)hm.get("point_amt");
 
-    out.println("ê²°ê³¼ì½”ë“œ               : " + sReplyCd          + "<br>");
-    out.println("ê²°ê³¼ë©”ì„¸ì§€             : " + sReplyMsg         + "<br>");
-    out.println("ì£¼ë¬¸ë²ˆí˜¸               : " + sOrderNo          + "<br>");
-    out.println("ìŠ¹ì¸ê¸ˆì•¡               : " + sAmt              + "<br>");
-    out.println("ì§€ë¶ˆìˆ˜ë‹¨               : " + sPayType          + "<br>");
-    out.println("ìŠ¹ì¸ì¼ì‹œ               : " + sApprovalYmdHms   + "<br>");
-    out.println("ê±°ë˜ì¼ë ¨ë²ˆí˜¸           : " + sSeqNo            + "<br>");
-    out.println("ì—ìŠ¤í¬ë¡œ ì ìš© ì—¬ë¶€     : " + sEscrowYn         + "<br>");
-	out.println("==================== ì‹ ìš© ì¹´ë“œ ===================<br>");
-    out.println("ìŠ¹ì¸ë²ˆí˜¸               : " + sApprovalNo       + "<br>");
-    out.println("ì¹´ë“œID                 : " + sCardId           + "<br>");
-    out.println("ì¹´ë“œëª…                 : " + sCardNm           + "<br>");
-    out.println("í• ë¶€ê°œì›”               : " + sSellMm           + "<br>");
-    out.println("ë¬´ì´ìì—¬ë¶€             : " + sZerofeeYn        + "<br>");   //ë¬´ì´ì(Y),ì¼ì‹œë¶ˆ(N)
-    out.println("ì¸ì¦ì—¬ë¶€               : " + sCertYn           + "<br>");   //ì¸ì¦(Y),ë¯¸ì¸ì¦(N)
-    out.println("ì§ê°€ë§¹ì—¬ë¶€             : " + sContractYn       + "<br>");   //3ìê°€ë§¹ì (Y),ëŒ€í‘œê°€ë§¹ì (N)
-    out.println("ì„¸ì´ë¸Œ ê²°ì œ ê¸ˆì•¡       : " + sSaveAmt          + "<br>");
-    out.println("í¬ì¸íŠ¸ ê²°ì œ ê¸ˆì•¡       : " + sPointAmt         + "<br>");
-	out.println("=============== ê³„ì¢Œ ì´ì²´ / ê°€ìƒê³„ì¢Œ =============<br>");
-    out.println("ì€í–‰ID                 : " + sBankId           + "<br>");
-    out.println("ì€í–‰ëª…                 : " + sBankNm           + "<br>");
-    out.println("í˜„ê¸ˆì˜ìˆ˜ì¦ ì¼ë ¨ ë²ˆí˜¸   : " + sCashBillNo       + "<br>");
-    out.println("í˜„ê¸ˆì˜ìˆ˜ì¦ ìŠ¹ì¸ ë²ˆí˜¸   : " + sCashApprovalNo   + "<br>");
-    out.println("===================== ê°€ìƒê³„ì¢Œ ===================<br>");
-    out.println("ê³„ì¢Œë²ˆí˜¸               : " + sAccountNo        + "<br>");
-    out.println("ì…ê¸ˆ ê³„ì¢Œëª…            : " + sIncomeAccNm      + "<br>");
-    out.println("ì…ê¸ˆìëª…               : " + sAccountNm        + "<br>");
-    out.println("ì…ê¸ˆê¸°í•œì¼             : " + sIncomeLimitYmd   + "<br>");
-    out.println("ì…ê¸ˆì˜ˆì •ì¼             : " + sIncomeExpectYmd  + "<br>");
-    out.println("í˜„ê¸ˆì˜ìˆ˜ì¦ì‹ ì²­ ì—¬ë¶€    : " + sCashYn           + "<br>");
-    out.println("===================== íœ´ëŒ€í° ê²°ì œ ================<br>");
-    out.println("ì´ë™í†µì‹ ì‚¬êµ¬ë¶„         : " + sHpId             + "<br>");
-    out.println("===================== ìƒí’ˆê¶Œ ê²°ì œ ================<br>");
-    out.println("ìƒí’ˆê¶ŒID               :" + sTicketId          + "<br>");
-    out.println("ìƒí’ˆê¶Œ ì´ë¦„            :" + sTicketPayType     + "<br>");
-    out.println("ê²°ì œêµ¬ë¶„               :" + sTicketNm          + "<br>");
+    out.println("°á°úÄÚµå               : " + sReplyCd          + "<br>");
+    out.println("°á°ú¸Ş¼¼Áö             : " + sReplyMsg         + "<br>");
+    out.println("ÁÖ¹®¹øÈ£               : " + sOrderNo          + "<br>");
+    out.println("½ÂÀÎ±İ¾×               : " + sAmt              + "<br>");
+    out.println("ÁöºÒ¼ö´Ü               : " + sPayType          + "<br>");
+    out.println("½ÂÀÎÀÏ½Ã               : " + sApprovalYmdHms   + "<br>");
+    out.println("°Å·¡ÀÏ·Ã¹øÈ£           : " + sSeqNo            + "<br>");
+    out.println("¿¡½ºÅ©·Î Àû¿ë ¿©ºÎ     : " + sEscrowYn         + "<br>");
+	out.println("==================== ½Å¿ë Ä«µå ===================<br>");
+    out.println("½ÂÀÎ¹øÈ£               : " + sApprovalNo       + "<br>");
+    out.println("Ä«µåID                 : " + sCardId           + "<br>");
+    out.println("Ä«µå¸í                 : " + sCardNm           + "<br>");
+    out.println("ÇÒºÎ°³¿ù               : " + sSellMm           + "<br>");
+    out.println("¹«ÀÌÀÚ¿©ºÎ             : " + sZerofeeYn        + "<br>");   //¹«ÀÌÀÚ(Y),ÀÏ½ÃºÒ(N)
+    out.println("ÀÎÁõ¿©ºÎ               : " + sCertYn           + "<br>");   //ÀÎÁõ(Y),¹ÌÀÎÁõ(N)
+    out.println("Á÷°¡¸Í¿©ºÎ             : " + sContractYn       + "<br>");   //3ÀÚ°¡¸ÍÁ¡(Y),´ëÇ¥°¡¸ÍÁ¡(N)
+    out.println("¼¼ÀÌºê °áÁ¦ ±İ¾×       : " + sSaveAmt          + "<br>");
+    out.println("Æ÷ÀÎÆ® °áÁ¦ ±İ¾×       : " + sPointAmt         + "<br>");
+	out.println("=============== °èÁÂ ÀÌÃ¼ / °¡»ó°èÁÂ =============<br>");
+    out.println("ÀºÇàID                 : " + sBankId           + "<br>");
+    out.println("ÀºÇà¸í                 : " + sBankNm           + "<br>");
+    out.println("Çö±İ¿µ¼öÁõ ÀÏ·Ã ¹øÈ£   : " + sCashBillNo       + "<br>");
+    out.println("Çö±İ¿µ¼öÁõ ½ÂÀÎ ¹øÈ£   : " + sCashApprovalNo   + "<br>");
+    out.println("===================== °¡»ó°èÁÂ ===================<br>");
+    out.println("°èÁÂ¹øÈ£               : " + sAccountNo        + "<br>");
+    out.println("ÀÔ±İ °èÁÂ¸í            : " + sIncomeAccNm      + "<br>");
+    out.println("ÀÔ±İÀÚ¸í               : " + sAccountNm        + "<br>");
+    out.println("ÀÔ±İ±âÇÑÀÏ             : " + sIncomeLimitYmd   + "<br>");
+    out.println("ÀÔ±İ¿¹Á¤ÀÏ             : " + sIncomeExpectYmd  + "<br>");
+    out.println("Çö±İ¿µ¼öÁõ½ÅÃ» ¿©ºÎ    : " + sCashYn           + "<br>");
+    out.println("===================== ÈŞ´ëÆù °áÁ¦ ================<br>");
+    out.println("ÀÌµ¿Åë½Å»ç±¸ºĞ         : " + sHpId             + "<br>");
+    out.println("===================== »óÇ°±Ç °áÁ¦ ================<br>");
+    out.println("»óÇ°±ÇID               :" + sTicketId          + "<br>");
+    out.println("»óÇ°±Ç ÀÌ¸§            :" + sTicketPayType     + "<br>");
+    out.println("°áÁ¦±¸ºĞ               :" + sTicketNm          + "<br>");
 
-	// ë°°í¬ë³¸ì—ì„œëŠ” ì œì™¸ ì‹œí‚¬ê²ƒ //////////////////////////////////////////
+	// ¹èÆ÷º»¿¡¼­´Â Á¦¿Ü ½ÃÅ³°Í //////////////////////////////////////////
 	String sPartcancelYn  = (String)hm.get("partcancel_yn");
 	String sBCCertNo      = (String)hm.get("bc_cert_no");
 	String sCardNo        = (String)hm.get("card_no");
 	String sIspFullCardCd = (String)hm.get("isp_full_card_cd");
 	String sCardType      = (String)hm.get("card_type");
 	String sBankAccountNm = (String)hm.get("bank_account_nm");
-    out.println("===================== ë°°í¬ë³¸ì œì™¸ ================<br>");
-	out.println("ì‹ ìš©ì¹´ë“œ ë¶€ë¶„ì·¨ì†Œê°€ëŠ¥ì—¬ë¶€ : " + sPartcancelYn  + "<br>"); 
-	out.println("BCì¸ì¦ë²ˆí˜¸                : " + sBCCertNo      + "<br>");
-	out.println("ì¹´ë“œë²ˆí˜¸ Return           : " + sCardNo        + "<br>");
-	out.println("ISP ì „ì²´ ì¹´ë“œì½”ë“œ         : " + sIspFullCardCd + "<br>");
-	out.println("ì¹´ë“œêµ¬ë¶„                  : " + sCardType      + "<br>");
-	out.println("ê³„ì¢Œì´ì²´ ì˜ˆê¸ˆì£¼ëª…         : " + sBankAccountNm + "<br>");
+    out.println("===================== ¹èÆ÷º»Á¦¿Ü ================<br>");
+	out.println("½Å¿ëÄ«µå ºÎºĞÃë¼Ò°¡´É¿©ºÎ : " + sPartcancelYn  + "<br>"); 
+	out.println("BCÀÎÁõ¹øÈ£                : " + sBCCertNo      + "<br>");
+	out.println("Ä«µå¹øÈ£ Return           : " + sCardNo        + "<br>");
+	out.println("ISP ÀüÃ¼ Ä«µåÄÚµå         : " + sIspFullCardCd + "<br>");
+	out.println("Ä«µå±¸ºĞ                  : " + sCardType      + "<br>");
+	out.println("°èÁÂÀÌÃ¼ ¿¹±İÁÖ¸í         : " + sBankAccountNm + "<br>");
 	//////////////////////////////////////////////////////////////////////
 
   }else{
-    // reply_cd ê°€ "0000" ì•„ë‹ë•ŒëŠ” ì—ëŸ¬ (ìì„¸í•œ ë‚´ìš©ì€ ë§¤ë‰´ì–¼ì°¸ì¡°)
-    // reply_msg ê°€ ì‹¤íŒ¨ì— ëŒ€í•œ ë©”ì„¸ì§€
-    out.println("ê²°ê³¼ì½”ë“œ               : " + sReplyCd  + "<br>");
-    out.println("ê²°ê³¼ë©”ì„¸ì§€             : " + sReplyMsg + "<br>");
+    // reply_cd °¡ "0000" ¾Æ´Ò¶§´Â ¿¡·¯ (ÀÚ¼¼ÇÑ ³»¿ëÀº ¸Å´º¾óÂüÁ¶)
+    // reply_msg °¡ ½ÇÆĞ¿¡ ´ëÇÑ ¸Ş¼¼Áö
+    out.println("°á°úÄÚµå               : " + sReplyCd  + "<br>");
+    out.println("°á°ú¸Ş¼¼Áö             : " + sReplyMsg + "<br>");
   }
 %>
 
 <%--
-    [ì‹ ìš©ì¹´ë“œ ì „í‘œì¶œë ¥ ì˜ˆì œ]
+    [½Å¿ëÄ«µå ÀüÇ¥Ãâ·Â ¿¹Á¦]
 
-    ê²°ì œê°€ ì •ìƒì ìœ¼ë¡œ ì™„ë£Œë˜ë©´ ì•„ë˜ì˜ ì†ŒìŠ¤ë¥¼ ì´ìš©í•˜ì—¬, ê³ ê°ì—ê²Œ ì‹ ìš©ì¹´ë“œ ì „í‘œë¥¼ ë³´ì—¬ì¤„ ìˆ˜ ìˆìŠµë‹ˆë‹¤.
-    ì „í‘œ ì¶œë ¥ì‹œ ìƒì ì•„ì´ë””ì™€ ì£¼ë¬¸ë²ˆí˜¸ë¥¼ ì„¤ì •í•˜ì‹œê¸° ë°”ëë‹ˆë‹¤.
+    °áÁ¦°¡ Á¤»óÀûÀ¸·Î ¿Ï·áµÇ¸é ¾Æ·¡ÀÇ ¼Ò½º¸¦ ÀÌ¿ëÇÏ¿©, °í°´¿¡°Ô ½Å¿ëÄ«µå ÀüÇ¥¸¦ º¸¿©ÁÙ ¼ö ÀÖ½À´Ï´Ù.
+    ÀüÇ¥ Ãâ·Â½Ã »óÁ¡¾ÆÀÌµğ¿Í ÁÖ¹®¹øÈ£¸¦ ¼³Á¤ÇÏ½Ã±â ¹Ù¶ø´Ï´Ù.
 
-    var urls ="http://www.allatpay.com/servlet/AllatBizPop/member/pop_card_receipt.jsp?shop_id=ìƒì ì•„ì´ë””&order_no=ì£¼ë¬¸ë²ˆí˜¸";
+    var urls ="http://www.allatpay.com/servlet/AllatBizPop/member/pop_card_receipt.jsp?shop_id=»óÁ¡¾ÆÀÌµğ&order_no=ÁÖ¹®¹øÈ£";
     window.open(urls,"app","width=410,height=650,scrollbars=0");
 
-    í˜„ê¸ˆì˜ìˆ˜ì¦ ì „í‘œ ë˜ëŠ” ê±°ë˜í™•ì¸ì„œ ì¶œë ¥ì— ëŒ€í•œ ë¬¸ì˜ëŠ” ì˜¬ì•³í˜ì´ ì‚¬ì´íŠ¸ì˜ 1:1ìƒë‹´ì„ ì´ìš©í•˜ì‹œê±°ë‚˜
-    02) 3788-9990 ìœ¼ë¡œ ì „í™” ì£¼ì‹œê¸° ë°”ëë‹ˆë‹¤.
+    Çö±İ¿µ¼öÁõ ÀüÇ¥ ¶Ç´Â °Å·¡È®ÀÎ¼­ Ãâ·Â¿¡ ´ëÇÑ ¹®ÀÇ´Â ¿Ã¾ÜÆäÀÌ »çÀÌÆ®ÀÇ 1:1»ó´ãÀ» ÀÌ¿ëÇÏ½Ã°Å³ª
+    02) 3788-9990 À¸·Î ÀüÈ­ ÁÖ½Ã±â ¹Ù¶ø´Ï´Ù.
 
-    ì „í‘œì¶œë ¥ í˜ì´ì§€ëŠ” ì €í¬ ì˜¬ì•³ í™ˆí˜ì´ì§€ì˜ ì¼ë¶€ë¡œì¨, í™ˆí˜ì´ì§€ ê°œí¸ ë“±ì˜ ì´ìœ ë¡œ ì¸í•˜ì—¬ í˜ì´ì§€ ë³€ê²½ ë˜ëŠ” URL ë³€ê²½ì´ ìˆì„ ìˆ˜
-    ìˆìŠµë‹ˆë‹¤. í™ˆí˜ì´ì§€ ê°œí¸ì— ê´€í•œ ê³µì§€ê°€ ìˆì„ ê²½ìš°, ì „í‘œì¶œë ¥ URLì„ í™•ì¸í•˜ì‹œê¸° ë°”ëë‹ˆë‹¤.
+    ÀüÇ¥Ãâ·Â ÆäÀÌÁö´Â ÀúÈñ ¿Ã¾Ü È¨ÆäÀÌÁöÀÇ ÀÏºÎ·Î½á, È¨ÆäÀÌÁö °³Æí µîÀÇ ÀÌÀ¯·Î ÀÎÇÏ¿© ÆäÀÌÁö º¯°æ ¶Ç´Â URL º¯°æÀÌ ÀÖÀ» ¼ö
+    ÀÖ½À´Ï´Ù. È¨ÆäÀÌÁö °³Æí¿¡ °üÇÑ °øÁö°¡ ÀÖÀ» °æ¿ì, ÀüÇ¥Ãâ·Â URLÀ» È®ÀÎÇÏ½Ã±â ¹Ù¶ø´Ï´Ù.
 --%>

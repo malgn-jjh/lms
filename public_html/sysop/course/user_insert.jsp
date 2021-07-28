@@ -51,7 +51,7 @@ while(list.next()) {
 	list.put("reg_date_conv", m.time("yyyy.MM.dd", list.s("reg_date")));
 	list.put("status_conv", m.getItem(list.s("status"), user.statusList));
 	list.put("mobile_conv", "-");
-	try { list.put("mobile_conv", !"".equals(list.s("mobile")) ? SimpleAES.decrypt(list.s("mobile")) : "" );  } catch(Exception e) { m.errorLog(e.getMessage(), e); }
+	list.put("mobile_conv", !"".equals(list.s("mobile")) ? SimpleAES.decrypt(list.s("mobile")) : "" );
 
 	list.put("conn_date_conv", m.time("yyyy.MM.dd HH:mm", list.s("conn_date")));
 	list.put("birthday_conv", list.s("birthday").length() == 8 ? m.time("yyyy.MM.dd", list.s("birthday")) : "");

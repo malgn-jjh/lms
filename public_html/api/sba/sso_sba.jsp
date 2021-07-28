@@ -176,9 +176,9 @@
 			paramId = CookieManager.decryptWithSEED(paramId);
 			paramNm = CookieManager.decryptWithSEED(paramNm);
 		} catch(BadPaddingException bpe) {
+			System.out.println("BadPaddingException : " + bpe.getMessage());
 			m.jsAlert("로그인 정보에 오류가 있습니다. 다시 로그인 해 주세요. [1]");
 			m.jsReplace(loginUrl);
-			System.out.println("BadPaddingException : " + bpe.getMessage());
 			return;
 		} catch(Exception e) {
 			m.jsAlert("로그인 정보에 오류가 있습니다. 다시 로그인 해 주세요. [1]");

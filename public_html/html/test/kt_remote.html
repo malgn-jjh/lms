@@ -1,19 +1,22 @@
-<form name="form1" method="post" onsubmit="goSubmit(this)">
-    <div style="padding:10px;font-size:1.2em;font-weight:bold;text-align:center;width:900px;">랜선에듀 API 테스트</div>
+<div style="padding:10px;font-size:1.2em;font-weight:bold;text-align:center;width:900px;">AUTH HASH 생성</div>
+<iframe src="kt_auth_hash.jsp" name="hash" id="hash" frameborder="1" scrolling="no" style="width:900px;height:50px;"></iframe>
+
+<form name="form1" method="post" action="kt_response.jsp" target="response" onsubmit="goSubmit(this)">
+    <div style="padding:10px;font-size:1.2em;font-weight:bold;text-align:center;width:900px;">API 호출</div>
     <table style="width:900px;">
         <tr>
             <td>
-                <label>REQUEST URL<input type="url" name="url" value="{{url}}" style="padding:5px;width:100%"></label>
+                <label>REQUEST URL<input type="text" name="url" value="https://211.253.11.217:30126/v2/" style="padding:5px;width:100%"></label>
             </td>
         </tr>
         <tr>
             <td>
-                <label>AUTH TOKEN<input type="text" name="token" value="{{token}}" style="padding:5px;width:100%"></label>
+                <label>AUTH TOKEN<input type="text" name="token" value="" style="padding:5px;width:100%"></label>
             </td>
         </tr>
         <tr>
             <td>
-                <label>REQUEST BODY<input type="text" name="data" value="{{data}}" style="padding:5px;width:100%"></label>
+                <label>REQUEST BODY<input type="text" name="data" value="" style="padding:5px;width:100%"></label>
             </td>
         </tr>
         <tr>
@@ -22,12 +25,13 @@
             </td>
         </tr>
     </table>
-    <div style="margin-top:20px;padding:10px;font-size:1.2em;font-weight:bold;text-align:center;width:900px;">RESPONSE RESULT</div>
-    <textarea name="result" style="width:900px;height:400px;padding:10px;">{{result}}</textarea>
+
 </form>
+<div style="margin-top:20px;padding:10px;font-size:1.2em;font-weight:bold;text-align:center;width:900px;">RESPONSE RESULT</div>
+<iframe src="kt_response.jsp" name="response" id="response" frameborder="1" style="width:900px;height:400px;"></iframe>
 
 <script>
 function goSubmit(f) {
-
+    return true;
 }
 </script>

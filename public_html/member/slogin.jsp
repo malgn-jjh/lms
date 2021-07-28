@@ -1,3 +1,4 @@
+<%@ page import="javax.crypto.BadPaddingException" %>
 <%@ page contentType="text/html; charset=utf-8" %><%@ include file="init.jsp" %><%
 
 //폼입력
@@ -46,7 +47,12 @@ if("Y".equals(f.get("encrypted"))) {
 		etc3 = !"".equals(f.get("etc3")) ? SimpleAES.decrypt(f.get("etc3").replaceAll("(\r\n|\r|\n|\n\r)", ""), ssokey) : "";
 
 		log += "{AES} ";
+	} catch(BadPaddingException bpe) {
+		m.errorLog("BadPaddingException : " + bpe.getMessage(), bpe);
+		out.print("\n\n올바르지 않은 암호문이 입력돼 로그인이 불가능합니다. 전산담당자에게 문의하세요.");
+		return;
 	} catch(Exception e) {
+		m.errorLog("Exception : " + e.getMessage(), e);
 		out.print("\n\n올바르지 않은 암호문이 입력돼 로그인이 불가능합니다. 전산담당자에게 문의하세요.");
 		return;
 	}

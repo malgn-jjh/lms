@@ -117,7 +117,8 @@ if(m.isPost() && f.validate()) {
 			String cmd = "convert -resize 1000x " + imgPath + " " + imgPath;
 			Runtime.getRuntime().exec(cmd);
 		}
-		catch(Exception e) { return; }
+		catch(RuntimeException re) { m.errorLog("RuntimeException : " + re.getMessage(), re); return; }
+		catch(Exception e) { m.errorLog("Exception : " + e.getMessage(), e); return; }
 	}
 
 	if(!book.insert()) { m.jsAlert("등록하는 중 오류가 발생했습니다."); return; }

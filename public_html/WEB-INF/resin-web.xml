@@ -1,7 +1,7 @@
 <web-app xmlns="http://caucho.com/ns/resin">
   <!-- configures the default class loader -->
   <class-loader>
-    <compiling-loader path="WEB-INF/classes" source="WEB-INF/src"/>
+    <compiling-loader path="WEB-INF/classes" source="/home/lms/src"/>
     <library-loader path="WEB-INF/lib"/>
   </class-loader>
   <javac compiler="internal" args="-source 1.5 -target 1.5 -encoding UTF-8 -Xlint:unchecked"/>

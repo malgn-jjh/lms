@@ -1,4 +1,7 @@
-<%@ page contentType="text/html; charset=utf-8" %><%@ page import="java.net.URL,javax.net.ssl.*" %><%@ include file="init.jsp" %><%
+<%@ page contentType="text/html; charset=utf-8" %><%@ page import="java.net.URL,javax.net.ssl.*" %>
+<%@ page import="java.io.IOException" %>
+<%@ page import="com.oracle.javafx.jmx.json.JSONException" %>
+<%@ include file="init.jsp" %><%
 
 //if(true) return;
 
@@ -66,7 +69,21 @@ try {
 
 	m.log("ymdr", ret);
 	json.setJson(ret);
-} catch(Exception e) {
+}
+catch(JSONException jsone) {
+	m.errorLog("JSONException : " + jsone.getMessage(), jsone);
+	m.p(jsone.getMessage());
+	m.jsAlert("결제하는 중 오류가 발생했습니다.");
+	return;
+}
+catch(IOException ioe) {
+	m.errorLog("IOException : " + ioe.getMessage(), ioe);
+	m.p(ioe.getMessage());
+	m.jsAlert("결제하는 중 오류가 발생했습니다.");
+	return;
+}
+catch(Exception e) {
+	m.errorLog("Exception : " + e.getMessage(), e);
 	m.p(e.getMessage());
 	m.jsAlert("결제하는 중 오류가 발생했습니다.");
 	return;

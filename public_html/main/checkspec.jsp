@@ -20,7 +20,7 @@ info.put("device_type", ua.getOperatingSystem().getDeviceType().getName());
 info.put("device_type_conv", m.getItem(info.s("device_type").toLowerCase(), deviceTypes));
 info.put("browser_nm", ua.getBrowser().getName());
 try { info.put("browser_version", ua.getBrowserVersion().getVersion()); }
-catch(Exception e) { info.put("browser_version", "버전 정보 없음"); }
+catch(NullPointerException e) { info.put("browser_version", "버전 정보 없음"); }
 
 if("json".equals(mode)) {
 	out.print(Json.encode(info.getRow()));

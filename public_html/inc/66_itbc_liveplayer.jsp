@@ -31,17 +31,14 @@ if(m.isMobile()) {
 
 String fileType = "m3u8";
 boolean ie8 = false;
-try {
-    UserAgent ua = new UserAgent(request.getHeader("User-Agent"));
-    String browser = ua.getBrowser().getName();
-    String version = ua.getBrowserVersion().getMajorVersion();
-    if(browser.indexOf("Explorer") > 0) {
-        int ver = m.parseInt(version);
-        if(ver <= 8) ie8 = true;
-    }
+
+UserAgent ua = new UserAgent(request.getHeader("User-Agent"));
+String browser = ua.getBrowser().getName();
+String version = ua.getBrowserVersion().getMajorVersion();
+if(browser.indexOf("Explorer") > 0) {
+    int ver = m.parseInt(version);
+    if(ver <= 8) ie8 = true;
 }
-catch(NullPointerException npe) { m.errorLog("NullPointerException : " + npe.getMessage(), npe); }
-catch(Exception e) { m.errorLog("Exception : " + e.getMessage(), e); }
 
 //출력
 p.setLayout(null);

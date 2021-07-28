@@ -40,23 +40,19 @@ public class VimeoDao extends DataObject {
 
 	public DataSet apiRequest(String endpoint, String method, Map<String, String> params, String path) {
 		DataSet res = new DataSet();
-		try {
-			Http http = new Http(apiUrl + endpoint);
-			http.setHeader("Content-Type", "application/json");
-			http.setHeader("Authorization", "Bearer " + this.accessToken);
-			http.setDebug(out);
-			if(params != null) {
-				for(String key : params.keySet()) {
-					http.setParam(key, params.get(key));
-				}
+		Http http = new Http(apiUrl + endpoint);
+		http.setHeader("Content-Type", "application/json");
+		http.setHeader("Authorization", "Bearer " + this.accessToken);
+		http.setDebug(out);
+		if(params != null) {
+			for(String key : params.keySet()) {
+				http.setParam(key, params.get(key));
 			}
-			String body = http.send(method);
-
-			Json json = new Json(body);
-			res = json.getDataSet(path == null ? "//" : path);
-		} catch(Exception e) {
-			Malgn.errorLog( "VimeoDao.apiRequest() : " + e.getMessage(), e);
 		}
+		String body = http.send(method);
+
+		Json json = new Json(body);
+		res = json.getDataSet(path == null ? "//" : path);
 		return res;
 	}
 

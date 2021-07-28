@@ -1,4 +1,6 @@
-<%@ page contentType="text/html; charset=utf-8"%><%@ page import="java.security.MessageDigest" %><%@ include file="init.jsp" %><%
+<%@ page contentType="text/html; charset=utf-8"%><%@ page import="java.security.MessageDigest" %>
+<%@ page import="java.security.NoSuchAlgorithmException" %>
+<%@ include file="init.jsp" %><%
 
 String merchantKey      = f.get("merchantkey");
 String actionurl        = f.get("actionurl");
@@ -77,7 +79,9 @@ public String encryptSHA512(String input) {
 	try {
 		md = MessageDigest.getInstance("SHA-512");
 		md.update(input.getBytes());
-	} catch(Exception e) { m.errorLog(e.getMessage(), e); }
+	}
+	catch(NoSuchAlgorithmException nsae) { System.out.println("NoSuchAlgorithmException : " + nsae.getMessage()); }
+	catch(Exception e) { System.out.println("Exception : " + e.getMessage()); }
 
 	return byteArrayToHex(md.digest());
 }

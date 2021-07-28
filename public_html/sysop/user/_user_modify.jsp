@@ -27,7 +27,7 @@ f.addElement("birthday", m.time("yyyy-MM-dd", info.s("birthday")), "hname:'생�
 f.addElement("email1", m.split("@", info.s("email"), 2)[0], "hname:'이메일', required:'Y', option:'email', glue:'email2', delim:'@'");
 f.addElement("email2", m.split("@", info.s("email"), 2)[1], "hname:'이메일', required:'Y'");
 String mobile = "";
-if(!"".equals(info.s("mobile"))) try { mobile = SimpleAES.decrypt(info.s("mobile")); } catch(Exception e) { m.errorLog(e.getMessage(), e); }
+if(!"".equals(info.s("mobile"))) mobile = SimpleAES.decrypt(info.s("mobile"));
 f.addElement("mobile", mobile, "hname:'휴대전화'");
 f.addElement("zipcode", info.s("zipcode"), "hname:'우편번호'");
 f.addElement("addr", info.s("addr"), "hname:'구주소'");

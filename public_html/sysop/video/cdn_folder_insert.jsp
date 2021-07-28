@@ -1,4 +1,6 @@
-<%@ page contentType="text/html; charset=utf-8" %><%@ page import="org.apache.commons.net.ftp.*" %><%@ include file="init.jsp" %><%
+<%@ page contentType="text/html; charset=utf-8" %><%@ page import="org.apache.commons.net.ftp.*" %>
+<%@ page import="java.io.UnsupportedEncodingException" %>
+<%@ include file="init.jsp" %><%
 
 //접근권한
 //if(!Menu.accessible(69, userId, userKind)) { m.jsError("접근 권한이 없습니다."); return; }
@@ -22,7 +24,7 @@ if(m.isPost() && f.validate()) {
 
 	//목록
 	FTPClient ftp = new FTPClient();
-	try {
+	try{
 		ftp.setControlEncoding("utf-8");
 		ftp.connect(arr[0]);
 		ftp.enterLocalPassiveMode();
@@ -39,7 +41,11 @@ if(m.isPost() && f.validate()) {
 			return;
 		}
 
-	} catch(Exception e) {
+	}catch(UnsupportedEncodingException uee) {
+		m.log("ftp", uee.toString());
+		m.jsError("폴더를 생성하는 중 오류가 발생했습니다. " + uee.toString());
+		return;
+	}catch(Exception e) {
 		m.log("ftp", e.toString());
 		m.jsError("폴더를 생성하는 중 오류가 발생했습니다. " + e.toString());
 		return;

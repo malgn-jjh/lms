@@ -50,15 +50,13 @@ if(info.s("start_url").endsWith(".m3u8")) {
 }
 
 boolean ie8 = false;
-try { 
-	UserAgent ua = new UserAgent(request.getHeader("User-Agent"));
-	String browser = ua.getBrowser().getName();
-	String version = ua.getBrowserVersion().getMajorVersion();
-	if(browser.indexOf("Explorer") > 0) {
-		int ver = m.parseInt(version);
-		if(ver <= 8) ie8 = true;
-	}
-} catch(Exception e) { m.errorLog(e.getMessage(), e); }
+UserAgent ua = new UserAgent(request.getHeader("User-Agent"));
+String browser = ua.getBrowser().getName();
+String version = ua.getBrowserVersion().getMajorVersion();
+if(browser.indexOf("Explorer") > 0) {
+	int ver = m.parseInt(version);
+	if(ver <= 8) ie8 = true;
+}
 
 //출력
 p.setLayout(null);

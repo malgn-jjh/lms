@@ -40,16 +40,9 @@ while(list.next()) {
 	list.put("pay_date_conv", m.time("yyyy.MM.dd", list.s("pay_date")));
 	list.put("refund_date_conv", m.time("yyyy.MM.dd", list.s("refund_date")));
 	list.put("reg_date_conv", m.time("yyyy.MM.dd", list.s("reg_date")));
-	try {
-		list.put("ord_mobile", !"".equals(list.s("ord_mobile")) ? SimpleAES.decrypt(list.s("ord_mobile")) : "-" );
-	} catch(Exception e) {
-		list.put("ord_mobile", "-");
-	}
-	try {
-		list.put("ord_phone", !"".equals(list.s("ord_phone")) ? SimpleAES.decrypt(list.s("ord_phone")) : "-" );
-	} catch(Exception e) {
-		list.put("ord_phone", "-");
-	}
+	list.put("ord_mobile", !"".equals(list.s("ord_mobile")) ? SimpleAES.decrypt(list.s("ord_mobile")) : "-" );
+	list.put("ord_phone", !"".equals(list.s("ord_phone")) ? SimpleAES.decrypt(list.s("ord_phone")) : "-" );
+
 }
 
 //출력

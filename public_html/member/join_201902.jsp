@@ -1,4 +1,6 @@
-<%@ page contentType="text/html; charset=utf-8" %><%@ page import="java.util.regex.Pattern" %><%@ include file="init.jsp" %><%
+<%@ page contentType="text/html; charset=utf-8" %><%@ page import="java.util.regex.Pattern" %>
+<%@ page import="com.oracle.javafx.jmx.json.JSONException" %>
+<%@ include file="init.jsp" %><%
 
 //로그인
 if(userId != 0) { m.redirect("../main/index.jsp"); return; }
@@ -49,7 +51,9 @@ String pattern = "(\\d{3})(\\d{3,4})(\\d{4})";
 boolean isOAuth = "oauth".equals(mSession.s("join_method"));
 if(isOAuth) {
 	DataSet temp = new DataSet();
-	try { temp = Json.decode(mSession.s("join_data")); } catch(Exception e) { m.jsError(_message.get("alert.common.error_view")); return; }
+	try { temp = Json.decode(mSession.s("join_data")); }
+	catch(JSONException jsone) { m.errorLog("JSONException : " + jsone.getMessage(), jsone); m.jsError(_message.get("alert.common.error_view")); return; }
+	catch(Exception e) { m.errorLog("Exception : " + e.getMessage(), e); m.jsError(_message.get("alert.common.error_view")); return; }
 	if(!temp.next()) { m.jsError(_message.get("alert.common.error_view")); return; }
 
 	ainfo.addRow();

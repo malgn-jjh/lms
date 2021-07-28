@@ -1,6 +1,7 @@
 <%@ page contentType = "text/html;charset=utf-8"%>
 <%@ page import="java.util.*" %>
 <%@ page import="java.security.*" %>
+<%@ page import="java.io.UnsupportedEncodingException" %>
 <%!
 	//SHA256 해쉬 함수
 	public String encryptSHA256(String value){
@@ -12,8 +13,12 @@
 	        hashValue = md.digest(plainText);
    
 	        return toHexString(hashValue);
+        }catch(NoSuchAlgorithmException nsae){
+        	System.out.println("[encryptSHA256]NoSuchAlgorithmException : " + nsae);
+        }catch(UnsupportedEncodingException uee){
+        	System.out.println("[encryptSHA256]UnsupportedEncodingException : " + uee);
         }catch(Exception e){
-        	System.out.println("[encryptSHA256]Exception : " + e);	
+        	System.out.println("[encryptSHA256]Exception : " + e);
         }
         
         return "";
@@ -63,6 +68,8 @@
 
 
 
+		}catch(ArrayIndexOutOfBoundsException aioobe){
+			System.out.println("[makeReqAllParam]ArrayIndexOutOfBoundsException : " + aioobe);
 		}catch(Exception e){
 			System.out.println("[makeReqAllParam]Exception : " + e);	
 		}

@@ -1,4 +1,6 @@
-<%@ page contentType="text/html; charset=utf-8" %><%@ page import="java.util.HashMap" %><%@ include file="init.jsp" %><%
+<%@ page contentType="text/html; charset=utf-8" %><%@ page import="java.util.HashMap" %>
+<%@ page import="com.oracle.javafx.jmx.json.JSONException" %>
+<%@ include file="init.jsp" %><%
 
 //기본키
 String code = m.rs("code");
@@ -16,7 +18,13 @@ UserDao user = new UserDao();
 DataSet oklist = new DataSet();
 try {
 	oklist = Json.decode(siteinfo.s("oauth_key"));
-} catch(Exception e) {
+}
+catch(JSONException jsone) {
+	m.errorLog("JSONException : " + jsone.getMessage(), jsone);
+	oklist.addRow();
+}
+catch(Exception e) {
+	m.errorLog("Exception : " + e.getMessage(), e);
 	oklist.addRow();
 }
 if(!oklist.next()) { m.jsAlert(_message.get("alert.member.nodata_oauth")); m.js("parent.CloseLayer();"); return; }

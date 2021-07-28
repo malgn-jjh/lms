@@ -132,6 +132,9 @@ out.print(tbody);
 window.onload = function() {
 	try {
 		window.print();
-	} catch (e) { }
+	} catch (e) {
+		console.log(e.message);
+		alert("인쇄할 수 없습니다.");
+	}
 }
 </script>

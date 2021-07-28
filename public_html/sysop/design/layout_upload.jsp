@@ -49,8 +49,10 @@ if(m.isPost()) {
 			String cmd = "convert -resize 1200x> " + imgPath + " " + imgPath;
 			Runtime.getRuntime().exec(cmd);
 		}
+	} catch (RuntimeException re) {
+		m.errorLog("RuntimeException : " + re.getMessage(), re);
 	} catch (Exception e) {
-		m.errorLog(e.getMessage(), e);
+		m.errorLog("Exception : " + e.getMessage(), e);
 	}
 
 	out.print("{\"success\":true}");

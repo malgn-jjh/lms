@@ -13,11 +13,11 @@
 								<!--@loop(list)-->
 								<li>
 									<div class="grid_img">
-										<div style="background-image:url('{{list.tutor_file_url}}');" onclick="location.href = '../tutor/tutor_view.jsp?id={{list.user_id}}&{{list_query}}';">{{tutor_nm}}</div>
+										<div style="background-image:url('{{list.tutor_file_url}}');" onclick="location.href = '../tutor/tutor_view.jsp?id={{list.user_id}}';">{{tutor_nm}}</div>
 									</div>
 									<div class="grid_detail">
 										<div class="grid_title">
-											<em><a href="../tutor/tutor_view.jsp?id={{list.user_id}}&{{list.query}}">{{list.tutor_nm_conv}}</a></em>
+											<em><a href="../tutor/tutor_view.jsp?id={{list.user_id}}">{{list.tutor_nm_conv}}</a></em>
 										</div>
 										<div class="grid_introduce">{{list.introduce}}</div>
 									</div>

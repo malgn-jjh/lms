@@ -37,9 +37,7 @@ if(!info.next()) {
 	return;
 }
 String mobile = "";
-try {
-	mobile = !"".equals(info.s("mobile")) ? SimpleAES.decrypt(info.s("mobile")) : "-";
-} catch(Exception e) { m.errorLog(e.getMessage(), e); }
+mobile = !"".equals(info.s("mobile")) ? SimpleAES.decrypt(info.s("mobile")) : "-";
 info.put("status_conv", m.getItem(info.s("status"), user.statusList));
 info.put("mobile", mobile);
 info.put("login_block", "U".equals(info.s("user_kind")));

@@ -10,6 +10,8 @@ public String exec(String cmd) {
 			ret += line;
 		}
 		return ret;
+	} catch(RuntimeException re){
+		return re.toString();
 	} catch(Exception e){
 		return e.toString();
 	}
@@ -49,6 +51,9 @@ if("create".equals(mode)) {
 			out.print("계정성생시 오류가 발생했습니다.");
 			return;
 		}
+	} catch(RuntimeException re) {
+		out.print("계정생성시 오류가 발생했습니다. " + re.toString());
+		return;
 	} catch(Exception e) {
 		out.print("계정생성시 오류가 발생했습니다. " + e.toString());
 		return;
@@ -68,6 +73,9 @@ if("create".equals(mode) || "banner".equals(mode)) {
 			try {
 				String cmd = "/root/setup_banner.sh " + ftpId + " " + matcher.group(1);
 				exec(cmd);
+			} catch(RuntimeException re) {
+				out.print("배너복사시 오류가 발생했습니다. " + re.toString());
+				//return;
 			} catch(Exception e) {
 				out.print("배너복사시 오류가 발생했습니다. " + e.toString());
 				//return;
@@ -81,7 +89,10 @@ if("create".equals(mode) || "passwd".equals(mode)) {
 	try {
 		String cmd = "/root/chpasswd.sh " + ftpId + " " + ftpPw;
 		exec(cmd);
-	} catch(Exception e) {
+	} catch(RuntimeException re) {
+		out.print("비밀번호 변경시 오류가 발생했습니다. " + re.toString());
+		return;
+	}catch(Exception e) {
 		out.print("비밀번호 변경시 오류가 발생했습니다. " + e.toString());
 		return;
 	}

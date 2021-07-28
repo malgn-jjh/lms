@@ -62,9 +62,7 @@ if(!siteinfo.b("sms_yn")) { m.jsErrClose(_message.get("alert.sms.error_send")); 
 
 //변수
 String mobile = cuinfo.s("mobile");
-try { mobile = SimpleAES.decrypt(mobile); }
-catch(BadPaddingException bpe) { m.errorLog("BadPaddingException : " + bpe.getMessage(), bpe); }
-catch(Exception e) { m.errorLog("Exception : " + e.getMessage(), e); }
+mobile = SimpleAES.decrypt(mobile);
 DataSet uinfo = new DataSet();
 uinfo.addRow();
 uinfo.put("id", cuinfo.s("user_id"));

@@ -1,3 +1,4 @@
+<%@ page import="java.io.IOException" %>
 <%@ page contentType="text/html; charset=utf-8" %><%@ include file="init.jsp" %><%
 
 //접근권한
@@ -28,12 +29,16 @@ if(m.isPost()) {
 	}
 
 	DataSet records = new DataSet();
-	try {
+	try{
 		records = new ExcelReader(path).getDataSet(1);
-	} catch(Exception e) {
+	} catch(IOException ioe) {
+		m.jsAlert("호환되지 않거나 손상된 파일입니다.");
+		return;
+	}catch(Exception e) {
 		m.jsAlert("호환되지 않거나 손상된 파일입니다.");
 		return;
 	}
+
 	if(!"".equals(path)) m.delFile(path);
 
 	Hashtable<String, Integer> deptCodeMap = new Hashtable<String, Integer>();

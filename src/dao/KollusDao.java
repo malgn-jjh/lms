@@ -3,6 +3,8 @@ package dao;
 import malgnsoft.util.*;
 import malgnsoft.db.*;
 import malgnsoft.json.*;
+
+import java.io.IOException;
 import java.util.*;
 import java.io.Writer;
 import io.jsonwebtoken.Jwts;
@@ -63,7 +65,9 @@ public class KollusDao {
 				if(null != out) out.write("<hr>" + msg + "<hr>\n");
 				else Malgn.errorLog(msg);
 			}
-		} catch(Exception ex) { Malgn.errorLog( "KollusDao.setError() : " + ex.getMessage(), ex); }
+		}
+		catch(IOException ioe) { Malgn.errorLog( "IOException : KollusDao.setError() : " + ioe.getMessage(), ioe); }
+		catch(Exception ex) { Malgn.errorLog( "Exception : KollusDao.setError() : " + ex.getMessage(), ex); }
 	}
 	
 	public void setExpireTime(int expireTime) {
@@ -105,8 +109,12 @@ public class KollusDao {
 				JSONObject json = new JSONObject(body);
 				token = (String)((JSONObject) json.get("result")).get("media_token");
 			}
-		} catch(Exception e) {
-			Malgn.errorLog("KollusDao.getMediaToken, " + mediaKey + ", " + userId + ", " + body, e);
+		}
+		catch(NullPointerException npe) {
+			Malgn.errorLog("NullPointerException : KollusDao.getMediaToken, " + mediaKey + ", " + userId + ", " + body, npe);
+		}
+		catch(Exception e) {
+			Malgn.errorLog("Exception : KollusDao.getMediaToken, " + mediaKey + ", " + userId + ", " + body, e);
 		}
 		return token;
 	}
@@ -183,8 +191,12 @@ public class KollusDao {
 
 			JSONObject json = new JSONObject(body);
 			enc = (String)((JSONObject)json.get("result")).get("encrypt_string");
-		} catch(Exception e) {
-			Malgn.errorLog("KollusDao.getKollusEncrypt, " + source, e);
+		}
+		catch(NullPointerException npe) {
+			Malgn.errorLog("NullPointerException : KollusDao.getKollusEncrypt, " + source, npe);
+		}
+		catch(Exception e) {
+			Malgn.errorLog("Exception : KollusDao.getKollusEncrypt, " + source, e);
 		}
 		return enc;
 	}
@@ -231,9 +243,15 @@ public class KollusDao {
 				Malgn.errorLog("KollusDao.addChannel: token:" + this.accessToken + ", name:" + name + ", message:" + json.getString("message"));
 				return false;
 			}
-		} catch(Exception e) {
+		}
+		catch(NullPointerException npe) {
+			this.setError(npe.getMessage());
+			Malgn.errorLog("NullPointerException : KollusDao.addChannel: token:" + this.accessToken + ", name:" + name, npe);
+			return false;
+		}
+		catch(Exception e) {
 			this.setError(e.getMessage());
-			Malgn.errorLog("KollusDao.addChannel: token:" + this.accessToken + ", name:" + name, e);
+			Malgn.errorLog("Exception : KollusDao.addChannel: token:" + this.accessToken + ", name:" + name, e);
 			return false;
 		}
 		return true;
@@ -271,10 +289,16 @@ public class KollusDao {
 			Http http = new Http("http://api.kr.kollus.com/0/media/category/create?access_token=" + this.accessToken);
 			http.setParam("name", name);
 			body = http.send("POST");
-		} catch(Exception e) {
-			this.setError(e.getMessage());
-			Malgn.errorLog("KollusDao.addCategory: token:" + this.accessToken + ", name:" + name, e);
+		}
+		catch(NullPointerException npe) {
+			this.setError(npe.getMessage());
+			Malgn.errorLog("NullPointerException : KollusDao.addCategory: token:" + this.accessToken + ", name:" + name, npe);
 			return false;			
+		}
+		catch(Exception e) {
+			this.setError(e.getMessage());
+			Malgn.errorLog("Exception : KollusDao.addCategory: token:" + this.accessToken + ", name:" + name, e);
+			return false;
 		}
 
 		JSONObject json = new JSONObject(body);
@@ -284,7 +308,9 @@ public class KollusDao {
 				Malgn.errorLog("KollusDao.addCategory: token:" + this.accessToken + ", name:" + name + ", message:" + json.getString("message"));
 				return false;
 			}
-		} catch(Exception e) { Malgn.errorLog( "KollusDao.addCategory() : " + e.getMessage(), e); }
+		}
+		catch(NullPointerException npe) { Malgn.errorLog( "KollusDao.addCategory() : " + npe.getMessage(), npe); }
+		catch(Exception e) { Malgn.errorLog( "KollusDao.addCategory() : " + e.getMessage(), e); }
 		return true;
 	}
 
@@ -295,9 +321,9 @@ public class KollusDao {
 		try {
 			Http http = new Http("https://api-vod-kr.kollus.com/api/v0/vod/channel-mapping/" + categoryKey + "/attach/" + channelKey + "?access_token=" + this.accessToken);
 			body = http.send("GET");
-		} catch(Exception e) {
-			this.setError(e.getMessage());
-			Malgn.errorLog("KollusDao.mappingCategory: token:" + this.accessToken + ", categoryKey:" + categoryKey + ", channelKey:" + channelKey, e);
+		} catch(NullPointerException npe) {
+			this.setError(npe.getMessage());
+			Malgn.errorLog("KollusDao.mappingCategory: token:" + this.accessToken + ", categoryKey:" + categoryKey + ", channelKey:" + channelKey, npe);
 			return false;
 		}
 		return true;

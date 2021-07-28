@@ -1,3 +1,4 @@
+<%@ page import="java.io.IOException" %>
 <%@ page contentType="text/html; charset=utf-8" %><%@ include file="init.jsp" %><%
 
 //접근권한
@@ -74,7 +75,12 @@ if(m.isPost()) {
 				String path = m.getUploadPath(f.getFileName("file"));
 				try {
 					records = new ExcelReader(path).getDataSet(1);
+				} catch(IOException ioe) {
+					m.errorLog("IOException : " + ioe.getMessage(), ioe);
+					m.jsAlert("호환되지 않거나 손상된 파일입니다.");
+					return;
 				} catch(Exception e) {
+					m.errorLog("Exception : " + e.getMessage(), e);
 					m.jsAlert("호환되지 않거나 손상된 파일입니다.");
 					return;
 				}
@@ -121,7 +127,7 @@ if(m.isPost()) {
 			}
 			list.put("start_date_conv", m.time("yyyy-MM-dd", list.s("start_date")));
 			list.put("end_date_conv", m.time("yyyy-MM-dd", list.s("end_date")));
-			try { list.put("mobile_conv", SimpleAES.decrypt(list.s("mobile"))); } catch(Exception e) { m.errorLog(e.getMessage(), e); }
+			list.put("mobile_conv", SimpleAES.decrypt(list.s("mobile")));
 		}
 
 		//출력

@@ -2,7 +2,7 @@ package dao;
 
 import malgnsoft.db.*;
 import malgnsoft.util.*;
-import java.io.Writer;
+import java.io.*;
 import java.net.URLEncoder;
 import java.util.*;
 
@@ -41,7 +41,7 @@ public class WecandeoDao {
 				if(null != out) out.write("<hr>" + msg + "<hr>\n");
 				else Malgn.errorLog(msg);
 			}
-		} catch(Exception ex) { Malgn.errorLog( "WecandeoDao.setError() : " + ex.getMessage(), ex); }
+		} catch(IOException ioe) { Malgn.errorLog( "WecandeoDao.setError() : " + ioe.getMessage(), ioe); }
 	}
 
 	public void setListNum(int num) {
@@ -135,7 +135,9 @@ public class WecandeoDao {
 		sb.append("&sort_item=id&sort_direction=desc&pagesize=20000");
 		if(!"".equals(keyword)) {
 			sb.append("&search_item=title&keyword="); 
-			try { sb.append(URLEncoder.encode(keyword, "UTF-8")); } catch(Exception e) { Malgn.errorLog( "WecandeoDao.getVideos() : " + e.getMessage(), e); }
+			try { sb.append(URLEncoder.encode(keyword, "UTF-8")); }
+			catch(UnsupportedEncodingException uee) { Malgn.errorLog( "UnsupportedEncodingException : WecandeoDao.getVideos() : " + uee.getMessage(), uee); }
+			catch(Exception e) { Malgn.errorLog( "Exception : WecandeoDao.getVideos() : " + e.getMessage(), e); }
 		}
 
 		Json j = new Json(sb.toString());

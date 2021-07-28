@@ -1,5 +1,3 @@
-<%@ page import="sun.security.ssl.CookieExtension" %>
-<%@ page import="java.io.UnsupportedEncodingException" %>
 <%@ page contentType="text/html; charset=utf-8" %><%@ include file="init.jsp" %><%
 
 //게시판권한
@@ -58,9 +56,7 @@ info.put("category_conv", !"".equals(categoryName) ? "[" + categoryName + "]" : 
 
 //업데이트-조회수//쿠키셋팅
 String[] readArray = null;
-try { readArray = m.getCookie("READ").split("\\,"); }
-catch(UnsupportedEncodingException uee) { m.errorLog("UnsupportedEncodingException : " + uee.getMessage(), uee); }
-catch(Exception e) { m.errorLog("Exception : " + e.getMessage(), e); }
+readArray = m.getCookie("READ").split("\\,");
 if(!m.inArray("" + id, readArray)) {
 	post.updateHitCount(id);
 	String tmp = m.join(",", readArray);

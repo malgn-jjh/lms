@@ -136,7 +136,7 @@ while(list.next()) {
 	}	
 
 	list.put("mobile_conv", "-");
-	try { list.put("mobile_conv", !"".equals(list.s("mobile")) ? SimpleAES.decrypt(list.s("mobile")) : "-" );  } catch(Exception e) { m.errorLog(e.getMessage(), e); }
+	list.put("mobile_conv", !"".equals(list.s("mobile")) ? SimpleAES.decrypt(list.s("mobile")) : "-" );
 }
 
 //남은수

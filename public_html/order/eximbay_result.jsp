@@ -1,4 +1,6 @@
-<%@ page contentType="text/html; charset=utf-8" %><%@ page import="java.security.*" %><%@ include file="init.jsp" %><%
+<%@ page contentType="text/html; charset=utf-8" %><%@ page import="java.security.*" %>
+<%@ page import="java.io.UnsupportedEncodingException" %>
+<%@ include file="init.jsp" %><%
 
 //객체
 OrderDao order = new OrderDao(); order.setMessage(_message);
@@ -171,9 +173,18 @@ public String encryptSHA256(String value){
 		hashValue = md.digest(plainText);
 
 		return toHexString(hashValue);
-	}catch(Exception e){
-		m.errorLog(e.getMessage(), e);
-		//System.out.println("[encryptSHA256]Exception : " + e);	
+	}
+	catch(UnsupportedEncodingException uee){
+		System.out.println("[encryptSHA256]UnsupportedEncodingException : " + uee.getMessage());
+		//System.out.println("[encryptSHA256]Exception : " + e);
+	}
+	catch(NoSuchAlgorithmException nsae){
+		System.out.println("[encryptSHA256]NoSuchAlgorithmException : " + nsae.getMessage());
+		//System.out.println("[encryptSHA256]Exception : " + e);
+	}
+	catch(Exception e){
+		System.out.println("[encryptSHA256]Exception : " + e.getMessage());
+		//System.out.println("[encryptSHA256]Exception : " + e);
 	}
 	
 	return "";
@@ -200,33 +211,25 @@ public String makeAllParam(HashMap<String, String> reqTemp){
 	List<String> reqList = new ArrayList<String>();
 
 
-	try{
-		reqList = new ArrayList<String>(reqTemp.keySet());
-		Collections.sort(reqList);
+	reqList = new ArrayList<String>(reqTemp.keySet());
+	Collections.sort(reqList);
 
-		for (String str : reqList) {	
-			String key = str;
-			String value = (String) reqTemp.get(str);  
-			
-			if ("fgkey".equals(key))  {
-				listSize++;
-				continue;
-			}			
-			if(reqList.size() ==  listSize)
-				reqParam.append(key).append("=").append(value);
-			else 
-				reqParam.append(key).append("=").append(value).append("&");   
+	for (String str : reqList) {
+		String key = str;
+		String value = (String) reqTemp.get(str);
+
+		if ("fgkey".equals(key))  {
 			listSize++;
+			continue;
 		}
-		//System.out.println("[makeReqAllParam]sorting : "+reqParam.toString());
-		return reqParam.toString();
-
-
-
-	}catch(Exception e){
-		m.errorLog(e.getMessage(), e);
-		//System.out.println("[makeReqAllParam]Exception : " + e);	
+		if(reqList.size() ==  listSize)
+			reqParam.append(key).append("=").append(value);
+		else
+			reqParam.append(key).append("=").append(value).append("&");
+		listSize++;
 	}
+	//System.out.println("[makeReqAllParam]sorting : "+reqParam.toString());
+
 	//System.out.println("[makeReqAllParam]return : "+reqParam.toString());
 	return reqParam.toString();
 }

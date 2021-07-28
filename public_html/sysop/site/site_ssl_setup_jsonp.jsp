@@ -56,6 +56,8 @@ if(!isError) {
 		}
 
 		input.close();
+	} catch(RuntimeException re) {
+		sb.append(re.getMessage() + "<br>\n");
 	} catch(Exception ex) {
 		sb.append(ex.getMessage() + "<br>\n");
 	}

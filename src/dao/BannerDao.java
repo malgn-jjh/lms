@@ -1,6 +1,6 @@
 package dao;
 
-import java.io.Writer;
+import java.io.*;
 import malgnsoft.db.*;
 import malgnsoft.util.*;
 import java.util.regex.*;
@@ -66,7 +66,11 @@ public class BannerDao extends DataObject {
 		}
 		try {
 			out.write(cache.get(key));
-		} catch(Exception e) {
+		} catch(NullPointerException npe) {
+			Malgn.errorLog("NullPointerException : BannerDao.prinBanner() : " + npe.getMessage(), npe);
+			out.write("err");
+		} catch(IOException ioe) {
+			Malgn.errorLog("IOException : BannerDao.prinBanner() : " + ioe.getMessage(), ioe);
 			out.write("err");
 		}
 	}

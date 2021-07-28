@@ -1,3 +1,4 @@
+<%@ page import="java.io.UnsupportedEncodingException" %>
 <%@ page contentType="text/html; charset=utf-8" %><%@ include file="init.jsp" %><%
 
 //기본키
@@ -13,7 +14,7 @@ if(m.isPost() && f.validate()) {
 
 	//목록
 	FTPClient ftp = new FTPClient();
-	try {
+	try{
 		ftp.setControlEncoding("utf-8");
 		ftp.connect(ftpHost, ftpPort);
 		ftp.enterLocalPassiveMode();
@@ -29,7 +30,10 @@ if(m.isPost() && f.validate()) {
 			m.jsError("폴더를 생성하는 중 오류가 발생했습니다.");
 			return;
 		}
-
+	} catch(UnsupportedEncodingException uee) {
+		m.log("ftp", uee.toString());
+		m.jsError("폴더를 생성하는 중 오류가 발생했습니다. " + uee.toString());
+		return;
 	} catch(Exception e) {
 		m.log("ftp", e.toString());
 		m.jsError("폴더를 생성하는 중 오류가 발생했습니다. " + e.toString());

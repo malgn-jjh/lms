@@ -75,7 +75,7 @@ if(m.isPost() && f.validate()) {
 	int failCnt = 0;
 	while(users.next()) {
 		String mobile = "";
-		try { mobile = !"".equals(users.s("mobile")) ? SimpleAES.decrypt(users.s("mobile")) : ""; } catch(Exception e) { m.errorLog(e.getMessage(), e); }
+		mobile = !"".equals(users.s("mobile")) ? SimpleAES.decrypt(users.s("mobile")) : "";
 		ktalkUser.item("ktalk_id", newId);
 		ktalkUser.item("site_id", siteId);
 		ktalkUser.item("mobile", users.s("mobile"));
@@ -116,7 +116,7 @@ DataSet users = ktalkUser.query(
 	+ " WHERE a.ktalk_id = " + id + " AND a.site_id = " + siteId + ""
 );
 while(users.next()) {
-	try { users.put("s_value", !"".equals(users.s("mobile")) ? SimpleAES.decrypt(users.s("mobile")) : "-" );  } catch(Exception e) { m.errorLog(e.getMessage(), e); }
+	users.put("s_value", !"".equals(users.s("mobile")) ? SimpleAES.decrypt(users.s("mobile")) : "-" );
 	users.put("sms_yn_conv", m.getItem(users.s("sms_yn"), user.receiveYn));
 }
 

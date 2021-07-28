@@ -35,7 +35,7 @@ while(list.next()){
 	list.put("content_conv", m.cutString(m.stripTags(list.s("content")), 70));
 	list.put("status_conv", m.getItem(list.s("status"), formmail.statusList));
 	list.put("mobile_conv", "-");
-	try { list.put("mobile_conv", !"".equals(list.s("mobile")) ? SimpleAES.decrypt(list.s("mobile")) : "-" );  } catch(Exception e) { m.errorLog(e.getMessage(), e); }
+	list.put("mobile_conv", !"".equals(list.s("mobile")) ? SimpleAES.decrypt(list.s("mobile")) : "-" );
 }
 
 //엑셀

@@ -4,7 +4,7 @@ import malgnsoft.util.*;
 import malgnsoft.db.*;
 import malgnsoft.json.*;
 import java.util.*;
-import java.io.Writer;
+import java.io.*;
 
 public class PubtreeDao {
 
@@ -56,7 +56,7 @@ public class PubtreeDao {
 				if(null != out) out.write("<hr>" + msg + "<hr>\n");
 				else Malgn.errorLog(msg);
 			}
-		} catch(Exception ex) { Malgn.errorLog( "PubtreeDao.setError() : " + ex.getMessage(), ex); }
+		} catch(IOException ioe) { Malgn.errorLog("PubtreeDao.setError() : " + ioe.getMessage(), ioe); }
 	}
 
 	public void setMode(String mode) {
@@ -186,12 +186,8 @@ public class PubtreeDao {
 		if(this.debug) this.setError(ret);
 		
 		DataSet rs = new DataSet();
-		try {
-			Json j = new Json(ret);
-			rs = j.getDataSet("//");
-		} catch(Exception e) {
-			this.setError(e.getMessage());
-		}
+		Json j = new Json(ret);
+		rs = j.getDataSet("//");
 
 		if(rs.next()) return rs.s("returnValue");
 		else return "";
@@ -208,12 +204,8 @@ public class PubtreeDao {
 		if(this.debug) this.setError(ret);
 		
 		DataSet rs = new DataSet();
-		try {
-			Json j = new Json(ret);
-			rs = j.getDataSet("//");
-		} catch(Exception e) {
-			this.setError(e.getMessage());
-		}
+		Json j = new Json(ret);
+		rs = j.getDataSet("//");
 
 		if(rs.next()) return this.host + rs.s("returnValue");
 		else return "";

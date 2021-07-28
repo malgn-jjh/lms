@@ -1,4 +1,6 @@
-<%@ page contentType="text/html; charset=utf-8" %><%@ page import="org.apache.commons.net.ftp.*" %><%@ include file="../../init.jsp" %><%
+<%@ page contentType="text/html; charset=utf-8" %><%@ page import="org.apache.commons.net.ftp.*" %>
+<%@ page import="java.io.IOException" %>
+<%@ include file="../../init.jsp" %><%
 
 if("".equals(siteinfo.s("cdn_ftp"))) {
 	m.redirect("choice.jsp?" + m.qs());
@@ -16,7 +18,7 @@ if(attFile != null) {
 
 	//목록
 	FTPClient ftp = new FTPClient();
-	try {
+	try{
 		ftp.setControlEncoding("utf-8");
 		ftp.connect(arr[0]);
 		ftp.enterLocalPassiveMode();
@@ -30,12 +32,15 @@ if(attFile != null) {
 
 		ftp.logout();
 		ftp.disconnect();
-	} catch(Exception e) {
+	}catch(IOException ioe) {
+		out.print("{\"success\":false, \"error\":\"파일을 업로드 하는 중 오류가 발생했습니다.\", \"reset\":true}");
+		m.log("ftp", ioe.toString());
+		return;
+	}catch(Exception e) {
 		out.print("{\"success\":false, \"error\":\"파일을 업로드 하는 중 오류가 발생했습니다.\", \"reset\":true}");
 		m.log("ftp", e.toString());
 		return;
 	}
-
 	attFile.delete();
 	out.print("{\"success\":true}");
 	return;

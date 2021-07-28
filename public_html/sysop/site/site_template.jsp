@@ -129,12 +129,16 @@ public DataSet getFileList(String path) throws Exception {
 	File dir = new File(path);
 	if(!dir.exists()) return ds;
 
-	File[] files = dir.listFiles();
-	for(int i=0; i<files.length; i++) {
-		String filename = files[i].getName();
-		ds.addRow();
-		ds.put("id", filename.substring(0, filename.length() - 5));
-		ds.put("name", filename);
+	try {
+		File[] files = dir.listFiles();
+		for (int i = 0; i < files.length; i++) {
+			String filename = files[i].getName();
+			ds.addRow();
+			ds.put("id", filename.substring(0, filename.length() - 5));
+			ds.put("name", filename);
+		}
+	} catch (NullPointerException npe) {
+		m.errorLog("NullPointerException : " + npe.getMessage(), npe);
 	}
 	return ds;
 }

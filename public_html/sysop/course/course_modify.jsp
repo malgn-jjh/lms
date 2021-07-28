@@ -433,9 +433,9 @@ if(m.isPost() && f.validate()) {
 
 		courseLesson.clear();
 		courseLesson.item("start_date", ssdate);
-		courseLesson.item("start_time", "");
+		courseLesson.item("start_time", "000000");
 		courseLesson.item("end_date", sedate);
-		courseLesson.item("end_time", "");
+		courseLesson.item("end_time", "000000");
 
 		ArrayList<Integer> lidx = new ArrayList<Integer>();
 		while(cllist.next()) {
@@ -515,7 +515,8 @@ if(m.isPost() && f.validate()) {
 			String cmd = "convert -resize 1000x> " + imgPath + " " + imgPath;
 			Runtime.getRuntime().exec(cmd);
 		}
-		catch(Exception e) { m.errorLog(e.getMessage(), e); }
+		catch(RuntimeException re) { m.errorLog("RuntimeException : " + re.getMessage(), re); }
+		catch(Exception e) { m.errorLog("Exception : " + e.getMessage(), e); }
 	}
 
 	m.jsAlert("성공적으로 수정했습니다.");

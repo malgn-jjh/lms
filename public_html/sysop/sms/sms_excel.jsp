@@ -1,3 +1,5 @@
+<%@ page import="javax.crypto.BadPaddingException" %>
+<%@ page import="java.io.IOException" %>
 <%@ page contentType="text/html; charset=utf-8" %><%@ include file="init.jsp" %><%
 
 //CHECKED-2014.06.27
@@ -29,7 +31,7 @@ if("1".equals(m.rs("sample"))) {
 DataSet uinfo = user.find("id = " + userId + " AND site_id = " + siteId + " AND status = 1");
 if(!uinfo.next()) { m.jsError("해당 회원 정보가 없습니다."); return; }
 String mobile = "";
-try { mobile = !"".equals(uinfo.s("mobile")) ? SimpleAES.decrypt(uinfo.s("mobile")) : ""; }catch(Exception e) { m.errorLog(e.getMessage(), e); }
+mobile = !"".equals(uinfo.s("mobile")) ? SimpleAES.decrypt(uinfo.s("mobile")) : "";
 
 //폼입력
 int id = m.ri("id");
@@ -107,7 +109,7 @@ if(m.isPost() && f.validate()) {
 	String mobileEncrypt = "";
 	while(users.next()) {
 		mobile = users.s("col1");
-		try { mobileEncrypt = !"".equals(mobile) ? SimpleAES.encrypt(mobile) : ""; } catch(Exception e) { mobileEncrypt = ""; }
+		mobileEncrypt = !"".equals(mobile) ? SimpleAES.encrypt(mobile) : "";
 		smsUser.item("site_id", siteId);
 		smsUser.item("sms_id", newId);
 		smsUser.item("mobile", mobileEncrypt);

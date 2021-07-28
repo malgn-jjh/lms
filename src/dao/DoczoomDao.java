@@ -3,14 +3,10 @@ package dao;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.*;
 
+import java.io.*;
 import java.net.URL;
 import java.net.HttpURLConnection;
 import java.net.URLEncoder;
-
-import java.io.InputStreamReader;
-import java.io.BufferedReader;
-import java.io.PrintWriter;
-import java.io.Writer;
 
 import java.util.*;
 
@@ -46,7 +42,9 @@ public class DoczoomDao {
 				if(null != out) out.write("<hr>" + msg + "<hr>\n");
 				else Malgn.errorLog(msg);
 			}
-		} catch(Exception ex) { Malgn.errorLog( "DoczoomDao.setError() : " + ex.getMessage(), ex); }
+		}
+		catch(IOException ioe) { Malgn.errorLog( "IOException : DoczoomDao.setError() : " + ioe.getMessage(), ioe); }
+		catch(Exception ex) { Malgn.errorLog( "Exception : DoczoomDao.setError() : " + ex.getMessage(), ex); }
 	}
 
     //해당 조건에 부합하는 컨텐츠 개수를 가져옵니다. 각 파라미터에 null값을 지정하면 해당 조건은 사용되지 않습니다.
@@ -79,14 +77,11 @@ public class DoczoomDao {
 
             return dataNode.get("Value").asInt(-1);
 
-        } catch (Exception e){
-			this.errMsg = e.getMessage();
+        } catch (IOException ioe){
+            this.errMsg = ioe.getMessage();
             return 0;
         }
-
     }
-
-
 
 
     //해당 조건에 부합하는 컨텐츠 정보를 페이징하여 가져옵니다. 각 파라미터에 null값을 지정하면 해당 조건은 사용되지 않습니다.
@@ -113,15 +108,10 @@ public class DoczoomDao {
 		if (result == null) return ret;
 		setError(result);
 
-        try{
-            //다음과 같은 형태로 JSON이 반환됩니다.
-		    //{"d":{"__type":"DocZoomManager.Web.API.Entity.ContentListQueryResult","ContentInfos":[{"ContentID":"test_rzrjvzgezufcqtvj","RegistrationDate":"\/Date(1510563786593)\/","LastModifiedDate":"\/Date(1510564007360)\/","ContentSize":46979285,"Title":"360 비디오 샘플","Tag":"VR, 360 Video","Description":" ","Expired":false,"IsDeleted":false,"SharingType":0,"UserID":"test","ViewCount":14,"CategoryID":null,"ContentType":1,"ContentSubType":10,"ContentViewerType":0,"Duration":0,"ContentData1":"mp4","ContentData2":null,"ThumbnailImageUrl":"http://localhost/DzMgrServerTest_WebContentStorage3/test/Thumbs/test_rzrjvzgezufcqtvj.jpg"}]}}
-            Json j = new Json(result);
-            ret = j.getDataSet("//d/DocZoomInfos");
-
-        } catch (Exception e){
-			setError(e.getMessage());
-        }
+        //다음과 같은 형태로 JSON이 반환됩니다.
+        //{"d":{"__type":"DocZoomManager.Web.API.Entity.ContentListQueryResult","ContentInfos":[{"ContentID":"test_rzrjvzgezufcqtvj","RegistrationDate":"\/Date(1510563786593)\/","LastModifiedDate":"\/Date(1510564007360)\/","ContentSize":46979285,"Title":"360 비디오 샘플","Tag":"VR, 360 Video","Description":" ","Expired":false,"IsDeleted":false,"SharingType":0,"UserID":"test","ViewCount":14,"CategoryID":null,"ContentType":1,"ContentSubType":10,"ContentViewerType":0,"Duration":0,"ContentData1":"mp4","ContentData2":null,"ThumbnailImageUrl":"http://localhost/DzMgrServerTest_WebContentStorage3/test/Thumbs/test_rzrjvzgezufcqtvj.jpg"}]}}
+        Json j = new Json(result);
+        ret = j.getDataSet("//d/DocZoomInfos");
 
         return ret;
     }
@@ -143,16 +133,11 @@ public class DoczoomDao {
         if (result == null) return ret;
 		setError(result);
 
-		try{
-            //다음과 같은 형태로 JSON이 반환됩니다.
-            //{"d":{"__type":"DocZoomManager.Web.API.Entity.ContentQueryResult","Result":true,"ResultMessage":"","ResultCode":0,"ContentInfo": {"ContentID":"test_rzrjvzgezufcqtvj","RegistrationDate":"/Date(1510563786593)/","LastModifiedDate":"/Date(1523601667067)/","ContentSize":46979285,"Title":"360 비디오 샘플","Tag":"VR, 360 Video","Description":" ","Expired":false,"IsDeleted":false,"SharingType":1,"UserID":"test","ViewCount":14,"CategoryID":null,"ContentType":1,"ContentSubType":10,"ContentViewerType":0,"Duration":0,"ContentData1":"mp4","ContentData2":null,"ThumbnailImageUrl":"http://localhost/DzMgrServerTest_WebContentStorage3/test/Thumbs/test_rzrjvzgezufcqtvj.jpg"}}}
-            Json j = new Json(result);
-			if(this.debug) j.setDebug(this.out);
-            ret = j.getDataSet("//d/DocZoomInfo");
-
-		} catch (Exception e){
-			setError(e.getMessage());
-        }
+        //다음과 같은 형태로 JSON이 반환됩니다.
+        //{"d":{"__type":"DocZoomManager.Web.API.Entity.ContentQueryResult","Result":true,"ResultMessage":"","ResultCode":0,"ContentInfo": {"ContentID":"test_rzrjvzgezufcqtvj","RegistrationDate":"/Date(1510563786593)/","LastModifiedDate":"/Date(1523601667067)/","ContentSize":46979285,"Title":"360 비디오 샘플","Tag":"VR, 360 Video","Description":" ","Expired":false,"IsDeleted":false,"SharingType":1,"UserID":"test","ViewCount":14,"CategoryID":null,"ContentType":1,"ContentSubType":10,"ContentViewerType":0,"Duration":0,"ContentData1":"mp4","ContentData2":null,"ThumbnailImageUrl":"http://localhost/DzMgrServerTest_WebContentStorage3/test/Thumbs/test_rzrjvzgezufcqtvj.jpg"}}}
+        Json j = new Json(result);
+        if(this.debug) j.setDebug(this.out);
+        ret = j.getDataSet("//d/DocZoomInfo");
 
 		return ret;
     }
@@ -178,21 +163,18 @@ public class DoczoomDao {
 		setError(result);
 
         ObjectMapper mapper = new ObjectMapper();
-        try{
+        try {
             //다음과 같은 형태로 JSON이 반환됩니다.
             //{"d":{"__type":"DocZoomManager.Web.API.Entity.BooleanResult","Result":true,"ResultMessage":"","ResultCode":0}}
             JsonNode node = mapper.readTree(result);
             JsonNode dataNode = node.get("d");
-
             if (dataNode == null) {
 				this.errMsg = "Unsupported data format: " + result;
 				return false;
 			}
-
             return true;
-
-        } catch (Exception e){
-			setError(e.getMessage());
+        } catch (IOException ioe){
+			setError(ioe.getMessage());
             return false;
         }
 
@@ -224,25 +206,18 @@ public class DoczoomDao {
         if (result == null) return null;
 		setError(result);
 
-        try{
-            //다음과 같은 형태로 JSON이 반환됩니다.
-            //{"d":{"__type":"DocZoomManager.Web.API.Entity.StringQueryResult", "Value":"12345","Result":true,"ResultMessage":"","ResultCode":0}}
-            Json j = new Json(result);
-			if(this.debug) j.setDebug(this.out);
-            String value = j.getString("//d/Value");
+        //다음과 같은 형태로 JSON이 반환됩니다.
+        //{"d":{"__type":"DocZoomManager.Web.API.Entity.StringQueryResult", "Value":"12345","Result":true,"ResultMessage":"","ResultCode":0}}
+        Json j = new Json(result);
+        if(this.debug) j.setDebug(this.out);
+        String value = j.getString("//d/Value");
 
-            if (value == null || "".equals(value)) {
-				this.errMsg = "Unsupported data format: " + result;
-				return null;
-			}
-
-            return value;
-
-        } catch (Exception e) {
-			setError(e.getMessage());
+        if (value == null || "".equals(value)) {
+            this.errMsg = "Unsupported data format: " + result;
             return null;
         }
 
+        return value;
     }
 
 
@@ -266,16 +241,13 @@ public class DoczoomDao {
             //{"d":{"__type":"DocZoomManager.Web.API.Entity.BooleanResult","Result":true,"ResultMessage":"","ResultCode":0}}
             JsonNode node = mapper.readTree(result);
             JsonNode dataNode = node.get("d");
-
             if (dataNode == null) {
 				setError("Unsupported data format: " + result);
 				return false;
 			}
-
             return true;
-
-        } catch (Exception e) {
-			setError(e.getMessage());
+        } catch (IOException ioe) {
+			setError(ioe.getMessage());
             return false;
         }
 
@@ -347,6 +319,11 @@ public class DoczoomDao {
 
             return result;
 
+        } catch(IOException ioe) {
+            System.out.println(ioe.getMessage());
+            ioe.printStackTrace();
+
+            return ioe.getMessage();
         } catch(Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();

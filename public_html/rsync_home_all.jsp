@@ -40,8 +40,15 @@ if("POST".equals(request.getMethod())) {
 			}
 
 			input.close();
-		} catch(Exception ex) {
-			out.println(ex.getMessage());
+		}
+		catch(IOException ioe) {
+			out.println("IOException : " + ioe.getMessage());
+		}
+		catch(RuntimeException re) {
+			out.println("RuntimeException : " + re.getMessage());
+		}
+		catch(Exception ex) {
+			out.println("Exception : " + ex.getMessage());
 		}
 	}
 }

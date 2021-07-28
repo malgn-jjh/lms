@@ -15,7 +15,7 @@ FileDao file = new FileDao();
 DataSet info = formmail.find("id = " + id);
 if(!info.next()) { m.jsError("해당 정보가 없습니다."); return; };
 String mobile = "";
-if(!"".equals(info.s("mobile"))) try{ mobile = SimpleAES.decrypt(info.s("mobile")); } catch(Exception e) { m.errorLog(e.getMessage(), e); }
+if(!"".equals(info.s("mobile"))) mobile = SimpleAES.decrypt(info.s("mobile"));
 info.put("mobile_conv", mobile);
 info.put("reg_date_conv", m.time("yyyy.MM.dd HH:mm", info.s("reg_date")));
 info.put("status_conv", m.getItem(info.i("status"), formmail.statusList));

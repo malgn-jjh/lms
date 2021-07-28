@@ -1,3 +1,4 @@
+<%@ page import="java.io.FileNotFoundException" %>
 <%@ page contentType="text/html; charset=utf-8" %><%@ include file="init.jsp" %><%
 
 if(!Menu.accessible(31, userId, userKind)) { m.jsError("접근 권한이 없습니다."); return; }
@@ -13,8 +14,8 @@ for(int i=0, max=defultDirs.length; i<max; i++) {
 }
 
 if(m.isPost()) {
-	try {
-		//새폴더
+	try{
+	//새폴더
 		if("CREATE_DIR".equals(m.rs("mode"))) {
 			String currPath = m.decode(m.rs("current_path"));
 			String newFolder = "newfoloder";
@@ -50,9 +51,12 @@ if(m.isPost()) {
 				return;
 			}
 		}
-	} catch(Exception e) {
-		out.print("<script>parent.location.href = parent.location.href;</script>");
+	}catch(FileNotFoundException fnfe) {
+		out.print("<script>top.location.href = top.location.href;</script>");
 		return;
+	}catch(Exception e) {
+		out.print("<script>parent.location.href = parent.location.href;</script>");
+	return;
 	}
 }
 

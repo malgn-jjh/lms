@@ -92,8 +92,14 @@ if(m.isPost() && f.validate()) {
 				String imgPath = dataDir + "/file/" + f1.getName();
 				String cmd = "convert -resize 1200x " + imgPath + " " + imgPath;
 				Runtime.getRuntime().exec(cmd);
+			}catch(RuntimeException re) {
+				m.errorLog("RuntimeException : " + re.getMessage(), re);
+				return;
 			}
-			catch(Exception e) { return; }
+			catch(Exception e) {
+				m.errorLog("Exception : " + e.getMessage(), e);
+				return;
+			}
 		}
 	}
 

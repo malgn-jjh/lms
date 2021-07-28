@@ -102,12 +102,10 @@ for(int i=0; i<brList.length; i++) {
 	int pos = agent.indexOf(tmp[0]);
 	if(pos > -1) {
 		brower = tmp[1];
-		try {
-			Matcher matcher = pattern.matcher(agent.substring(pos));
-			if(matcher.find()) { 
-				brVersion = agent.substring(pos).substring(matcher.start(), matcher.end());
-			} 
-		} catch(Exception ex) { m.errorLog(e.getMessage(), e); }
+		Matcher matcher = pattern.matcher(agent.substring(pos));
+		if(matcher.find()) {
+			brVersion = agent.substring(pos).substring(matcher.start(), matcher.end());
+		} 
 		break;
 	}
 }
@@ -159,26 +157,20 @@ String cookie = m.getCookie(cid);
 long currentTime = System.currentTimeMillis() / 1000;
 
 if(!"".equals(cookie)) {
-	
-	try { 
-		cookie = Base64Coder.decode(cookie);
-		String[] arr = cookie.split("\\|");
+	cookie = Base64Coder.decode(cookie);
+	String[] arr = cookie.split("\\|");
 
-		// 쿠키의 정보 갯수가 맞는지와 고객 아이디가 일치하는지 확인
-		if(arr.length == 5) {
-			long delay_time = currentTime - m.parseLong(arr[0]);
-			visitor_id = arr[1];
+	// 쿠키의 정보 갯수가 맞는지와 고객 아이디가 일치하는지 확인
+	if(arr.length == 5) {
+		long delay_time = currentTime - m.parseLong(arr[0]);
+		visitor_id = arr[1];
 
-			// 쿠키가 1시간 이전 정보일 경우 재접속으로 간주한다.
-			if(delay_time < 3600) {
-				return;
-			} else {
-				visit_count = m.parseInt(arr[4]) + 1;
-			}
+		// 쿠키가 1시간 이전 정보일 경우 재접속으로 간주한다.
+		if(delay_time < 3600) {
+			return;
+		} else {
+			visit_count = m.parseInt(arr[4]) + 1;
 		}
-	} catch (Exception ex) {
-		m.log("weblog", ex.getMessage());	
-		return;
 	}
 }
 

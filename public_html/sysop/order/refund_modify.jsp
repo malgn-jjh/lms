@@ -38,7 +38,7 @@ DataSet info = refund.query(
 	+ " WHERE a.id = " + id + " "
 );
 if(!info.next()) { m.jsError("해당 정보가 없습니다."); return; }
-try { info.put("mobile_conv", !"".equals(info.s("mobile")) ? SimpleAES.decrypt(info.s("mobile")) : "-" );  } catch(Exception e) { m.errorLog(e.getMessage(), e); }
+info.put("mobile_conv", !"".equals(info.s("mobile")) ? SimpleAES.decrypt(info.s("mobile")) : "-" );
 //정보-주문
 DataSet oinfo = order.find("id = " + info.i("order_id") + "");
 if(!oinfo.next()) { m.jsError("해당 주문정보가 없습니다."); return; }

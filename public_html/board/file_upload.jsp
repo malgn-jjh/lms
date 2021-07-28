@@ -1,5 +1,4 @@
 <%@ page contentType="text/html; charset=utf-8" %><%@ page import="java.awt.Image,javax.swing.ImageIcon" %>
-<%@ page import="java.io.IOException" %>
 <%@ include file="/init.jsp" %><%
 
 //로그인
@@ -60,7 +59,6 @@ if(m.isPost()) {
 			}
 		}
 	}
-	catch(IOException ioe) { m.errorLog("IOException : " + ioe.getMessage(), ioe); }
 	catch(RuntimeException re) { m.errorLog("RuntimeException : " + re.getMessage(), re); }
 	catch(Exception e) { m.errorLog("Exception : " + e.getMessage(), e); }
 

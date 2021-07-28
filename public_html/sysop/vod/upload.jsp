@@ -55,34 +55,28 @@ String path = m.decode(m.rs("path"));
 //File attach = f.saveFile("filename", path);
 
 if(!"".equals(f.getFileName("filename"))) {
+	 File file1 = new File(path + "/" + f.getFileName("filename"));
+	 if(file1.exists()) {
+		String errorFiles = m.getCookie("ERRORFILES");
+		m.setCookie("ERRORFILES", errorFiles + ( !"".equals(errorFiles) ? "," : "" ) + f.getFileName("filename"));
+	 } else {
 
-	try {
-		 File file1 = new File(path + "/" + f.getFileName("filename"));
-		 if(file1.exists()) {
-			String errorFiles = m.getCookie("ERRORFILES");
-			m.setCookie("ERRORFILES", errorFiles + ( !"".equals(errorFiles) ? "," : "" ) + f.getFileName("filename"));
-		 } else {
+		//파일이 업로드된 경우
+		File attach = f.saveFile("filename", path + "/" + f.getFileName("filename"));
+		if(null != attach) {
+			if("zip".equals(m.getFileExt(f.getFileName("filename")).toLowerCase())) {
 
-			//파일이 업로드된 경우
-			File attach = f.saveFile("filename", path + "/" + f.getFileName("filename"));
-			if(null != attach) {
-				if("zip".equals(m.getFileExt(f.getFileName("filename")).toLowerCase())) {
+				Zip zip = new Zip();
 
-					Zip zip = new Zip();
+				String tmpf = f.getFileName("filename").substring(0, f.getFileName("filename").lastIndexOf("."));
+				if(!"".equals(tmpf)) tmpf = "/" + tmpf;
 
-					String tmpf = f.getFileName("filename").substring(0, f.getFileName("filename").lastIndexOf("."));
-					if(!"".equals(tmpf)) tmpf = "/" + tmpf;
-
-					File dfd = new File(path + tmpf);
-					if(!dfd.exists()) { dfd.mkdirs(); };
-					zip.extract(attach, path + tmpf);
-				}
+				File dfd = new File(path + tmpf);
+				if(!dfd.exists()) { dfd.mkdirs(); };
+				zip.extract(attach, path + tmpf);
 			}
-		 }
-	} catch(Exception ex) {
-		m.log("media_upload", ex.getMessage() + ":::" + path + "/" + f.getFileName("filename"));
-	}
-
+		}
+	 }
 }
 
 //업로드제한

@@ -1,4 +1,6 @@
-<%@ page contentType="text/html; charset=utf-8" %><%@ page import="org.apache.commons.net.ftp.*" %><%@ include file="init.jsp" %><%
+<%@ page contentType="text/html; charset=utf-8" %><%@ page import="org.apache.commons.net.ftp.*" %>
+<%@ page import="java.io.UnsupportedEncodingException" %>
+<%@ include file="init.jsp" %><%
 
 //기본키
 if("".equals(siteinfo.s("cdn_ftp"))) {
@@ -39,7 +41,7 @@ if("add".equals(mode)) {
 		
 		boolean infoBlock = false;
 		if(startUrl.endsWith(".mp4")) {
-			try {
+			try{
 				Process proc = Runtime.getRuntime().exec("sh /root/script/videoinfo.sh " + startUrl);
 				BufferedReader br = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 				String line = br.readLine();
@@ -54,7 +56,9 @@ if("add".equals(mode)) {
 					lesson.item("content_width", tlist.i("Width"));
 					lesson.item("content_height", tlist.i("Height"));
 				}
-			} catch(Exception e) { m.errorLog(e.getMessage(), e); }
+			}
+			catch(RuntimeException re) { m.errorLog("RuntimeException : " + re.getMessage(), re); }
+			catch(Exception e) { m.errorLog("Exception : " + e.getMessage(), e); }
 		}
 
 		if(!infoBlock) {
@@ -106,7 +110,7 @@ if("C".equals(userKind) && !dir.startsWith("/" + userId)) dir = "/" + userId;
 //목록
 DataSet list = new DataSet();
 FTPClient ftp = new FTPClient();
-try {
+try{
 	ftp.setControlEncoding("utf-8");
 	ftp.connect(arr[0]);
 	ftp.enterLocalPassiveMode();
@@ -143,11 +147,13 @@ try {
 
 	ftp.logout();
 	ftp.disconnect();
-} catch(Exception e) {
+}catch(UnsupportedEncodingException uee) {
+	m.jsAlert("CDN에 접속하는 중 오류가 발생했습니다.");
+	return;
+}catch(Exception e) {
 	m.jsAlert("CDN에 접속하는 중 오류가 발생했습니다.");
 	return;
 }
-
 //출력
 p.setLayout(ch);
 p.setBody("video.cdn_list");

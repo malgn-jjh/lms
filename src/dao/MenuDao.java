@@ -104,7 +104,8 @@ public class MenuDao extends DataObject {
 
 					if(!"".equals(ownerAccount)) {
 						try { Runtime.getRuntime().exec("chown -R " + ownerAccount + ":" + ownerAccount + " " + jsp.getParentFile()); }
-						catch(Exception e) { Malgn.errorLog( "MenuDao.createFile() : " + e.getMessage(), e); }
+						catch(RuntimeException re) { Malgn.errorLog( "RuntimeException : MenuDao.createFile() : " + re.getMessage(), re); }
+						catch(Exception e) { Malgn.errorLog( "Exception : MenuDao.createFile() : " + e.getMessage(), e); }
 					}
 				}
 
@@ -116,7 +117,8 @@ public class MenuDao extends DataObject {
 
 					if(!"".equals(ownerAccount)) {
 						try { Runtime.getRuntime().exec("chown -R " + ownerAccount + ":" + ownerAccount + " " + html.getParentFile()); }
-						catch(Exception e) { Malgn.errorLog( "MenuDao.createFile() : " + e.getMessage(), e); }
+						catch(RuntimeException re) { Malgn.errorLog( "RuntimeException : MenuDao.createFile() : " + re.getMessage(), re); }
+						catch(Exception e) { Malgn.errorLog( "Exception : MenuDao.createFile() : " + e.getMessage(), e); }
 					}
 				}
 			}
@@ -132,14 +134,18 @@ public class MenuDao extends DataObject {
 		File dir = new File(path);
 		if(!dir.exists()) return ds;
 
-		File[] files = dir.listFiles();
-		for(int i=0; i<files.length; i++) {
-			String filename = files[i].getName();
-			if("layout_".equals(filename.substring(0, 7))) {
-				ds.addRow();
-				ds.put("id", filename.substring(7, filename.length() - 5));
-				ds.put("name", filename);
+		try {
+			File[] files = dir.listFiles();
+			for (int i = 0; i < files.length; i++) {
+				String filename = files[i].getName();
+				if ("layout_".equals(filename.substring(0, 7))) {
+					ds.addRow();
+					ds.put("id", filename.substring(7, filename.length() - 5));
+					ds.put("name", filename);
+				}
 			}
+		} catch (NullPointerException npe) {
+			Malgn.errorLog("NullPointerException : MenuDao.getLayouts() : " + npe.getMessage(), npe);
 		}
 		return ds;
 	}

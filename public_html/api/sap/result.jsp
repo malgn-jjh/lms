@@ -54,7 +54,11 @@ if(!apiLog.updateLog(!error ? "000" : "-1")) {
 }
 
 //출력
-_ret.put("result", list.size());
-apiLog.printList(out, _ret, "utf-8", list, "data");
+try {
+	_ret.put("result", list.size());
+	apiLog.printList(out, _ret, "utf-8", list, "data");
+} catch (NullPointerException npe){
+	m.errorLog("NullPointerException : " + npe.getMessage(), npe);
+}
 
 %>

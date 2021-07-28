@@ -5,8 +5,8 @@ import malgnsoft.util.*;
 
 public class LessonDao extends DataObject {
 
-	private final String CHAT_API_URL = "https://chat.malgnlms.com/api/index.php";
-	private final String CHAT_SECRET_KEY = "malgnsoft.20201021.agreatcompany";
+	private String apiUrl = "https://chat.malgnlms.com/api/index.php";
+	private final String secretKey = "malgnsoft.20201021.agreatcompany";
 
 	public String[] statusList = { "1=>사용", "0=>중지" };
 	public String[] htmlTypes = { "01=>wecandio", "02=>lesson", "03=>movie", "04=>link", "05=>catenoid", "06=>doczoom", "07=>catenoid", "08=>ktremote" };
@@ -42,6 +42,10 @@ public class LessonDao extends DataObject {
 		this.table = "LM_LESSON";
 	}
 
+	public void setApiUrl(String apiUrl) {
+		this.apiUrl = apiUrl;
+	}
+
 	public void autoSort(int contentId, int siteId) {
 		if(contentId == 0) return;
 
@@ -73,35 +77,28 @@ public class LessonDao extends DataObject {
 	}
 
 	public boolean insertChannel(String channelId, String siteName, String title) {
-		try {
-			Json json = new Json();
+		Http http = new Http(apiUrl);
+		http.setHeader("SECRET_KEY", secretKey);
+		http.setParam("api", "channel");
+		http.setParam("channel", channelId);
+		http.setParam("category1", siteName);
+		http.setParam("title", title);
+		http.setParam("max_user", "2000");
+		http.setParam("box_limit", "9");
+		http.setParam("font_limit", "9");
+		http.setParam("file_limit", "9");
+		http.setParam("guest_name", "GUEST");
+		http.setParam("password", "");
+		http.setParam("extras", "");
 
-			Http http = new Http(CHAT_API_URL);
-			http.setHeader("SECRET_KEY", CHAT_SECRET_KEY);
-			http.setParam("api", "channel");
-			http.setParam("channel", channelId);
-			http.setParam("category1", siteName);
-			http.setParam("title", title);
-			http.setParam("max_user", "2000");
-			http.setParam("box_limit", "9");
-			http.setParam("font_limit", "9");
-			http.setParam("file_limit", "9");
-			http.setParam("guest_name", "GUEST");
-			http.setParam("password", "");
-			http.setParam("extras", "");
+		String jstr = http.send("POST");
+		Json j = new Json(jstr);
 
-			String jstr = http.send("POST");
-			Json j = new Json(jstr);
+		boolean success = "true".equals(j.getString("//success"));
 
-			boolean success = "true".equals(j.getString("//success"));
+		if(!success) Malgn.errorLog("minitalk : " + jstr);
 
-			if(!success) Malgn.errorLog("minitalk : " + jstr);
-
-			return success;
-		} catch(Exception e) {
-			Malgn.errorLog("minitalk : " + e.getMessage());
-			return false;
-		}
+		return success;
 	}
 	
 	public String getChannelId(String ftpId, int siteId, int id, int lid, String type) {
@@ -109,34 +106,27 @@ public class LessonDao extends DataObject {
 	}
 
 	public String getNickname(String nickname, String userIp) {
-		try {
-			Json json = new Json();
+		Http http = new Http(apiUrl);
+		http.setHeader("SECRET_KEY", secretKey);
+		http.setParam("api", "nickname");
+		http.setParam("nickname", nickname);
+		http.setParam("level", "1");
+		http.setParam("nickcon", "");
+		http.setParam("photo", "");
+		http.setParam("extras", "");
+		http.setParam("userIp", userIp);
 
-			Http http = new Http(CHAT_API_URL);
-			http.setHeader("SECRET_KEY", CHAT_SECRET_KEY);
-			http.setParam("api", "nickname");
-			http.setParam("nickname", nickname);
-			http.setParam("level", "1");
-			http.setParam("nickcon", "");
-			http.setParam("photo", "");
-			http.setParam("extras", "");
-			http.setParam("userIp", userIp);
+		String jstr = http.send("POST");
+		Json j = new Json(jstr);
 
-			String jstr = http.send("POST");
-			Json j = new Json(jstr);
+		boolean success = "true".equals(j.getString("//success"));
 
-			boolean success = "true".equals(j.getString("//success"));
-
-			if(!success) {
-				Malgn.errorLog("nickname : " + jstr);
-				return "";
-			}
-
-			return j.getString("//message");
-		} catch(Exception e) {
-			Malgn.errorLog("nickname>error : " + e.getMessage());
+		if(!success) {
+			Malgn.errorLog("nickname : " + jstr);
 			return "";
 		}
+
+		return j.getString("//message");
 	}
 
 /*

@@ -8,12 +8,16 @@ File file = new File(docRoot + "/sysop/html/images/admin/icon");
 
 //아이콘 파일 존재여부 검사
 if(file.exists()) {
-	File[] images = file.listFiles();
-	Arrays.sort(images);
-	for(int i=0; i<images.length; i++) {
-		list.addRow();
-		list.put("url", "../html/images/admin/icon/" + images[i].getName());
-		list.put("tr",  (i + 1) % 10 == 0 && (i + 1) !=images.length ? "</tr><tr height='22'>" : "");
+	try {
+		File[] images = file.listFiles();
+		Arrays.sort(images);
+		for (int i = 0; i < images.length; i++) {
+			list.addRow();
+			list.put("url", "../html/images/admin/icon/" + images[i].getName());
+			list.put("tr", (i + 1) % 10 == 0 && (i + 1) != images.length ? "</tr><tr height='22'>" : "");
+		}
+	} catch (NullPointerException npe) {
+		m.errorLog("NullPointerException : " + npe.getMessage(), npe);
 	}
 }
 

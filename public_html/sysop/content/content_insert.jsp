@@ -36,7 +36,8 @@ if(m.isPost() && f.validate()) {
 			String cmd = "chmod 777 " + path;
 			Runtime.getRuntime().exec(cmd);
 		}
-		catch(Exception e) { return; }
+		catch(RuntimeException re) { m.errorLog("RuntimeException : " + re.getMessage(), re); return; }
+		catch(Exception e) { m.errorLog("Exception : " + e.getMessage(), e); return; }
 	}
 
 	m.jsReplace("lesson_list.jsp?cid=" + newId, "parent");

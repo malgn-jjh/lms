@@ -22,7 +22,11 @@ try {
 
 	out.print(webSize + "|" + dataSize);
 
+} catch(RuntimeException re) {
+	m.errorLog("RuntimeException : " + re.getMessage(), re);
+	out.print("세팅중 오류가 발생되었습니다.");
 } catch(Exception e) {
+	m.errorLog("Exception : " + e.getMessage(), e);
 	out.print("세팅중 오류가 발생되었습니다.");
 }
 

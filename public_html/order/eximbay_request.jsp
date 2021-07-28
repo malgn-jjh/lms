@@ -78,33 +78,25 @@ public String makeAllParam(HashMap<String, String> reqTemp){
 	List<String> reqList = new ArrayList<String>();
 
 
-	try{
-		reqList = new ArrayList<String>(reqTemp.keySet());
-		Collections.sort(reqList);
+	reqList = new ArrayList<String>(reqTemp.keySet());
+	Collections.sort(reqList);
 
-		for (String str : reqList) {	
-			String key = str;
-			String value = (String) reqTemp.get(str);  
-			
-			if ("fgkey".equals(key))  {
-				listSize++;
-				continue;
-			}			
-			if(reqList.size() ==  listSize)
-				reqParam.append(key).append("=").append(value);
-			else 
-				reqParam.append(key).append("=").append(value).append("&");   
+	for (String str : reqList) {
+		String key = str;
+		String value = (String) reqTemp.get(str);
+
+		if ("fgkey".equals(key))  {
 			listSize++;
+			continue;
 		}
-		//System.out.println("[makeReqAllParam]sorting : "+reqParam.toString());
-		return reqParam.toString();
-
-
-
-	}catch(Exception e){
-		m.errorLog(e.getMessage(), e);
-		//System.out.println("[makeReqAllParam]Exception : " + e);	
+		if(reqList.size() ==  listSize)
+			reqParam.append(key).append("=").append(value);
+		else
+			reqParam.append(key).append("=").append(value).append("&");
+		listSize++;
 	}
+	//System.out.println("[makeReqAllParam]sorting : "+reqParam.toString());
+
 	//System.out.println("[makeReqAllParam]return : "+reqParam.toString());
 	return reqParam.toString();
 }

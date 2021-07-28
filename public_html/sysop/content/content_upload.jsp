@@ -1,3 +1,4 @@
+<%@ page import="java.io.IOException" %>
 <%@ page contentType="text/html; charset=utf-8" %><%@ include file="init.jsp" %><%
 
 //접근권한
@@ -34,7 +35,13 @@ if(!"".equals(f.getFileName("filename"))) {
 			}
 		}
 
-	} catch(Exception ex) {
+	}
+	catch(IOException ioe) {
+		m.errorLog("IOException : " + ioe.getMessage(), ioe);
+		m.log("upload", ioe.getMessage() + "::" + dir + "/" + f.getFileName("filename"));
+	}
+	catch(Exception ex) {
+		m.errorLog("Exception : " + ex.getMessage(), ex);
 		m.log("upload", ex.getMessage() + "::" + dir + "/" + f.getFileName("filename"));
 	}
 

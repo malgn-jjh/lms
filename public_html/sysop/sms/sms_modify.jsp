@@ -27,7 +27,7 @@ info.put("reg_date_conv", m.time("yyyy.MM.dd HH:mm", info.s("reg_date")));
 DataSet uinfo = user.find("id = " + userId + " AND site_id = " + siteId + "");
 if(!uinfo.next()) { m.jsError("해당 회원정보가 없습니다."); return; }
 String mobile = "";
-try { mobile = !"".equals(uinfo.s("mobile")) ? SimpleAES.decrypt(uinfo.s("mobile")) : ""; }catch(Exception e) { m.errorLog(e.getMessage(), e); }
+mobile = !"".equals(uinfo.s("mobile")) ? SimpleAES.decrypt(uinfo.s("mobile")) : "";
 
 //폼체크
 f.addElement("sender", info.s("sender"), "hname:'발신번호', required:'Y'");
@@ -72,7 +72,7 @@ if(m.isPost() && f.validate()) {
 	int failCnt = 0;
 	while(users.next()) {
 		mobile = "";
-		try { mobile = !"".equals(users.s("mobile")) ? SimpleAES.decrypt(users.s("mobile")) : ""; }catch(Exception e) { m.errorLog(e.getMessage(), e); }
+		mobile = !"".equals(users.s("mobile")) ? SimpleAES.decrypt(users.s("mobile")) : "";
 		smsUser.item("site_id", siteId);
 		smsUser.item("sms_id", newId);
 		smsUser.item("mobile", users.s("mobile"));
@@ -105,7 +105,7 @@ DataSet users = smsUser.query(
 	+ " WHERE a.sms_id = " + id + " "
 );
 while(users.next()) {
-	try { users.put("s_value", !"".equals(users.s("mobile")) ? SimpleAES.decrypt(users.s("mobile")) : "-" );  } catch(Exception e) { m.errorLog(e.getMessage(), e); }
+	users.put("s_value", !"".equals(users.s("mobile")) ? SimpleAES.decrypt(users.s("mobile")) : "-" );
 	users.put("sms_yn_conv", m.getItem(users.s("sms_yn"), user.receiveYn));
 }
 

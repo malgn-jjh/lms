@@ -16,7 +16,6 @@ if(!"221.143.42.212".equals(ip) && !"221.143.42.215".equals(ip) && !"221.143.42.
 
 Form f = new Form("form1");
 try { f.setRequest(request); }
-catch(FileNotFoundException fnfe) { out.print("File not found. - " + fnfe.getMessage()); return; }
 catch(Exception ex) { out.print("Overflow file size. - " + ex.getMessage()); return; }
 
 //if(!m.isPost()) return;
@@ -32,22 +31,26 @@ String pnm = f.get("pnm");
 if("files".equals(mode)) {
 	//폴더내 파일목록 조회
 	DataSet list = new DataSet();
-	if(new File(dir).exists()) {
-		File[] files = new File(dir).listFiles();
-		Arrays.sort(files, new MySort());
-		int max=files.length;
-		for(int i=0; i<max; i++) {
-			if(files[i].isFile()) {
-				if(!"".equals(pnm) && files[i].getName().indexOf(pnm) < 0) continue;
-				list.addRow();
-				list.put("id", "" + (i+1));
-				list.put("name", files[i].getName());
-				list.put("path", files[i].toString());
-				list.put("length", new Long(files[i].length()));
-				list.put("time", new Long(files[i].lastModified()));
-				list.put("pname", files[i].getName().replace(".html", "").replace(".css", ""));
+	try {
+		if(new File(dir).exists()) {
+			File[] files = new File(dir).listFiles();
+			Arrays.sort(files, new MySort());
+			int max = files.length;
+			for(int i = 0; i < max; i++) {
+				if(files[i].isFile()) {
+					if(!"".equals(pnm) && files[i].getName().indexOf(pnm) < 0) continue;
+					list.addRow();
+					list.put("id", "" + (i + 1));
+					list.put("name", files[i].getName());
+					list.put("path", files[i].toString());
+					list.put("length", new Long(files[i].length()));
+					list.put("time", new Long(files[i].lastModified()));
+					list.put("pname", files[i].getName().replace(".html", "").replace(".css", ""));
+				}
 			}
 		}
+	} catch(NullPointerException npe) {
+		m.errorLog(npe.getMessage());
 	}
 	list.first();
 	JSONObject jsonObject = new JSONObject();
@@ -84,8 +87,8 @@ else if("readwrite".equals(mode)) {
 	} else {
 		m.writeFile(filepath, "");
 		try { Runtime.getRuntime().exec("chown -R " + uid + ":" + uid + " " + filepath); }
-		catch(RuntimeException re) { m.errorLog(re.getMessage(), re); }
-		catch(Exception e) { m.errorLog(e.getMessage(), e); }
+		catch(RuntimeException re) { m.errorLog("RuntimeException : " + re.getMessage(), re); }
+		catch(Exception e) { m.errorLog("Exception : " + e.getMessage(), e); }
 	}
 	return;
 }
@@ -104,8 +107,8 @@ else if("edit".equals(mode)) {
 
 		m.writeFile(filepath, body);
 		try { Runtime.getRuntime().exec("chown -R " + uid + ":" + uid + " " + filepath); }
-		catch(RuntimeException re) { m.errorLog(re.getMessage(), re); }
-		catch(Exception e) { m.errorLog(e.getMessage(), e); }
+		catch(RuntimeException re) { m.errorLog("RuntimeException : " + re.getMessage(), re); }
+		catch(Exception e) { m.errorLog("Exception : " + e.getMessage(), e); }
 		json.put("error", 0);
 		json.put("message", "Success");
 	} else {
@@ -125,8 +128,8 @@ else if("write".equals(mode)) {
 	if(!f1.exists()) {
 		m.writeFile(filepath, body);
 		try { Runtime.getRuntime().exec("chown -R " + uid + ":" + uid + " " + filepath); }
-		catch(RuntimeException re) { m.errorLog(re.getMessage(), re); }
-		catch(Exception e) { m.errorLog(e.getMessage(), e); }
+		catch(RuntimeException re) { m.errorLog("RuntimeException : " + re.getMessage(), re); }
+		catch(Exception e) { m.errorLog("Exception : " + e.getMessage(), e); }
 		json.put("error", 0);
 		json.put("message", "Success");
 	} else {

@@ -1,3 +1,4 @@
+<%@ page import="javax.crypto.BadPaddingException" %>
 <%@ page contentType="text/html; charset=utf-8" %><%@ include file="/init.jsp" %><%
 
 String ch = m.rs("ch", "board");
@@ -54,7 +55,14 @@ if(m.isPost() && f.validate()) {
 
 	try {
 		mobileEncrypt = SimpleAES.encrypt(mobile);
-	} catch(Exception e) {
+	}
+	catch(BadPaddingException bpe) {
+		m.errorLog("BadPaddingException : " + bpe.getMessage(), bpe);
+		m.jsAlert(_message.get("alert.common.error_insert"));
+		return;
+	}
+	catch(Exception e) {
+		m.errorLog("Exception : " + e.getMessage(), e);
 		m.jsAlert(_message.get("alert.common.error_insert"));
 		return;
 	}

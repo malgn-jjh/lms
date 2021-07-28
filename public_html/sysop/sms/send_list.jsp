@@ -37,7 +37,7 @@ while(list.next()) {
 	if(list.i("user_id") == -99) list.put("user_id", "-");
 	list.put("send_conv", list.b("send_yn") ? "성공" : "실패");
 	list.put("mobile_conv", "-");
-	try { list.put("mobile_conv", !"".equals(list.s("mobile")) ? SimpleAES.decrypt(list.s("mobile")) : "-" );  } catch(Exception e) { m.errorLog(e.getMessage(), e); }
+	list.put("mobile_conv", !"".equals(list.s("mobile")) ? SimpleAES.decrypt(list.s("mobile")) : "-" );
 	list.put("sms_yn_conv", m.getItem(list.s("sms_yn"), user.receiveYn));
 }
 

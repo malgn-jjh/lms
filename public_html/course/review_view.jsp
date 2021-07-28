@@ -1,4 +1,3 @@
-<%@ page import="java.io.UnsupportedEncodingException" %>
 <%@ page contentType="text/html; charset=utf-8" %><%@ include file="init.jsp" %><%
 
 //기본키
@@ -29,9 +28,7 @@ info.put("writer_conv", "Y".equals(SiteConfig.s("masking_yn")) ? m.masking(info.
 
 //쿠키
 String[] readArray = null;
-try { readArray = m.getCookie("CREAD").split("\\,"); }
-catch(UnsupportedEncodingException uee) { m.errorLog("UnsupportedEncodingException : " + uee.getMessage(), uee); }
-catch(Exception e) { m.errorLog("Exception : " + e.getMessage(), e); }
+readArray = m.getCookie("CREAD").split("\\,");
 if(!m.inArray(""+id + "/" + userId, readArray)) {
 	clPost.updateHitCount(id);
 	String tmp = m.join(",", readArray);

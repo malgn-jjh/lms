@@ -54,14 +54,18 @@ public class SitemapDao extends DataObject {
 		File dir = new File(path);
 		if(!dir.exists()) return ds;
 
-		File[] files = dir.listFiles();
-		for(int i=0; i<files.length; i++) {
-			String filename = files[i].getName();
-			if("layout_".equals(filename.substring(0, 7))) {
-				ds.addRow();
-				ds.put("id", filename.substring(7, filename.length() - 5));
-				ds.put("name", filename);
+		try {
+			File[] files = dir.listFiles();
+			for (int i = 0; i < files.length; i++) {
+				String filename = files[i].getName();
+				if ("layout_".equals(filename.substring(0, 7))) {
+					ds.addRow();
+					ds.put("id", filename.substring(7, filename.length() - 5));
+					ds.put("name", filename);
+				}
 			}
+		} catch (NullPointerException npe) {
+			Malgn.errorLog("NullPointerException : SitemapDao.getLayouts() : " + npe.getMessage(), npe);
 		}
 		return ds;
 	}
@@ -114,7 +118,9 @@ public class SitemapDao extends DataObject {
 		String[] parents = new String[] {};
 		try {
 			parents = this.getParentNodes(code);
-		} catch (Exception e) { return new DataSet(); }
+		}
+		catch (NullPointerException npe) { return new DataSet(); }
+		catch (Exception e) { return new DataSet(); }
 		if(1 > parents.length) return new DataSet();
 
 		DataSet tree = find("code IN ('" + Malgn.join("','", parents) + "') AND status = 1 AND site_id = " + this.siteId + (!"".equals(where) ? " AND " + where : ""), "*", "depth ASC");

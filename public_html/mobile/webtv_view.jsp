@@ -105,7 +105,7 @@ if(isOpen && 0 < userId) webtvLog.log(userId, id, info.i("hit_cycle"));
 
 //업데이트-조회수//쿠키셋팅
 String[] readArray = null;
-try { readArray = m.getCookie("WEBTV_VIEW_" + info.i("category_id")).split("\\,"); } catch(Exception e) { m.errorLog(e.getMessage(), e); }
+readArray = m.getCookie("WEBTV_VIEW_" + info.i("category_id")).split("\\,");
 if(!m.inArray("" + id, readArray)) {
 	webtv.updateHitCount(id);
 	String tmp = m.join(",", readArray);

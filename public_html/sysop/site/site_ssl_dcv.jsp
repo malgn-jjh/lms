@@ -34,7 +34,8 @@ if(m.isPost() && f.validate()) {
 	//디렉토리 생성
 	try {
 		new File(info.s("doc_root") + "/.well-known/pki-validation/").mkdirs();
-	} catch (Exception e) { m.jsAlert("디렉토리 생성 오류"); } 
+	}
+	catch (SecurityException se) { m.jsAlert("디렉토리 생성 오류"); }
 
 	File sFile = new File(filePath);
 	sFile.createNewFile();

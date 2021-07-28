@@ -27,17 +27,21 @@ public class BoardDao extends DataObject {
 
 	public DataSet getLayouts(String path) throws Exception {
 		DataSet ds = new DataSet();
-		File dir = new File(path);
-		if(!dir.exists()) return ds;
+		try {
+			File dir = new File(path);
+			if (!dir.exists()) return ds;
 
-		File[] files = dir.listFiles();
-		for(int i=0; i<files.length; i++) {
-			String filename = files[i].getName();
-			if("layout_".equals(filename.substring(0, 7))) {
-				ds.addRow();
-				ds.put("id", filename.substring(7, filename.length() - 5));
-				ds.put("name", filename);
+			File[] files = dir.listFiles();
+			for (int i = 0; i < files.length; i++) {
+				String filename = files[i].getName();
+				if ("layout_".equals(filename.substring(0, 7))) {
+					ds.addRow();
+					ds.put("id", filename.substring(7, filename.length() - 5));
+					ds.put("name", filename);
+				}
 			}
+		} catch (NullPointerException npe) {
+			Malgn.errorLog("NullPointerException : BoardDao.getLayouts() : " + npe.getMessage(), npe);
 		}
 		return ds;
 	}
@@ -47,16 +51,20 @@ public class BoardDao extends DataObject {
 		File dir = new File(path);
 		if(!dir.exists()) return ds;
 
-		File[] files = dir.listFiles();
-		for(int i=0; i<files.length; i++) {
-			if(files[i].isDirectory()) {
-				String filename = files[i].getName();
-				if(!"comment".equals(filename)) {
-					ds.addRow();
-					ds.put("id", filename);
-					ds.put("name", filename);
+		try {
+			File[] files = dir.listFiles();
+			for (int i = 0; i < files.length; i++) {
+				if (files[i].isDirectory()) {
+					String filename = files[i].getName();
+					if (!"comment".equals(filename)) {
+						ds.addRow();
+						ds.put("id", filename);
+						ds.put("name", filename);
+					}
 				}
 			}
+		} catch (NullPointerException npe) {
+			Malgn.errorLog("NullPointerException : BoardDao.getSkins() : " + npe.getMessage(), npe);
 		}
 		return ds;
 	}

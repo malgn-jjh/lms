@@ -44,7 +44,7 @@ if(sleepBlock) {
 	sinfo.put("dept_nm", userDept.getOne("SELECT dept_nm FROM " + userDept.table + " WHERE id = " + sinfo.s("dept_id")));
 	sinfo.put("gender_conv", m.getItem(sinfo.s("gender"), user.genders));
 	sinfo.put("birthday_conv", m.time("yyyy.MM.dd", sinfo.s("birthday")));
-	if(!"".equals(sinfo.s("mobile"))) try { sinfo.put("mobile_conv", SimpleAES.decrypt(sinfo.s("mobile"))); } catch(Exception e) { m.errorLog(e.getMessage(), e); }
+	if(!"".equals(sinfo.s("mobile"))) sinfo.put("mobile_conv", SimpleAES.decrypt(sinfo.s("mobile")));
 
 } else {
 	//폼체크
@@ -58,7 +58,7 @@ if(sleepBlock) {
 	f.addElement("gender", info.s("gender"), "hname:'성별', required:'Y', option:'number'");
 	f.addElement("birthday", m.time("yyyy-MM-dd", info.s("birthday")), "hname:'생년월일'");
 	String mobile = "";
-	if(!"".equals(info.s("mobile"))) try { mobile = SimpleAES.decrypt(info.s("mobile")); } catch(Exception e) { m.errorLog(e.getMessage(), e); }
+	if(!"".equals(info.s("mobile"))) mobile = SimpleAES.decrypt(info.s("mobile")); 
 	f.addElement("mobile", mobile, "hname:'휴대전화'");
 	f.addElement("email", info.s("email"), "hname:'이메일', option:'email'");
 	f.addElement("zipcode", info.s("zipcode"), "hname:'우편번호'");

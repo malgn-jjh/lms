@@ -1,3 +1,4 @@
+<%@ page import="java.io.IOException" %>
 <%@ page contentType="text/html; charset=utf-8" %><%@ include file="init.jsp" %><%
 
 //MANAGEMENT
@@ -55,7 +56,12 @@ if(m.isPost()) {
 			DataSet records = new DataSet();
 			try {
 				records = new ExcelReader(path).getDataSet(1);
+			} catch(IOException ioe) {
+				m.errorLog("IOException : " + ioe.getMessage(), ioe);
+				m.jsAlert("호환되지 않거나 손상된 파일입니다.");
+				return;
 			} catch(Exception e) {
+				m.errorLog("Exception : " + e.getMessage(), e);
 				m.jsAlert("호환되지 않거나 손상된 파일입니다.");
 				return;
 			}
@@ -93,7 +99,7 @@ if(m.isPost()) {
 					? m.time("yyyy.MM.dd", list.s("start_date")) + " - " + m.time("yyyy.MM.dd", list.s("end_date"))
 					: m.time("yyyy.MM.dd") + " - " + m.time("yyyy.MM.dd", m.addDate("D", cinfo.i("lesson_day") > 0 ? cinfo.i("lesson_day")-1 : 0, m.time("yyyyMMdd")))
 				));
-				try { list.put("mobile_conv", SimpleAES.decrypt(list.s("mobile"))); } catch(Exception e) { m.errorLog(e.getMessage(), e); }
+				list.put("mobile_conv", SimpleAES.decrypt(list.s("mobile")));
 			}
 
 			//출력

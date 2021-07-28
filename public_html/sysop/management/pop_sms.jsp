@@ -100,7 +100,7 @@ if(idx != null) {
 }
 while(users.next()) {
 	String mobile = "";
-	try { mobile = !"".equals(users.s("mobile")) ? SimpleAES.decrypt(users.s("mobile")) : ""; } catch(Exception e) { m.errorLog(e.getMessage(), e); }
+	mobile = !"".equals(users.s("mobile")) ? SimpleAES.decrypt(users.s("mobile")) : "";
 	users.put("mobile", mobile);
 	users.put("s_value", "( " + mobile + " )");
 	//users.put("stype_yn", !"Y".equals(users.getString("sms")) ? "[수신거부]" : "");

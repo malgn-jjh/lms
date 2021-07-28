@@ -31,7 +31,7 @@ if(m.isPost() && f.validate()) {
 		}
 		list.put("birthday_conv", m.time("yyyy.MM.dd", list.s("birthday")));
 		list.put("mobile_conv", "-");
-		try { list.put("mobile_conv", !"".equals(list.s("mobile")) ? SimpleAES.decrypt(list.s("mobile")) : "" );  } catch(Exception e) { m.errorLog(e.getMessage(), e); }
+		list.put("mobile_conv", !"".equals(list.s("mobile")) ? SimpleAES.decrypt(list.s("mobile")) : "" );
 
 		list.put("gender_conv", m.getItem(list.s("gender"), user.genders));
 		list.put("course_user_cnt_conv", m.nf(list.i("course_user_cnt")));

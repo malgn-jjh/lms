@@ -1,4 +1,6 @@
-<%@ page contentType="text/html; charset=utf-8" %><%@ page import="malgnsoft.json.*" %><%@ include file="init.jsp" %><%
+<%@ page contentType="text/html; charset=utf-8" %><%@ page import="malgnsoft.json.*" %>
+<%@ page import="com.oracle.javafx.jmx.json.JSONException" %>
+<%@ include file="init.jsp" %><%
 
 //기본키
 String clientUserId = m.rs("user_id"); // 정상적인 진도시 : COURSE_USER.id + _ + COURSE_MODULE.module_id // 맛보기 : 12자리랜덤값
@@ -64,10 +66,16 @@ if(!"".equals(jsonData)) {
 		chapter = m.parseInt(jo.getJSONObject("uservalues").getString("uservalue2"));
 		jsonBlock = true;
 
+	} catch(JSONException jsone) {
+		m.errorLog("JSONException : " + jsone.getMessage(), jsone);
+		m.log("kollus", "Json : " + jsonData + " / Error : " + jsone.getMessage());
+		return;
 	} catch(Exception e) {
+		m.errorLog("Exception : " + e.getMessage(), e);
 		m.log("kollus", "Json : " + jsonData + " / Error : " + e.getMessage());
 		return;
 	}
+
 }
 
 if(clientUserId.indexOf("_") == -1 || cuid == 0) {

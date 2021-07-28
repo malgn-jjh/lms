@@ -1,5 +1,4 @@
 <%@ page contentType="text/html; charset=utf-8" %><%@ page import="java.awt.Image,javax.swing.ImageIcon" %>
-<%@ page import="java.io.FileNotFoundException" %>
 <%@ include file="init.jsp" %><%
 /*
 DataSet tempInfo = new DataSet();
@@ -62,7 +61,7 @@ if(m.isPost() && f.validate()) {
 						}
 					}
 				}
-				catch(FileNotFoundException fnfe) { m.errorLog("FileNotFoundException : " + fnfe.getMessage(), fnfe); }
+				catch(RuntimeException re) { m.errorLog("RuntimeException : " + re.getMessage(), re); }
 				catch(Exception e) { m.errorLog("Exception : " + e.getMessage(), e); }
 
 				//등록-정보

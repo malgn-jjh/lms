@@ -97,16 +97,20 @@ p.display();
 public static String explorer(String path) {
 	String result = "";
 	path = path.replace("\\", "/");
-	File f1 = new File(path);
-	String[] flist = f1.list();
+	try {
+		File f1 = new File(path);
+		String[] flist = f1.list();
 
-	for(int i = 0; i < flist.length; i++) {
-		File f2 = new File(f1 + "/" + flist [i]);
-		if(f2.isDirectory() == true) {
-			result += explorer(f1 + "/" + flist[i]);
-		} else {
-			result += "<a href=\"template_modify.jsp?path=" + path + "/" + flist[i] + "\">" + path + "/" + flist[i] + "\t|\t" + f2.length() + "</a><br>\n";
+		for (int i = 0; i < flist.length; i++) {
+			File f2 = new File(f1 + "/" + flist[i]);
+			if (f2.isDirectory() == true) {
+				result += explorer(f1 + "/" + flist[i]);
+			} else {
+				result += "<a href=\"template_modify.jsp?path=" + path + "/" + flist[i] + "\">" + path + "/" + flist[i] + "\t|\t" + f2.length() + "</a><br>\n";
+			}
 		}
+	}catch (NullPointerException npe) {
+		//m.errorLog("NullPointerException : " + npe.getMessage(), npe);
 	}
 	return result;
 }%>

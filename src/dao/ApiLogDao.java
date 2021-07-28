@@ -5,8 +5,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import malgnsoft.db.*;
 import malgnsoft.util.*;
+import malgnsoft.json.JSONException;
 import org.json.*;
-import java.io.Writer;
+import java.io.*;
 
 public class ApiLogDao extends DataObject {
 
@@ -58,8 +59,10 @@ public class ApiLogDao extends DataObject {
 				if(null != ds) json.put("" + retDataNm + "", ds);
 				out.write(json.toString());
 			}
-		} catch(Exception e) {
-			Malgn.errorLog( "ApiLogDao.printList() : " + e.getMessage(), e);
+		} catch(JSONException je) {
+			Malgn.errorLog( "ApiLogDao.printList() : " + je.getMessage(), je);
+		} catch(IOException ioe) {
+			Malgn.errorLog( "ApiLogDao.printList() : " + ioe.getMessage(), ioe);
 		}
 	}
 

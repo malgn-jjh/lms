@@ -12,7 +12,6 @@ if("DOWNLOAD".equals(m.rs("mode"))) {
 	String path = m.decode(m.rs("path"));
 	File file = new File(path);
 	if(file.exists()){
-		try {
 			String filename = file.getName();
 			response.setContentType( "application/octet-stream;" );
 			response.setContentLength( (int)file.length() );
@@ -28,7 +27,6 @@ if("DOWNLOAD".equals(m.rs("mode"))) {
 			}
 			outs.close();
 			fin.close();
-		} catch(Exception e) { m.errorLog(e.getMessage(), e); }
 	}
 	return;
 }

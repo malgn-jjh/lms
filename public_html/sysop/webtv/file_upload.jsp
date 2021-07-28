@@ -45,7 +45,6 @@ if(m.isPost()) {
 	//if(!"".equals(file.errMsg)) { out.print("{\"success\":false, \"error\":\"" + file.errMsg + "\", \"reset\":true}"); return; }
 
 	//파일리사이징
-	try {
 		if(f.getFileName("filename").matches("(?i)^.+\\.(jpg|png|gif|bmp)$")) {
 			Image img = new ImageIcon(m.getUploadPath(f.getFileName("filename"))).getImage();
 			if(700 < img.getWidth(null)) {
@@ -54,8 +53,7 @@ if(m.isPost()) {
 				Runtime.getRuntime().exec(cmd);
 			}
 		}
-	} catch(Exception e) { m.errorLog(e.getMessage(), e); }
-
+		
 	out.print("{\"success\":true}");
 	return;
 }

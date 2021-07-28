@@ -383,23 +383,29 @@ public class OrderDao extends DataObject {
 									isDBOK = false;
 								}
 							} else {
-								DataSet sub = courseUser.query(
-									" SELECT a.id course_user_id, a.user_id, a.order_id, a.order_item_id, c.* "
-									+ " FROM " + courseUser.table + " a "
-									+ " LEFT JOIN " + course.table + " c ON a.course_id = c.id AND c.site_id = " + siteId + " "
-									+ " WHERE a.order_item_id = " + courses.s("id") + " AND a.package_id = " + courses.s("product_id")
-								);
-								if(1 > sub.size() || sub == null) {
-									errorCode += "[ERR31-1] 과정 상태를 변경하는 중 오류가 발생했습니다.<br />\n";
-									isDBOK = false;
-								}
-								while(sub.next()) {
-									sub.put("lesson_day", courses.i("lesson_day"));
-									sub.put("freepass_end_date", courses.s("freepass_end_date"));
-								}
-								if(!courseUser.updateStudyDate(sub, status, "D")) {
-									//if(!courseUser.delete("order_id = " + oid)) { }
-									errorCode += "[ERR32] 과정 상태를 변경하는 중 오류가 발생했습니다.<br />\n";
+								try {
+									DataSet sub = courseUser.query(
+											" SELECT a.id course_user_id, a.user_id, a.order_id, a.order_item_id, c.* "
+													+ " FROM " + courseUser.table + " a "
+													+ " LEFT JOIN " + course.table + " c ON a.course_id = c.id AND c.site_id = " + siteId + " "
+													+ " WHERE a.order_item_id = " + courses.s("id") + " AND a.package_id = " + courses.s("product_id")
+									);
+									if (1 > sub.size() || sub == null) {
+										errorCode += "[ERR31-1] 과정 상태를 변경하는 중 오류가 발생했습니다.<br />\n";
+										isDBOK = false;
+									}
+									while (sub.next()) {
+										sub.put("lesson_day", courses.i("lesson_day"));
+										sub.put("freepass_end_date", courses.s("freepass_end_date"));
+									}
+									if (!courseUser.updateStudyDate(sub, status, "D")) {
+										//if(!courseUser.delete("order_id = " + oid)) { }
+										errorCode += "[ERR32] 과정 상태를 변경하는 중 오류가 발생했습니다.<br />\n";
+										isDBOK = false;
+									}
+								} catch (NullPointerException npe) {
+									Malgn.errorLog("NullPointerException : OrderDao.confirmDeposit() : " + npe.getMessage(), npe);
+									errorCode += "[ERR31-2] 과정 상태를 변경하는 중 오류가 발생했습니다.<br />\n";
 									isDBOK = false;
 								}
 							}
@@ -703,21 +709,26 @@ public class OrderDao extends DataObject {
             }
 
             errmsg.append(sb.toString().trim());
-            if ( sb.toString().trim().equals("OK")){
+            if (sb.toString().trim().equals("OK")){
                 result = true;
-            }else{
+            } else{
 				errormsg = sb.toString().trim();
 			}
 
-        } catch ( Exception ex ) {
-            errmsg.append("EXCEPTION : " + ex.getMessage());
+        } catch (IOException ioe) {
+            errmsg.append("IOException : " + ioe.getMessage());
+			ioe.printStackTrace();
+        } catch (Exception ex) {
+            errmsg.append("Exception : " + ex.getMessage());
             ex.printStackTrace();
         } finally {
             try {
-                if ( wr != null) wr.close();
-                if ( br != null) br.close();
+                if (wr != null) wr.close();
+                if (br != null) br.close();
+            } catch(IOException ioe){
+				Malgn.errorLog( "IOException : OrderDao.sendRCVInfo() : " + ioe.getMessage(), ioe);
             } catch(Exception e){
-				Malgn.errorLog( "OrderDao.sendRCVInfo() : " + e.getMessage(), e);
+				Malgn.errorLog( "Exception : OrderDao.sendRCVInfo() : " + e.getMessage(), e);
             }
         }
         return result;

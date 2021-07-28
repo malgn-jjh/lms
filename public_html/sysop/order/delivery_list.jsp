@@ -93,9 +93,8 @@ while(list.next()) {
 	list.put("reg_date_conv", m.time("yyyy.MM.dd", list.s("reg_date")));
 	list.put("pay_date_conv", m.time("yyyy.MM.dd", list.s("pay_date")));
 	list.put("pay_date_diff", (!"".equals(list.s("pay_date")) ? m.diffDate("D", list.s("pay_date"), m.time("yyyyMMddHHmmss")) : "-"));
-	try { list.put("ord_mobile", !"".equals(list.s("ord_mobile")) ? SimpleAES.decrypt(list.s("ord_mobile")) : "-" ); } catch(Exception e) { list.put("ord_mobile", "-"); }
-	try { list.put("ord_phone", !"".equals(list.s("ord_phone")) ? SimpleAES.decrypt(list.s("ord_phone")) : "-" ); } catch(Exception e) { list.put("ord_phone", "-"); }
-
+	list.put("ord_mobile", !"".equals(list.s("ord_mobile")) ? SimpleAES.decrypt(list.s("ord_mobile")) : "-" );
+	list.put("ord_phone", !"".equals(list.s("ord_phone")) ? SimpleAES.decrypt(list.s("ord_phone")) : "-" );
 	list.put("delivery_block", list.i("delivery_status") >= 3);
 	list.put("wait_block", list.i("status") == 1 && (list.i("delivery_status") == 0 || list.i("delivery_status") == 2));
 	list.put("complete_date_conv", m.time("yyyy.MM.dd", list.s("complete_date")));

@@ -1,3 +1,4 @@
+<%@ page import="java.io.IOException" %>
 <%@ page contentType="text/html; charset=utf-8" %><%@ include file="init.jsp" %><%
 
 if(!Menu.accessible(31, userId, userKind)) { m.jsError("접근 권한이 없습니다."); return; }
@@ -15,7 +16,7 @@ FileLogDao fileLog = new FileLogDao(request);
 File file = new File(path);
 if(file.exists()){
 	if(!fileLog.addLog(userId, fileLog.file2info(siteId, file))) { }
-	try {
+	try{
 		String filename = file.getName();
 		response.setContentType( "application/octet-stream;" );
 		response.setContentLength( (int)file.length() );
@@ -31,9 +32,12 @@ if(file.exists()){
 		}
 		outs.close();
 		fin.close();
-	} catch(Exception e) {
+	}catch(IOException ioe) {
+		m.jsAlert("File I/O Error. " + ioe.getMessage());
+	}catch(Exception e) {
 		m.jsAlert("File I/O Error. " + e.getMessage());
 	}
+
 } else {
 	m.jsAlert("해당 파일이 존재하지 않습니다.");
 	return;

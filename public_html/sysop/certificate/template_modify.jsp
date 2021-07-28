@@ -72,7 +72,8 @@ if(m.isPost() && f.validate()) {
             String cmd = "convert -resize 1000x> " + imgPath + " " + imgPath;
             Runtime.getRuntime().exec(cmd);
         }
-        catch(Exception e) { m.errorLog(e.getMessage(), e); }
+        catch(RuntimeException re) { m.errorLog("RuntimeException : " + re.getMessage(), re); }
+        catch(Exception e) { m.errorLog("Exception : " + e.getMessage(), e); }
     }
 
     if(!certificateTemplate.update("id = " + id)) { m.jsAlert("수정하는 중 오류가 발생했습니다."); return; }

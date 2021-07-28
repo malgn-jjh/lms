@@ -220,6 +220,9 @@ public boolean copyFile(String inPath, String outPath) throws Exception {
 		while((length = inStream.read(buffer)) > 0) {
 			outStream.write(buffer, 0, length);
 		}
+	} catch(IOException ioe) {
+		//e.printStackTrace();
+		result = false;
 	} catch(Exception e) {
 		//e.printStackTrace();
 		result = false;
