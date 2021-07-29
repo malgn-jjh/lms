@@ -127,7 +127,7 @@ if(m.isPost() && f.validate()) {
 			courseLesson.item("start_date", cinfo2.s("study_sdate"));
 			courseLesson.item("end_date", cinfo2.s("study_edate"));
 			courseLesson.item("start_time", "000000");
-			courseLesson.item("end_time", "000000");
+			courseLesson.item("end_time", "235559");
 			courseLesson.item("tutor_id", 0);
 			courseLesson.item("progress_yn", "Y");
 			courseLesson.item("status", 1);

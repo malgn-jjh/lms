@@ -124,10 +124,14 @@ if(m.isPost() && f.validate()) {
 				//if(!courseSection.update("id = " + sectionId)) { }
 			} else {
 
-				if("".equals(f.getArr("start_time_hour")[i]) && (!"".equals(f.getArr("start_time_min")[i]) || !"".equals(f.getArr("end_time_hour")[i]) || !"".equals(f.getArr("end_time_min")[i]))
-					|| !"".equals(f.getArr("start_time_hour")[i]) && ("".equals(f.getArr("start_time_min")[i]) || "".equals(f.getArr("end_time_hour")[i]) || "".equals(f.getArr("end_time_min")[i]))) {
-					m.jsAlert("학습기간 시작/종료시간의 설정은 없음 또는 시분 값으로 일치하여야 합니다.");
-					return;
+				if(cinfo.b("period_yn")) {
+					if ("".equals(f.getArr("start_time_hour")[i])
+							&& (!"".equals(f.getArr("start_time_min")[i]) || !"".equals(f.getArr("end_time_hour")[i]) || !"".equals(f.getArr("end_time_min")[i]))
+						|| !"".equals(f.getArr("start_time_hour")[i])
+							&& ("".equals(f.getArr("start_time_min")[i]) || "".equals(f.getArr("end_time_hour")[i]) || "".equals(f.getArr("end_time_min")[i]))) {
+						m.jsAlert("학습기간 시작/종료시간의 설정은 없음 또는 시분 값으로 일치하여야 합니다.");
+						return;
+					}
 				}
 
 				courseLesson.item("section_id", sectionId);
@@ -140,7 +144,7 @@ if(m.isPost() && f.validate()) {
 				courseLesson.item("start_time", "");
 				if(!"".equals(f.getArr("start_time_hour")[i]) && !"".equals(f.getArr("start_time_min")[i])) courseLesson.item("start_time", f.getArr("start_time_hour")[i] + f.getArr("start_time_min")[i] + "00");
 				courseLesson.item("end_time", "");
-				if(!"".equals(f.getArr("end_time_hour")[i]) && !"".equals(f.getArr("end_time_min")[i])) courseLesson.item("end_time", f.getArr("end_time_hour")[i] + f.getArr("end_time_min")[i] + "00");
+				if(!"".equals(f.getArr("end_time_hour")[i]) && !"".equals(f.getArr("end_time_min")[i])) courseLesson.item("end_time", f.getArr("end_time_hour")[i] + f.getArr("end_time_min")[i] + "59");
 
 				//courseLesson.item("lesson_hour", Double.parseDouble(String.format("%.2f", f.getArr("lesson_hour")[i]));
 				courseLesson.item("lesson_hour", m.parseDouble(f.getArr("lesson_hour")[i]));

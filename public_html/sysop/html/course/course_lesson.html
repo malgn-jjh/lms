@@ -337,6 +337,7 @@
 		<!--/loop(minutes)-->
 		</select>
 		부터
+		<br>
 		<input type="text" name="end_date" value="{{list.end_date_conv}}" _cvalue="{{list.end_date_conv}}" class="edate" onclick="new CalendarFrame.Calendar(this, 'setStudyDate()')" style="width:80px;" HNAME="마감일" REQUIRED="Y" readonly>
 		<select name="end_time_hour" id="end_time_hour_{{list.lesson_id}}" class="ehour" onchange="validateTime(this)">
 		<option value="">(없음)</option>
@@ -475,11 +476,11 @@ function delLesson() {
 function goSubmit(f) {
 	if(!validate(f)) return false;
 
+	<!--@if(course.period_yn)-->
 	var shourArr = document.getElementsByClassName("shour");
 	var sminuteArr = document.getElementsByClassName("sminute");
 	var ehourArr = document.getElementsByClassName("ehour");
 	var eminuteArr = document.getElementsByClassName("eminute");
-
 
 	for(var i=0; i<shourArr.length; i++) {
 		var shour = shourArr[i].value;
@@ -489,11 +490,12 @@ function goSubmit(f) {
 
 		if("" == shour && ("" != sminute || "" !=  ehour || "" != eminute)
 			|| "" != shour && ("" == sminute || "" ==  ehour || "" == eminute)) {
-			alert("학습기간 시작/종료시간의 설정은 없음 또는 시분 값으로 일치하여야 합니다.");
+			alert("시작/마감시간 값은 없음이거나 시/분값으로 일치하여야 합니다.");
 			shourArr[i].focus();
 			return false;
 		}
 	}
+	<!--/if(course.period_yn)-->
 
 	return true;
 }

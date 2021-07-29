@@ -1,6 +1,6 @@
 <%@ include file="/init.jsp" %><%
 
-if(isRespWeb) m.redirect("/main/index.jsp");
+if(isRespWeb) { m.redirect("/main/index.jsp"); return; }
 
 String ch = "mobile";
 auth.loginURL = "/mobile/login.jsp";

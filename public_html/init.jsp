@@ -2,7 +2,7 @@
 
 //request.setCharacterEncoding("utf-8");
 
-final String BUILDVERSION = "21.27.02";
+final String BUILDVERSION = "21.30.01";
 
 String docRoot = Config.getDocRoot();
 String jndi = Config.getJndi();

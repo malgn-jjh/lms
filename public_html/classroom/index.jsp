@@ -138,7 +138,7 @@ while(list.next()) {
 		list.put("online_block", false);
 		list.put("start_date_conv", m.time(_message.get("format.date.dot"), list.s("start_date")));
 		list.put("end_date_conv", m.time("HH:mm", list.s("start_date") + list.s("end_time")));
-		list.put("date_conv", list.s("start_date_conv") + " <br> " + m.time("HH:mm", list.s("start_date")) + " - " + m.time("HH:mm", list.s("end_date")));
+		list.put("date_conv", list.s("start_date_conv") + " <br> " + m.time("HH:mm", list.s("start_date") + list.s("start_time")) + " - " + list.s("end_date_conv"));
 	}
 
 	DataSet files = file.getFileList(list.i("lesson_id"), "lesson");

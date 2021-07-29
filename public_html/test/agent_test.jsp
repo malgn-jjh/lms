@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=utf-8" %><%@ include file="init.jsp" %>
+<%@ page import="malgnsoft.json.*" %>
 <%@ page import="ua_parser.Parser" %>
 <%@ page import="ua_parser.Client" %>
 <%
@@ -17,5 +18,15 @@
     out.println("OS-MAJOR : " + c.os.major + "<br>");
     out.println("OS-MINOR : " + c.os.minor + "<br>");
     out.println("DEVICE-FAMILY : " + c.device.family);
+
+    DataSet test = new DataSet();
+    test.addRow();
+    test.put("hello", "world");
+    test.put("foo", 1001);
+
+    JSONObject json = new JSONObject();
+    json.put("dataSet", test);
+    out.println(json.toString());
+
 
 %>
