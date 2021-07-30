@@ -79,9 +79,16 @@ public String encryptSHA512(String input) {
 	try {
 		md = MessageDigest.getInstance("SHA-512");
 		md.update(input.getBytes());
+	} catch(NullPointerException npe) {
+		System.out.println("NullPointerException : " + npe.getMessage());
+		return null;
+	} catch(NoSuchAlgorithmException nsae) {
+		System.out.println("NoSuchAlgorithmException : " + nsae.getMessage());
+		return null;
+	} catch(Exception e) {
+		System.out.println("Exception : " + e.getMessage());
+		return null;
 	}
-	catch(NoSuchAlgorithmException nsae) { System.out.println("NoSuchAlgorithmException : " + nsae.getMessage()); }
-	catch(Exception e) { System.out.println("Exception : " + e.getMessage()); }
 
 	return byteArrayToHex(md.digest());
 }

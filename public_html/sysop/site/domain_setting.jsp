@@ -27,10 +27,10 @@ try {
 	if(line == null) m.jsAlert("성공적으로 세팅되었습니다.");
 
 } catch (RuntimeException re) {
-    System.out.println(re);
+    m.errorLog("RuntimeException : " + re.getMessage(), re);
     m.jsAlert("세팅중 오류가 발생되었습니다. 시스템 로그를 확인해주세요.");
 } catch(Exception e) {
-    System.out.println(e);
+    m.errorLog("Exception : " + e.getMessage(), e);
 	m.jsAlert("세팅중 오류가 발생되었습니다. 시스템 로그를 확인해주세요.");
 }
 

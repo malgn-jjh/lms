@@ -40,10 +40,13 @@ public class BoardDao extends DataObject {
 					ds.put("name", filename);
 				}
 			}
+
+			return ds;
 		} catch (NullPointerException npe) {
 			Malgn.errorLog("NullPointerException : BoardDao.getLayouts() : " + npe.getMessage(), npe);
+			return new DataSet();
 		}
-		return ds;
+
 	}
 
 	public DataSet getSkins(String path) throws Exception {
@@ -63,10 +66,11 @@ public class BoardDao extends DataObject {
 					}
 				}
 			}
+			return ds;
 		} catch (NullPointerException npe) {
 			Malgn.errorLog("NullPointerException : BoardDao.getSkins() : " + npe.getMessage(), npe);
+			return new DataSet();
 		}
-		return ds;
 	}
 
 	public DataSet getLevels() {

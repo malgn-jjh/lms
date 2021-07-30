@@ -144,10 +144,11 @@ public class MenuDao extends DataObject {
 					ds.put("name", filename);
 				}
 			}
+			return ds;
 		} catch (NullPointerException npe) {
 			Malgn.errorLog("NullPointerException : MenuDao.getLayouts() : " + npe.getMessage(), npe);
+			return new DataSet();
 		}
-		return ds;
 	}
 
 	public int sortMenu(int id, int num, int pnum) {

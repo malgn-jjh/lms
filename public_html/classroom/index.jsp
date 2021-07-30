@@ -129,7 +129,7 @@ while(list.next()) {
 		list.put("online_block", true);
 		list.put("start_date_conv", m.time(_message.get("format.date.dot"), list.s("start_date")));
 		list.put("end_date_conv", m.time(_message.get("format.date.dot"), list.s("end_date")));
-		if(list.s("start_time").length() == 6 && list.s("end_time").length() == 6) {
+		if(list.s("start_date").length() == 6 && list.s("end_date").length() == 6 && list.s("start_time").length() == 6 && list.s("end_time").length() == 6) {
 			list.put("start_date_conv", m.time(_message.get("format.datetime.dot"), list.s("start_date") + list.s("start_time")));
 			list.put("end_date_conv", m.time(_message.get("format.datetime.dot"), list.s("end_date") + list.s("end_time")));
 		}

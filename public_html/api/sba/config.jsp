@@ -5,6 +5,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="com.initech.eam.api.NXContext"%>
+<%@ page import="malgnsoft.util.*" %>
 <%!
 /**[INISAFE NEXESS JAVA AGENT]**********************************************************************
 * �����ý��� ���� ���� (���� ȯ�濡 �°� ����)
@@ -85,9 +86,9 @@
 		try {
 			retCode = CookieManager.verifyNexessCookieAndAgentVaild(request, response, 10, COOKIE_SESSTION_TIME_OUT, PROVIDER_LIST, SERVER_URL, context);
 		} catch(NullPointerException npe) {
-			npe.printStackTrace();
+			Malgn.errorLog("NullPointerException : " + npe.getMessage(), npe);
 		} catch(Exception e) {
-			e.printStackTrace();
+			Malgn.errorLog("Exception : " + e.getMessage(), e);
 		}
 		return retCode;
 	}
@@ -100,9 +101,9 @@
 		try {
 			retCode = CookieManager.verifyNexessCookie(request, response, 10, COOKIE_SESSTION_TIME_OUT,PROVIDER_LIST);
 		} catch(NullPointerException npe) {
-			npe.printStackTrace();
+			Malgn.errorLog("NullPointerException : " + npe.getMessage(), npe);
 		} catch(Exception e) {
-			e.printStackTrace();
+			Malgn.errorLog("Exception : " + e.getMessage(), e);
 		}
 		return retCode;
 	}
@@ -116,9 +117,9 @@
 			NXNLSAPI nxNLSAPI = new NXNLSAPI(context);
 			retCode = nxNLSAPI.readNexessCookie(request, response, 10, COOKIE_SESSTION_TIME_OUT);
 		} catch(NullPointerException npe) {
-			npe.printStackTrace();
+			Malgn.errorLog("NullPointerException : " + npe.getMessage(), npe);
 		} catch(Exception e) {
-			e.printStackTrace();
+			Malgn.errorLog("Exception : " + e.getMessage(), e);
 		}
 		return retCode;
 	}

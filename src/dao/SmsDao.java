@@ -6,8 +6,8 @@ import java.util.regex.*;
 
 public class SmsDao extends DataObject {
 	
-	public String smsId = "poppet";
-	public String smsPasswd = "jsn!@#$%";
+	public String smsId = "";
+	public String smsPasswd = "";
 	
 	private int siteId = 0;
 

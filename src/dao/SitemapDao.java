@@ -64,10 +64,11 @@ public class SitemapDao extends DataObject {
 					ds.put("name", filename);
 				}
 			}
+			return ds;
 		} catch (NullPointerException npe) {
 			Malgn.errorLog("NullPointerException : SitemapDao.getLayouts() : " + npe.getMessage(), npe);
+			return new DataSet();
 		}
-		return ds;
 	}
 
 	public DataSet getList() throws Exception {

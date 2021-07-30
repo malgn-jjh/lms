@@ -320,13 +320,11 @@ public class DoczoomDao {
             return result;
 
         } catch(IOException ioe) {
-            System.out.println(ioe.getMessage());
-            ioe.printStackTrace();
+            Malgn.errorLog("IOException : DoczoomDao.executeHttpPostRequest() : " + ioe.getMessage(), ioe);
 
             return ioe.getMessage();
         } catch(Exception e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
+            Malgn.errorLog("Exception : DoczoomDao.executeHttpPostRequest() : " + e.getMessage(), e);
 
             return e.getMessage();
         }

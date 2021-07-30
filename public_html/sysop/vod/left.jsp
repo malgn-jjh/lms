@@ -20,16 +20,22 @@ if(m.isPost()) {
 			String currPath = m.decode(m.rs("current_path"));
 			String newFolder = "newfoloder";
 			String newPath = "";
-			File file = new File(currPath + "/" + newFolder + "/tmp.tmp");
-			int i = 0;
-			do {
-				newPath = file.getParentFile().getParentFile().toString() + "/" + newFolder + (i > 0 ? i + "" : "") + "/tmp.tmp";
-				file = new File(newPath);
-				i++;
-			} while(file.getParentFile().exists());
-			if(!file.getParentFile().isDirectory()) file.getParentFile().mkdirs();
-			m.setCookie("NEWFOLDERLEFT", m.encrypt(file.getParentFile().toString()));
-			m.setCookie("NEWPATHLEFT", m.encode(file.getParentFile().toString()));
+			try {
+				File file = new File(currPath + "/" + newFolder + "/tmp.tmp");
+				int i = 0;
+				do {
+					newPath = file.getParentFile().getParentFile().toString() + "/" + newFolder + (i > 0 ? i + "" : "") + "/tmp.tmp";
+					file = new File(newPath);
+					i++;
+				} while(file.getParentFile().exists());
+				if(!file.getParentFile().isDirectory()) file.getParentFile().mkdirs();
+				m.setCookie("NEWFOLDERLEFT", m.encrypt(file.getParentFile().toString()));
+				m.setCookie("NEWPATHLEFT", m.encode(file.getParentFile().toString()));
+			} catch(NullPointerException npe) {
+				m.errorLog("CREATE_DIR : " + npe.getMessage());
+			} catch(IOException ioe) {
+				m.errorLog("CREATE_DIR : " + ioe.getMessage());
+			}
 			out.print("<script>parent.location.href = parent.location.href;</script>");
 			return;
 		}

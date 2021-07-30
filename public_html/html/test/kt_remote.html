@@ -1,7 +1,47 @@
 <div style="padding:10px;font-size:1.2em;font-weight:bold;text-align:center;width:900px;">AUTH HASH 생성</div>
 <iframe src="kt_auth_hash.jsp" name="hash" id="hash" frameborder="1" scrolling="no" style="width:900px;height:50px;"></iframe>
+<form name="form1" method="post" action="kt_response.jsp" target="response">
+    <div style="padding:10px;font-size:1.2em;font-weight:bold;text-align:center;width:900px;">API 프리셋</div>
+    <input type="hidden" name="mode" value="">
+    <table style="width:900px;">
+        <colgroup>
+            <col width="33%">
+            <col width="33%">
+            <col width="33%">
+        </colgroup>
+        <tr>
+            <td colspan="3"><input type="text" name=kvalue" placeholder="키값" style="width:100%"></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="pcreate" style="width:100%" onclick="request(this)"></td>
+            <td><input type="button" value="pupdate" style="width:100%" onclick="request(this)"></td>
+            <td><input type="button" value="pdelete" style="width:100%" onclick="request(this)"></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="cucreate" style="width:100%" onclick="request(this)"></td>
+            <td><input type="button" value="cuupdate" style="width:100%" onclick="request(this)"></td>
+            <td><input type="button" value="cudelete" style="width:100%" onclick="request(this)"></td>
 
-<form name="form1" method="post" action="kt_response.jsp" target="response" onsubmit="goSubmit(this)">
+        </tr>
+        <tr>
+            <td><input type="button" value="token" style="width:100%" onclick="request(this)"></td>
+            <td><input type="button" value="history" style="width:100%" onclick="request(this)"></td>
+            <td><input type="button" value="attend" style="width:100%" onclick="request(this)"></td>
+        </tr>
+    </table>
+</form>
+<script>
+var f = document.forms['form1'];
+
+function request(e) {
+    document.forms['form1']['mode'].value = e.value;
+    f.submit();
+}
+
+</script>
+
+<form name="form2" method="post" action="kt_response.jsp" target="response" onsubmit="goSubmit(this)">
+    <input type="hidden" name="mode" value="manual">
     <div style="padding:10px;font-size:1.2em;font-weight:bold;text-align:center;width:900px;">API 호출</div>
     <table style="width:900px;">
         <tr>
@@ -25,13 +65,13 @@
             </td>
         </tr>
     </table>
-
 </form>
-<div style="margin-top:20px;padding:10px;font-size:1.2em;font-weight:bold;text-align:center;width:900px;">RESPONSE RESULT</div>
-<iframe src="kt_response.jsp" name="response" id="response" frameborder="1" style="width:900px;height:400px;"></iframe>
-
 <script>
 function goSubmit(f) {
     return true;
 }
 </script>
+
+
+<div style="margin-top:20px;padding:10px;font-size:1.2em;font-weight:bold;text-align:center;width:900px;">RESPONSE RESULT</div>
+<iframe src="kt_response.jsp" name="response" id="response" frameborder="1" style="width:900px;height:400px;"></iframe>

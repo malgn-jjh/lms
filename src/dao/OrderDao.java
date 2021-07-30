@@ -716,11 +716,11 @@ public class OrderDao extends DataObject {
 			}
 
         } catch (IOException ioe) {
+        	Malgn.errorLog("IOException : OrderDao.sendRCVInfo() : " + ioe.getMessage(), ioe);
             errmsg.append("IOException : " + ioe.getMessage());
-			ioe.printStackTrace();
         } catch (Exception ex) {
-            errmsg.append("Exception : " + ex.getMessage());
-            ex.printStackTrace();
+			Malgn.errorLog("Exception : OrderDao.sendRCVInfo() : " + ex.getMessage(), ex);
+			errmsg.append("Exception : " + ex.getMessage());
         } finally {
             try {
                 if (wr != null) wr.close();

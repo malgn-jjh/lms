@@ -109,8 +109,10 @@ public static String explorer(String path) {
 				result += "<a href=\"template_modify.jsp?path=" + path + "/" + flist[i] + "\">" + path + "/" + flist[i] + "\t|\t" + f2.length() + "</a><br>\n";
 			}
 		}
-	}catch (NullPointerException npe) {
-		//m.errorLog("NullPointerException : " + npe.getMessage(), npe);
+		return result;
+	} catch (NullPointerException npe) {
+		Malgn.errorLog("NullPointerException : " + npe.getMessage(), npe);
+		return "";
 	}
-	return result;
+
 }%>

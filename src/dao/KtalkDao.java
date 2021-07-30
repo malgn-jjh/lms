@@ -14,9 +14,9 @@ import org.json.*;
 
 public class KtalkDao extends DataObject {
 	
-	public String smsId = "poppet";
-	public String smsPasswd = "jsn!@#$%";
-	public String senderKey = "0ace8b4ecb25dc2f323f87b0e3d7d83faf369bbd";
+	public String smsId = "";
+	public String smsPasswd = "";
+	public String senderKey = "";
 	
 	private int siteId = 0;
 	

@@ -96,15 +96,15 @@ if("".equals(channelKey)) {
 //목록-카테고리
 String categoryKey = "";
 DataSet categories = kollus.getCategories();
+if(null == categories || 1 > categories.size()) {
+	m.jsError("카테고리를 불러올 수 없습니다. 관리자에게 문의바랍니다.");
+	return;
+}
 HashMap<String, String> categoryMap = new HashMap<String, String>();
 while(categories.next()) {
 	categoryMap.put(categories.s("key"), categories.s("name"));
 }
 categories.first();
-if(null == categories || 1 > categories.size()) {
-	m.jsError("카테고리를 불러올 수 없습니다. 관리자에게 문의바랍니다.");
-	return;
-}
 
 if("user".equals(siteinfo.s("kollus_channel")) && !superBlock) {
 	categoryKey = kollus.getCategoryKey(categories, loginId);

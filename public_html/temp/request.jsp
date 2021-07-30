@@ -2,6 +2,8 @@
 <%@ page import="java.util.*" %>
 <%@ page import="java.security.*" %>
 <%@ page import="java.io.UnsupportedEncodingException" %>
+<%@ page import="malgnsoft.util.*" %>
+
 <%!
 	//SHA256 해쉬 함수
 	public String encryptSHA256(String value){
@@ -13,13 +15,14 @@
 	        hashValue = md.digest(plainText);
    
 	        return toHexString(hashValue);
-        }catch(NoSuchAlgorithmException nsae){
-        	System.out.println("[encryptSHA256]NoSuchAlgorithmException : " + nsae);
-        }catch(UnsupportedEncodingException uee){
-        	System.out.println("[encryptSHA256]UnsupportedEncodingException : " + uee);
-        }catch(Exception e){
-        	System.out.println("[encryptSHA256]Exception : " + e);
-        }
+        } catch(NoSuchAlgorithmException nsae){
+			Malgn.errorLog("[encryptSHA256]NoSuchAlgorithmException : " + nsae.getMessage(), nsae);
+		}catch(UnsupportedEncodingException uee){
+			Malgn.errorLog("[encryptSHA256]UnsupportedEncodingException : " + uee.getMessage(), uee);
+		}catch(Exception e){
+			Malgn.errorLog("[encryptSHA256]Exception : " + e.getMessage(), e);
+		}
+
         
         return "";
 	}
@@ -69,9 +72,9 @@
 
 
 		}catch(ArrayIndexOutOfBoundsException aioobe){
-			System.out.println("[makeReqAllParam]ArrayIndexOutOfBoundsException : " + aioobe);
+			Malgn.errorLog("[makeReqAllParam]ArrayIndexOutOfBoundsException : " + aioobe.getMessage(), aioobe);
 		}catch(Exception e){
-			System.out.println("[makeReqAllParam]Exception : " + e);	
+			Malgn.errorLog("[makeReqAllParam]Exception : " + e.getMessage(), e);
 		}
 		System.out.println("[makeReqAllParam]return : "+reqParam.toString());
 		return reqParam.toString();

@@ -28,9 +28,11 @@ public class PageDao extends DataObject {
 					ds.put("name", filename);
 				}
 			}
+			return ds;
 		} catch (NullPointerException npe) {
 			Malgn.errorLog("NullPointerException : PageDao.getLayouts() : " + npe.getMessage(), npe);
+			return new DataSet();
 		}
-		return ds;
+
 	}
 }

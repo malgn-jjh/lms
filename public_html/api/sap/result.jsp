@@ -59,6 +59,7 @@ try {
 	apiLog.printList(out, _ret, "utf-8", list, "data");
 } catch (NullPointerException npe){
 	m.errorLog("NullPointerException : " + npe.getMessage(), npe);
+	out.print("정보를 가져오는 중 오류가 발생했습니다.");
 }
 
 %>

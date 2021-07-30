@@ -9,8 +9,8 @@ import com.daou.entity.ReportMsgEntity;
 import com.daou.entity.SendMsgEntity;
 
 public class BizSMS extends DataObject {
-	private String userId = "poppet";
-	private String userPw = "jsn!@#$%";
+	private String userId = "";
+	private String userPw = "";
 
 	private String server = "biz.ppurio.com";
 	private int sendPort = 18100;

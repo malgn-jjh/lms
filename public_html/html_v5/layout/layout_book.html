@@ -1,8 +1,8 @@
 <!--@include(layout/header.html)-->
 <body>
 	<div id="wrap">
-		<!--@execute(/inc/top.jsp)-->
-		<!--@execute(/main/banner_list.jsp?type=sub_book&single=Y&tpl=banner_sub_list)--><!--/if(SKIN_GTE_3)-->
+		<!--@execute(/inc/top_v5.jsp)-->
+		<!--@execute(/main/banner_list.jsp?type=sub_book&single=Y&tpl=banner_sub_list)-->
 		<div id="container" class="{{SITE_INFO.skin_param}}">
 			<div class="main_wrap">
 				<div class="left_area lnb03">
@@ -12,7 +12,7 @@
 						<li id="allbooks"><a href="/book/book_list.jsp" title="전체도서" target="_self">전체도서</a></li>
 						<!--@execute(/book/book_menu_list.jsp?sub=Y)-->
 					</ul>
-					<!-- @execute(/inc/left.jsp?pcode=book) -->
+					<!--@execute(/inc/left.jsp?pcode=book)-->
 				</div>
 				<!--@include(BODY)-->
 			</div>

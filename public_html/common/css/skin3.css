@@ -1621,7 +1621,7 @@ button.button::-moz-focus-inner {margin:0}
 #wrap_classroom .col_lesson_idx {width:45px; text-align:center;}
 #wrap_classroom .col_lesson_status {width:70px; text-align:center;}
 #wrap_classroom .col_lesson_nm {text-align:left; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
-#wrap_classroom .col_lesson_period {width:125px; text-align:center;}
+#wrap_classroom .col_lesson_period {width:130px; text-align:center;}
 #wrap_classroom .col_lesson_file {width:50px; text-align:center;}
 #wrap_classroom .col_lesson_length {width:70px; text-align:center;}
 #wrap_classroom .col_lesson_play {width:90px; text-align:center;}

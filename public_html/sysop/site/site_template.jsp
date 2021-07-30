@@ -137,9 +137,11 @@ public DataSet getFileList(String path) throws Exception {
 			ds.put("id", filename.substring(0, filename.length() - 5));
 			ds.put("name", filename);
 		}
+		return ds;
 	} catch (NullPointerException npe) {
-		m.errorLog("NullPointerException : " + npe.getMessage(), npe);
+		Malgn.errorLog("NullPointerException : " + npe.getMessage(), npe);
+		return new DataSet();
 	}
-	return ds;
+
 }
 %>

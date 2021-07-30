@@ -7,6 +7,11 @@ if(!Menu.accessible(69, userId, userKind)) { m.jsError("접근 권한이 없습�
 KollusDao kollus = new KollusDao(siteId);
 
 DataSet channels = kollus.getChannels();
+if(null == channels || 1 > channels.size()) {
+	m.jsError("유효한 채널이 존재하지 않습니다. 관리자에게 문의바랍니다.");
+	return;
+}
+
 String basicChannel = "";
 while(channels.next()) {
 	channels.put("status_conv", "1".equals(channels.s("status")) ? "활성화" : "비활성화");

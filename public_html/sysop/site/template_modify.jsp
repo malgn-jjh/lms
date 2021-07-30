@@ -35,8 +35,8 @@ try {
 	}
 	
 	br.close();
-} catch(IOException e) {
-	e.printStackTrace();
+} catch(IOException ioe) {
+	m.errorLog("IOException : " + ioe.getMessage(), ioe);
 }
 
 out.print(sb.toString());
@@ -79,8 +79,10 @@ public static String explorer(String path) {
 				result += path + "/" + flist[i] + "\t|\t" + f2.length() + "<br>\n";
 			}
 		}
+		return result;
 	} catch (NullPointerException npe) {
-		m.errorLog("NullPointerException : " + npe.getMessage(), npe);
+		Malgn.errorLog("NullPointerException : " + npe.getMessage(), npe);
+		return "";
 	}
-	return result;
+
 }%>
