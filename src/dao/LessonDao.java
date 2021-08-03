@@ -9,34 +9,35 @@ public class LessonDao extends DataObject {
 	private final String secretKey = "malgnsoft.20201021.agreatcompany";
 
 	public String[] statusList = { "1=>사용", "0=>중지" };
-	public String[] htmlTypes = { "01=>wecandio", "02=>lesson", "03=>movie", "04=>link", "05=>catenoid", "06=>doczoom", "07=>catenoid", "08=>ktremote" };
+	public String[] htmlTypes = { "01=>wecandio", "02=>lesson", "03=>movie", "04=>link", "05=>catenoid", "06=>doczoom", "07=>catenoid", "15=>kttwoway" };
 	public String[] useTypes = { "Y=>활성", "N=>비활성" };
 	public String[] chatUseTypes = { "Y=>사용", "N=>중지" };
 
-	public String[] types = { "01=>동영상(위캔디오)", "02=>웹콘텐츠(WBT)", "03=>MP4", "04=>외부링크", "06=>문서(닥줌)", "08=>KT랜선에듀", "11=>강의", "12=>시험", "13=>실습", "14=>설문" };
-	public String[] catenoidTypes = { "05=>동영상(콜러스)", "07=>라이브(콜러스)", "02=>웹콘텐츠(WBT)", "03=>MP4", "04=>외부링크", "08=>KT랜선에듀", "06=>문서(닥줌)", "11=>강의", "12=>시험", "13=>실습", "14=>설문" };
-	public String[] allTypes = { "01=>동영상(위캔디오)", "05=>동영상(콜러스)", "07=>라이브(콜러스)", "02=>웹콘텐츠(WBT)", "03=>MP4", "04=>외부링크", "08=>KT랜선에듀", "06=>문서(닥줌)", "11=>강의", "12=>시험", "13=>실습", "14=>설문" };
+	public String[] types = { "01=>동영상(위캔디오)", "02=>웹콘텐츠(WBT)", "03=>MP4", "04=>외부링크", "06=>문서(닥줌)", "11=>강의", "12=>시험", "13=>실습", "14=>설문", "15=>kt랜선에듀" };
+	public String[] catenoidTypes = { "05=>동영상(콜러스)", "07=>라이브(콜러스)", "02=>웹콘텐츠(WBT)", "03=>MP4", "04=>외부링크", "06=>문서(닥줌)", "11=>강의", "12=>시험", "13=>실습", "14=>설문", "15=>kt랜선에듀" };
+	public String[] allTypes = { "01=>동영상(위캔디오)", "05=>동영상(콜러스)", "07=>라이브(콜러스)", "02=>웹콘텐츠(WBT)", "03=>MP4", "04=>외부링크","06=>문서(닥줌)", "11=>강의", "12=>시험", "13=>실습", "14=>설문", "15=>kt랜선에듀"};
 
-	public String[] lessonTypes = { "01=>동영상(위캔디오)", "02=>웹콘텐츠(WBT)", "03=>MP4", "04=>외부링크", "08=>KT랜선에듀", "06=>문서(닥줌)" };
-	public String[] catenoidLessonTypes = { "05=>동영상(콜러스)", "07=>라이브(콜러스)", "02=>웹콘텐츠(WBT)", "03=>MP4", "04=>외부링크", "08=>KT랜선에듀", "06=>문서(닥줌)" };
-	public String[] allLessonTypes = { "01=>동영상(위캔디오)", "05=>동영상(콜러스)", "07=>라이브(콜러스)", "02=>웹콘텐츠(WBT)", "03=>MP4", "04=>외부링크", "08=>KT랜선에듀", "06=>문서(닥줌)" };
+	public String[] lessonTypes = { "01=>동영상(위캔디오)", "02=>웹콘텐츠(WBT)", "03=>MP4", "04=>외부링크", "06=>문서(닥줌)" , "15=>kt랜선에듀" };
+	public String[] catenoidLessonTypes = { "05=>동영상(콜러스)", "07=>라이브(콜러스)", "02=>웹콘텐츠(WBT)", "03=>MP4", "04=>외부링크", "06=>문서(닥줌)", "15=>kt랜선에듀" };
+	public String[] allLessonTypes = { "01=>동영상(위캔디오)", "05=>동영상(콜러스)", "07=>라이브(콜러스)", "02=>웹콘텐츠(WBT)", "03=>MP4", "04=>외부링크", "06=>문서(닥줌)", "15=>kt랜선에듀" };
 
 	public String[] offlineTypes = { "11=>강의", "12=>시험", "13=>실습", "14=>설문" };
-	public String[] onoffTypes = { "N=>온라인", "F=>집합", "B=>혼합", "P=>패키지" };
-	
+	public String[] twowayTypes = { "15=>kt랜선에듀" };
+	public String[] onoffTypes = { "N=>온라인", "F=>집합", "T=>화상", "B=>혼합", "P=>패키지" };
+
 	public String[] statusListMsg = { "1=>list.lesson.status_list.1", "0=>list.lesson.status_list.0" };
 	public String[] useTypesMsg = { "Y=>list.lesson.use_types.Y", "N=>list.lesson.use_types.N" };
 
-	public String[] typesMsg = { "01=>list.lesson.types.01", "02=>list.lesson.types.02", "03=>list.lesson.types.03", "04=>list.lesson.types.04", "06=>list.lesson.types.06", "08=>list.lesson.types.08", "11=>list.lesson.types.11", "12=>list.lesson.types.12", "13=>list.lesson.types.13", "14=>list.lesson.types.14" };
-	public String[] catenoidTypesMsg = { "05=>list.lesson.catenoid_types.05", "02=>list.lesson.catenoid_types.02", "03=>list.lesson.catenoid_types.03", "04=>list.lesson.catenoid_types.04", "06=>list.lesson.catenoid_types.06", "08=>list.lesson.catenoid_types.08", "11=>list.lesson.catenoid_types.11", "12=>list.lesson.catenoid_types.12", "13=>list.lesson.catenoid_types.13", "14=>list.lesson.catenoid_types.14" };
-	public String[] allTypesMsg = { "01=>list.lesson.all_types.01", "05=>list.lesson.01", "02=>list.lesson.02", "03=>list.lesson.all_types.03", "04=>list.lesson.all_types.04", "06=>list.lesson.all_types.06", "08=>list.lesson.all_types.08", "11=>list.lesson.all_types.11", "12=>list.lesson.all_types.12", "13=>list.lesson.all_types.13", "14=>list.lesson.all_types.14" };
+	public String[] typesMsg = { "01=>list.lesson.types.01", "02=>list.lesson.types.02", "03=>list.lesson.types.03", "04=>list.lesson.types.04", "06=>list.lesson.types.06", "11=>list.lesson.types.11", "12=>list.lesson.types.12", "13=>list.lesson.types.13", "14=>list.lesson.types.14", "15=>list.lesson.types.15" };
+	public String[] catenoidTypesMsg = { "05=>list.lesson.catenoid_types.05", "02=>list.lesson.catenoid_types.02", "03=>list.lesson.catenoid_types.03", "04=>list.lesson.catenoid_types.04", "06=>list.lesson.catenoid_types.06", "11=>list.lesson.catenoid_types.11", "12=>list.lesson.catenoid_types.12", "13=>list.lesson.catenoid_types.13", "14=>list.lesson.catenoid_types.14", "15=>list.lesson.catenoid_types.15" };
+	public String[] allTypesMsg = { "01=>list.lesson.all_types.01", "05=>list.lesson.01", "02=>list.lesson.02", "03=>list.lesson.all_types.03", "04=>list.lesson.all_types.04", "06=>list.lesson.all_types.06", "11=>list.lesson.all_types.11", "12=>list.lesson.all_types.12", "13=>list.lesson.all_types.13", "14=>list.lesson.all_types.14", "15=>list.lesson.all_types.15" };
 
-	public String[] lessonTypesMsg = { "01=>list.lesson.lesson_types.01", "02=>list.lesson.lesson_types.02", "03=>list.lesson.lesson_types.03", "04=>list.lesson.lesson_types.04", "06=>list.lesson.lesson_types.06", "08=>list.lesson.lesson_types.08" };
-	public String[] catenoidLessonTypesMsg = { "05=>list.lesson.catenoid_lesson_types.05", "07=>list.lesson.catenoid_lesson_types.07", "02=>list.lesson.catenoid_lesson_types.02", "03=>list.lesson.catenoid_lesson_types.03", "04=>list.lesson.catenoid_lesson_types.04", "06=>list.lesson.catenoid_lesson_types.06", "08=>list.lesson.catenoid_lesson_types.08" };
-	public String[] allLessonTypesMsg = { "01=>list.lesson.all_lesson_types.01", "05=>list.lesson.all_lesson_types.05", "07=>list.lesson.catenoid_lesson_types.07", "02=>list.lesson.all_lesson_types.02", "03=>list.lesson.all_lesson_types.03", "04=>list.lesson.all_lesson_types.04", "06=>list.lesson.all_lesson_types.06", "08=>list.lesson.all_lesson_types.08" };
+	public String[] lessonTypesMsg = { "01=>list.lesson.lesson_types.01", "02=>list.lesson.lesson_types.02", "03=>list.lesson.lesson_types.03", "04=>list.lesson.lesson_types.04", "06=>list.lesson.lesson_types.06", "15=>list.lesson.lesson_types.15" };
+	public String[] catenoidLessonTypesMsg = { "05=>list.lesson.catenoid_lesson_types.05", "07=>list.lesson.catenoid_lesson_types.07", "02=>list.lesson.catenoid_lesson_types.02", "03=>list.lesson.catenoid_lesson_types.03", "04=>list.lesson.catenoid_lesson_types.04", "06=>list.lesson.catenoid_lesson_types.06", "15=>list.lesson.catenoid_lesson_types.15" };
+	public String[] allLessonTypesMsg = { "01=>list.lesson.all_lesson_types.01", "05=>list.lesson.all_lesson_types.05", "07=>list.lesson.catenoid_lesson_types.07", "02=>list.lesson.all_lesson_types.02", "03=>list.lesson.all_lesson_types.03", "04=>list.lesson.all_lesson_types.04", "06=>list.lesson.all_lesson_types.06", "15=>list.lesson.all_lesson_types.15" };
 
 	public String[] offlineTypesMsg = { "11=>list.lesson.offline_types.11", "12=>list.lesson.offline_types.12", "13=>list.lesson.offline_types.13", "14=>list.lesson.offline_types.14" };
-	public String[] onoffTypesMsg = { "N=>list.lesson.onoff_types.N", "F=>list.lesson.onoff_types.F", "B=>list.lesson.onoff_types.B", "P=>list.lesson.onoff_types.P" };
+	public String[] onoffTypesMsg = { "N=>list.lesson.onoff_types.N", "F=>list.lesson.onoff_types.F", "B=>list.lesson.onoff_types.B", "P=>list.lesson.onoff_types.P", "T=>list.lesson.onoff_types.T" };
 
 	public LessonDao() {
 		this.table = "LM_LESSON";

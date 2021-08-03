@@ -10,7 +10,7 @@
             <col width="33%">
         </colgroup>
         <tr>
-            <td colspan="3"><input type="text" name=kvalue" placeholder="키값" style="width:100%"></td>
+            <td colspan="3"><label><input type="text" name="kvalue" value="" placeholder="키값" style="width:100%"></label></td>
         </tr>
         <tr>
             <td><input type="button" value="pcreate" style="width:100%" onclick="request(this)"></td>
@@ -34,7 +34,7 @@
 var f = document.forms['form1'];
 
 function request(e) {
-    document.forms['form1']['mode'].value = e.value;
+    f['mode'].value = e.value;
     f.submit();
 }
 

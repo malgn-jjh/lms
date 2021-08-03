@@ -19,6 +19,10 @@ LessonDao lesson = new LessonDao();
 CourseTutorDao courseTutor = new CourseTutorDao();
 TutorDao tutor = new TutorDao();
 
+KtRemoteDao ktRemote = new KtRemoteDao(siteId);
+if("".equals(auth.getString("KT_AUTH_TOKEN"))) auth.put("KT_AUTH_TOKEN", ktRemote.getAuthToken());
+ktRemote.setAuthToken(auth.getString("KT_AUTH_TOKEN"));
+
 //정보
 DataSet cinfo = course.find(
 	"id = " + cid + " AND status != -1 AND site_id = " + siteId + ""
@@ -83,6 +87,16 @@ if(m.isPost() && f.validate()) {
 			courseLesson.item("chapter", ++maxChapter);
 			courseLesson.item("lesson_hour", items.d("lesson_hour"));
 
+			if("15".equals(items.s("lesson_type"))) {
+				courseLesson.item("start_date", cinfo.s("study_sdate"));
+				courseLesson.item("end_date", cinfo.s("study_edate"));
+				courseLesson.item("start_time", "000000");
+				courseLesson.item("end_time", "235559");
+				String planId = ktRemote.insertPlan(items.s("lesson_nm"), loginId, m.getUnixTime(cinfo.s("study_sdate") + "000000"), m.getUnixTime(cinfo.s("study_edate") + "235559"));
+				if("".equals(planId)) continue;
+				courseLesson.item("start_url", planId);
+			}
+
 			if(!courseLesson.insert()) { }
 
 			if("Y".equals(SiteConfig.s("lesson_chat_yn")) && "Y".equals(items.s("chat_yn"))) {
@@ -132,7 +146,10 @@ lm.setFields("a.*, c.content_nm");
 lm.addWhere("a.status = 1");
 lm.addWhere("a.use_yn = 'Y'");
 lm.addWhere("a.site_id = " + siteId + "");
-if(!"".equals(type)) lm.addWhere("a.onoff_type = '" + type + "'");
+
+if("N".equals(type))  lm.addWhere("a.onoff_type IN ('N', 'T')");
+else lm.addWhere("a.onoff_type = '" + type + "'");
+
 if("C".equals(userKind)) lm.addWhere("(a.onoff_type = 'F' OR c.manager_id = " + userId + ")");
 //lm.addWhere("a.lesson_type != '" + ("W".equals(siteinfo.s("ovp_vendor")) ? "05" : "01") + "'");
 lm.addWhere("NOT EXISTS ( SELECT 1 FROM " + courseLesson.table + " WHERE course_id = " + cid + " AND lesson_id = a.id )");

@@ -15,7 +15,7 @@ CourseSectionDao courseSection = new CourseSectionDao();
 CourseProgressDao courseProgress = new CourseProgressDao();
 CourseUserDao courseUser = new CourseUserDao();
 LessonDao lesson = new LessonDao();
-
+KtRemoteDao ktRemote = new KtRemoteDao(siteId);
 CourseTutorDao courseTutor = new CourseTutorDao();
 TutorDao tutor = new TutorDao();
 UserDao user = new UserDao();
@@ -146,6 +146,19 @@ if(m.isPost() && f.validate()) {
 				courseLesson.item("end_time", "");
 				if(!"".equals(f.getArr("end_time_hour")[i]) && !"".equals(f.getArr("end_time_min")[i])) courseLesson.item("end_time", f.getArr("end_time_hour")[i] + f.getArr("end_time_min")[i] + "59");
 
+				if("15".equals(f.getArr("lesson_type")[i])) { //랜선에듀 플랜 기간 수정 필요
+					if("".equals(auth.getString("KT_AUTH_TOKEN"))) {
+						auth.put("KT_AUTH_TOKEN", ktRemote.getAuthToken());
+						auth.save();
+						ktRemote.setAuthToken(auth.getString("KT_AUTH_TOKEN"));
+					}
+
+					ktRemote.updatePlan(f.getArr("start_url")[i], 0, 0);
+
+					m.jsAlert("강의 수정 중 오류가 발생했습니다.");
+					return;
+				}
+
 				//courseLesson.item("lesson_hour", Double.parseDouble(String.format("%.2f", f.getArr("lesson_hour")[i]));
 				courseLesson.item("lesson_hour", m.parseDouble(f.getArr("lesson_hour")[i]));
 				courseLesson.item("tutor_id", f.getArr("tutor_id")[i]);
@@ -174,7 +187,7 @@ lm.setTable(
 	+ " LEFT JOIN " + courseSection.table + " cs ON a.section_id = cs.id AND a.course_id = cs.course_id AND cs.status = 1 "
 );
 lm.setFields(
-	"a.*"
+	"a.*, a.start_url cl_start_url"
 	+ ", b.content_id, b.onoff_type, b.lesson_nm, b.lesson_type, b.total_time, b.complete_time, b.content_width, b.content_height, b.start_url, b.mobile_a, b.mobile_i "
 	+ ", cs.id section_id, cs.course_id section_course_id, cs.section_nm "
 );
@@ -200,7 +213,7 @@ while(list.next()) {
 	list.put("end_date_conv", m.time("yyyy-MM-dd", list.s("end_date")));
 	list.put("curr_chapter", list.i("chapter") * 1000);
 
-	list.put("online_block", "N".equals(list.s("onoff_type")));
+	list.put("online_block", "N".equals(list.s("onoff_type")) || "T".equals(list.s("onoff_type")));
 	list.put("onoff_type_conv", m.getItem(list.s("onoff_type"), lesson.onoffTypes));
 
 	list.put("lesson_hour", list.s("lesson_hour").replace(".00", ""));

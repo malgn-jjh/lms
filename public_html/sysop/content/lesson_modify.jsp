@@ -32,6 +32,9 @@ if(!info.next()) { m.jsErrClose("해당 강의 정보가 없습니다."); return
 if("F".equals(info.s("onoff_type"))) {
 	m.jsReplace("../offline/lesson_modify.jsp?id=" + id + "&ch=pop");
 	return;
+} else if("T".equals(info.s("onoff_type"))) {
+	m.jsReplace("../twoway/lesson_modify.jsp?id=" + id + "&ch=pop");
+	return;
 }
 
 //수정가능여부

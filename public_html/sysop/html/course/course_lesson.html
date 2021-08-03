@@ -119,6 +119,13 @@
 		<!--@nif(course.onoff_type:F)-->
 		<button type="button" class="bttn2" onclick="OpenWindows('../content/lesson_insert.jsp?course_id={{cid}}', '_CLIL', 900, 800);">신규<!--@if(course.onoff_type:B)-->온라인<!--/if(course.onoff_type:B)-->강의등록</button>
 		<!--/nif(course.onoff_type:F)-->
+
+		<!--@if(course.onoff_type:N)-->
+		<!--@if(course.period_yn)-->
+		<button type="button" class="bttn2" onclick="OpenWindows('../twoway/lesson_insert.jsp?course_id={{cid}}', '_CLIL', 900, 800);">신규화상강의등록</button>
+		<!--/if(course.period_yn)-->
+		<!--/if(course.onoff_type:N)-->
+
 		<!--@nif(course.onoff_type:N)-->
 		<button type="button" class="bttn2" onclick="OpenWindows('../offline/lesson_insert.jsp?course_id={{cid}}', '_CLIL', 900, 800);">신규<!--@if(course.onoff_type:B)-->집합<!--/if(course.onoff_type:B)-->강의등록</button>
 		<!--/nif(course.onoff_type:N)-->
@@ -364,6 +371,8 @@
 	<!--@nif(course.onoff_type:F)-->
 	<td class="l_td01" align="center">
 		<!--@if(list.online_block)-->
+		<input type="hidden" name="lesson_type" value="{{list.lesson_type}}">
+		<input type="hidden" name="start_url" value="{{list.cl_start_url}}">
 		<input type="hidden" name="lesson_hour" value="1">
 		<!--/if(list.online_block)-->
 		<!--@if(list.pc_block)-->
@@ -396,6 +405,7 @@
 		<input type="hidden" name="end_time_hour" value="">
 		<input type="hidden" name="end_time_min" value="">
 		<input type="hidden" name="lesson_hour" value="">
+		<input type="hidden" name="lesson_type" value="">
 		<input type="hidden" name="tutor_id" value="">
 	</td>
 	<td class="l_td01 l_td_section"><input type="button" value="수정하기" class="btn_simp" onclick="modifySection({{section_list.id}});"></td>
@@ -559,7 +569,7 @@ function setDouble(el, len) {
 }
 
 function setLabel() {
-	var progresses = { "온라인" : "sky", "집합" : "red" };
+	var progresses = { "온라인" : "sky", "집합" : "red", "화상" : "yellow" };
 	$(".label").each(function() {
 		var v = $(this).html();
 		$(this).addClass(progresses[v]);

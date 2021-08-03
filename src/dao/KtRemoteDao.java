@@ -15,6 +15,10 @@ final public class KtRemoteDao extends DataObject {
     private String contentType = "application/json";
     private String authToken = "";
 
+    //public String[] classType = { "CLASS=>CLASS형", "CLASS2=>CLASS2형", "QNA=>QNA형" };
+    //public String[] monitorType = { "0=>없음", "1=>5x5", "2=>7x7", "3=>10x10" };
+    public String[] userType = { "HOST=>강사", "STAFF=>조교", "USER=>학습자" };
+
     private Http http = new Http();
 
     public KtRemoteDao() {
@@ -34,11 +38,16 @@ final public class KtRemoteDao extends DataObject {
     }
 
     public String getAuthToken() {
+        return this.getAuthToken("");
+    }
+
+    public String getAuthToken(String webHookUrl) {
         String tokenTime = System.currentTimeMillis() + "";
         String authHash = "service_id=" + serviceId + "&time" + tokenTime + "&service_ip=" + serviceIp;
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("serviceId", serviceId);
+        jsonObject.put("webHookUrl", webHookUrl);
         jsonObject.put("tokenTime", tokenTime);
         jsonObject.put("authHash", Malgn.sha256(authHash));
 
@@ -58,12 +67,16 @@ final public class KtRemoteDao extends DataObject {
         this.baseUrl = url;
     }
 
-    public String createPlan(String type, String title, String courseUserId, int maxUserCnt, DataSet members, int monitorType, long startDate, long endDate) {
+    public String insertPlan(String title, String loginId, long startDate, long endDate) {
+        return this.insertPlan("CLASS", title, loginId, 1000, null, 0, startDate, endDate);
+    }
+
+    public String insertPlan(String type, String title, String loginId, int maxUserCnt, DataSet members, int monitorType, long startDate, long endDate) {
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("type", type);
             jsonObject.put("title", title);
-            jsonObject.put("userId", courseUserId);
+            jsonObject.put("userId", loginId);
             jsonObject.put("maxMembers", maxUserCnt);
             jsonObject.put("members", members);
             jsonObject.put("monitorType", monitorType);
@@ -87,16 +100,16 @@ final public class KtRemoteDao extends DataObject {
         }
     }
 
-    public boolean updatePlan(String planId) {
-        return updatePlan(planId, null, null, 0, null, 0, null, 0, 0);
+    public boolean updatePlan(String planId, long startDate, long endDate) {
+        return updatePlan(planId, "", "", 0, null, 0, null, startDate, endDate);
     }
 
-    public boolean updatePlan(String planId, String title, String courseUserId, int maxUserCnt, DataSet members, int monitorType, int[] fields, long startDate, long endDate) {
+    public boolean updatePlan(String planId, String title, String loginId, int maxUserCnt, DataSet members, int monitorType, int[] fields, long startDate, long endDate) {
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("planId", planId);
-            if(null != title) jsonObject.put("title", title);
-            if(null != courseUserId) jsonObject.put("userId", courseUserId);
+            if(!"".equals(title)) jsonObject.put("title", title);
+            if(!"".equals(loginId)) jsonObject.put("userId", loginId);
             if(0 != maxUserCnt) jsonObject.put("maxMembers", maxUserCnt);
             if(null != members) jsonObject.put("members", members);
             if(0 != monitorType) jsonObject.put("monitorType", monitorType);
@@ -121,11 +134,15 @@ final public class KtRemoteDao extends DataObject {
         }
     }
 
-    public boolean deletePlan(String planId, String courseUserId) {
+    public boolean deletePlan(String planId) {
+        return delete(planId, null);
+    }
+
+    public boolean deletePlan(String planId, String loginId) {
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("planId", planId);
-            jsonObject.put("userId", courseUserId);
+            if(null != loginId) jsonObject.put("userId", loginId);
 
             http.setUrl(baseUrl + "plans/delete");
             http.setHeader("Content-Type", contentType);
@@ -260,48 +277,45 @@ final public class KtRemoteDao extends DataObject {
         }
     }
 
-    public DataSet getAttendList(long startTime, long endTime) {
+    public DataSet getPlanHistory(long startTime, long endTime) {
         DataSet result = new DataSet();
         try {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("start_time", startTime);
-            jsonObject.put("end_time", endTime);
-
             http.setUrl(baseUrl + "logs/plans");
             http.setHeader("Content-Type", contentType);
             http.setHeader("Authorization", "Bearer " + authToken);
-            http.setData(jsonObject.toString());
-
-            Json j = new Json(http.send("GET"));
-            if (200 != j.getInt("//code")) {
-                Malgn.errorLog("KtRemoteDao.getAttendList() : " + j.toString());
-                return result;
-            }
-            result.unserialize(j.getString("//result"));
-            return result;
-        } catch (NullPointerException npe) {
-            Malgn.errorLog("KtRemoteDao.getAttendList() : " + npe.getMessage());
-            return result;
-        }
-    }
-
-    public DataSet getPlanHistory(String planId) {
-        DataSet result = new DataSet();
-        try {
-            http.setUrl(baseUrl + "logs/plans/" + planId);
-            http.setHeader("Content-Type", contentType);
-            http.setHeader("Authorization", "Bearer " + authToken);
+            http.setData("start_time=" + startTime + "&end_time=" + endTime);
 
             Json j = new Json(http.send("GET"));
             if (200 != j.getInt("//code")) {
                 Malgn.errorLog("KtRemoteDao.getPlanHistory() : " + j.toString());
                 return result;
             }
-
-            result.unserialize(j.getString("//result/members"));
+            result.unserialize(j.getString("//result/"));
             return result;
         } catch (NullPointerException npe) {
             Malgn.errorLog("KtRemoteDao.getPlanHistory() : " + npe.getMessage());
+            return result;
+        }
+    }
+
+    public DataSet getAttendList(String planId) {
+        DataSet result = new DataSet();
+        try {
+            http.setUrl(baseUrl + "logs/plans/" + planId);
+            http.setHeader("Content-Type", contentType);
+            http.setHeader("Authorization", "Bearer " + authToken);
+            http.setData("");
+
+            Json j = new Json(http.send("GET"));
+            if (200 != j.getInt("//code")) {
+                Malgn.errorLog("KtRemoteDao.getAttendList() : " + j.toString());
+                return result;
+            }
+
+            result.unserialize(j.getString("//result/"));
+            return result;
+        } catch (NullPointerException npe) {
+            Malgn.errorLog("KtRemoteDao.getAttendList() : " + npe.getMessage());
             return result;
         }
     }

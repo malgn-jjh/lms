@@ -1,6 +1,6 @@
 <%@ include file="/init.jsp" %><%
 
-if(isRespWeb) m.redirect("/main/index.jsp");
+if(isRespWeb) { m.redirect("/main/index.jsp"); return; }
 
 //로그인
 if(0 == userId) { auth.loginForm("/mobile/login.jsp"); return; }
