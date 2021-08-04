@@ -9,7 +9,7 @@ public class LessonDao extends DataObject {
 	private final String secretKey = "malgnsoft.20201021.agreatcompany";
 
 	public String[] statusList = { "1=>사용", "0=>중지" };
-	public String[] htmlTypes = { "01=>wecandio", "02=>lesson", "03=>movie", "04=>link", "05=>catenoid", "06=>doczoom", "07=>catenoid", "15=>kttwoway" };
+	public String[] htmlTypes = { "01=>wecandio", "02=>lesson", "03=>movie", "04=>link", "05=>catenoid", "06=>doczoom", "07=>catenoid", "15=>twoway" };
 	public String[] useTypes = { "Y=>활성", "N=>비활성" };
 	public String[] chatUseTypes = { "Y=>사용", "N=>중지" };
 

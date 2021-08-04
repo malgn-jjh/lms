@@ -12,19 +12,6 @@ UserDao user = new UserDao();
 DataSet info = lesson.find("id = " + id + " AND status != -1 AND site_id = " + siteId + "");
 if(!info.next()) { m.jsError("해당 정보가 없습니다."); return; }
 
-//파일삭제
-if("fdel".equals(m.rs("mode"))) {
-    if(!"".equals(info.s("lesson_file"))) {
-        lesson.item("lesson_file", "");
-        if(!lesson.update("id = " + info.i("id"))) {
-            m.jsErrClose("파일을 삭제하는 중 오류가 발생했습니다.");
-            return;
-        }
-        m.delFileRoot(m.getUploadPath(info.s("lesson_file")));
-    }
-    return;
-}
-
 //이동-오프라인강의
 if("N".equals(info.s("onoff_type"))) {
     m.jsReplace("../content/lesson_modify.jsp?id=" + id);
@@ -37,10 +24,10 @@ if("N".equals(info.s("onoff_type"))) {
 //폼체크
 f.addElement("lesson_type", info.s("lesson_type"), "hname:'구분', required:'Y'");
 f.addElement("lesson_nm", info.s("lesson_nm"), "hname:'교과목명', required:'Y'");
-f.addElement("lesson_hour", info.s("lesson_hour"), "hname:'기본수업시수', required:'Y'");
 f.addElement("total_time", info.i("total_time"), "hname:'학습시간', option:'number'");
 f.addElement("complete_time", info.i("complete_time"), "hname:'인정시간', option:'number'");
-f.addElement("lesson_file", null, "hname:'교안파일'");
+f.addElement("content_width", info.i("content_width"), "hname:'창넓이', option:'number'");
+f.addElement("content_height", info.i("content_height"), "hname:'창높이', option:'number'");
 f.addElement("description", null, "hname:'강의설명'");
 if(!courseManagerBlock) f.addElement("manager_id", info.s("manager_id"), "hname:'담당자'");
 f.addElement("status", info.i("status"), "hname:'상태', required:'Y'");
@@ -53,15 +40,11 @@ if(m.isPost() && f.validate()) {
     lesson.item("lesson_hour", f.getDouble("lesson_hour"));
     lesson.item("total_time", f.getInt("total_time"));
     lesson.item("complete_time", f.getInt("complete_time"));
+    lesson.item("content_width", f.getInt("content_width"));
+    lesson.item("content_height", f.getInt("content_height"));
     lesson.item("description", f.get("description"));
     if(!courseManagerBlock) lesson.item("manager_id", f.getInt("manager_id"));
     lesson.item("status", f.getInt("status"));
-
-    if(null != f.getFileName("lesson_file")) {
-        File f1 = f.saveFile("lesson_file");
-        if(f1 != null) lesson.item("lesson_file", f.getFileName("lesson_file"));
-        if(!"".equals(info.s("lesson_file"))) m.delFileRoot(m.getUploadPath(info.s("lesson_file")));
-    }
 
     if(!lesson.update("id = " + id + "")) { m.jsAlert("수정하는 중 오류가 발생했습니다."); return; }
 

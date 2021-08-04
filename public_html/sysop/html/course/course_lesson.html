@@ -204,6 +204,8 @@
 		<input type="hidden" name="end_time_hour" value="">
 		<input type="hidden" name="end_time_min" value="">
 		<input type="hidden" name="lesson_hour" value="">
+		<input type="hidden" name="lesson_type" value="">
+		<input type="hidden" name="twoway_url" value="">
 		<input type="hidden" name="tutor_id" value="">
 	</td>
 	<td class="l_td01 l_td_section"><input type="button" value="수정하기" class="btn_simp" onclick="modifySection({{list.section_id}});"></td>
@@ -218,6 +220,8 @@
 		<input type="hidden" name="section_nm" value="">
 		<input type="hidden" name="start_day" value="0">
 		<input type="hidden" name="period" value="0">
+		<input type="hidden" name="lesson_type" value="{{list.lesson_type}}">
+		<input type="hidden" name="twoway_url" value="{{list.twoway_url}}">
 		<!--@nif(course.period_yn)-->
 		<input type="hidden" name="start_date" value="">
 		<input type="hidden" name="end_date" value="">
@@ -307,10 +311,10 @@
 	<td class="l_td01">
 		<!--@nif(list.online_block)-->
 		<select name="tutor_id" id="tutor_{{list.lesson_id}}" class="js-example-basic-single">
-		<option value="0">- 선택 -</option>
-		<!--@loop(tutors)-->
-		<option value="{{tutors.user_id}}">{{tutors.tutor_nm}} ({{tutors.login_id}})</option>
-		<!--/loop(tutors)-->
+			<option value="0">- 선택 -</option>
+			<!--@loop(tutors)-->
+			<option value="{{tutors.user_id}}">{{tutors.tutor_nm}} ({{tutors.login_id}})</option>
+			<!--/loop(tutors)-->
 		</select>
 		<script>SetElementValue(document.getElementById("tutor_{{list.lesson_id}}"), "{{list.tutor_id}}");</script>
 		<!--/nif(list.online_block)-->
@@ -325,11 +329,13 @@
 		<!--@if(list.online_block)-->-<!--/if(list.online_block)-->
 	</td>
 	<!--/nif(course.online_block)-->
+
 	<!--@if(course.online_block)-->
 	<td class="l_td01" align="center">{{list.total_time}}분</td>
 	<td class="l_td01" align="center">{{list.complete_time}}분</td>
 	<!--@if(course.period_yn)-->
 	<td class="l_td01" align="center" style="line-height:32px;">
+		<!--@nif(list.twoway_block)-->
 		<input type="text" name="start_date" value="{{list.start_date_conv}}" _cvalue="{{list.start_date_conv}}" class="sdate" onclick="new CalendarFrame.Calendar(this, 'setStudyDate()')" style="width:80px;" HNAME="시작일" REQUIRED="Y" readonly>
 		<select name="start_time_hour" id="start_time_hour_{{list.lesson_id}}" class="shour" onchange="validateTime(this)">
 		<option value="">(없음)</option>
@@ -365,14 +371,48 @@
 			SetElementValue(document.getElementById("end_time_hour_{{list.lesson_id}}"), "{{list.end_time_hour}}");
 			SetElementValue(document.getElementById("end_time_min_{{list.lesson_id}}"), "{{list.end_time_min}}");
 		</script>
+		<!--/nif(list.twoway_block)-->
+		<!--@if(list.twoway_block)-->
+		<input type="text" name="start_date" value="{{list.start_date_conv}}" _cvalue="{{list.start_date_conv}}" class="t-sdate" onclick="new CalendarFrame.Calendar(this, 'setTwowayDate()')" style="width:80px;" HNAME="시작일" REQUIRED="Y" readonly>
+		<select name="start_time_hour" id="start_time_hour_{{list.lesson_id}}" class="t-shour" onchange="validateTime(this)">
+			<!--@loop(hours)-->
+			<option value="{{hours.id}}">{{hours.id}}시</option>
+			<!--/loop(hours)-->
+		</select>
+		<select name="start_time_min" id="start_time_min_{{list.lesson_id}}" class="t-sminute" onchange="validateTime(this)">
+			<!--@loop(minutes)-->
+			<option value="{{minutes.id}}">{{minutes.id}}분</option>
+			<!--/loop(minutes)-->
+		</select>
+		부터
+		<br>
+		<input type="text" name="end_date" value="{{list.end_date_conv}}" _cvalue="{{list.end_date_conv}}" class="t-edate" onclick="new CalendarFrame.Calendar(this, 'setTwowayDate()')" style="width:80px;" HNAME="마감일" REQUIRED="Y" readonly>
+		<select name="end_time_hour" id="end_time_hour_{{list.lesson_id}}" class="t-ehour" onchange="validateTime(this)">
+			<!--@loop(hours)-->
+			<option value="{{hours.id}}">{{hours.id}}시</option>
+			<!--/loop(hours)-->
+		</select>
+		<select name="end_time_min" id="end_time_min_{{list.lesson_id}}" class="t-eminute" onchange="validateTime(this)">
+			<!--@loop(minutes)-->
+			<option value="{{minutes.id}}">{{minutes.id}}분</option>
+			<!--/loop(minutes)-->
+		</select>
+		까지
+		<script>
+			SetElementValue(document.getElementById("start_time_hour_{{list.lesson_id}}"), "{{list.start_time_hour}}");
+			SetElementValue(document.getElementById("start_time_min_{{list.lesson_id}}"), "{{list.start_time_min}}");
+			SetElementValue(document.getElementById("end_time_hour_{{list.lesson_id}}"), "{{list.end_time_hour}}");
+			SetElementValue(document.getElementById("end_time_min_{{list.lesson_id}}"), "{{list.end_time_min}}");
+		</script>
+		<!--/if(list.twoway_block)-->
+
 	</td>
 	<!--/if(course.period_yn)-->
 	<!--/if(course.online_block)-->
 	<!--@nif(course.onoff_type:F)-->
 	<td class="l_td01" align="center">
+
 		<!--@if(list.online_block)-->
-		<input type="hidden" name="lesson_type" value="{{list.lesson_type}}">
-		<input type="hidden" name="start_url" value="{{list.cl_start_url}}">
 		<input type="hidden" name="lesson_hour" value="1">
 		<!--/if(list.online_block)-->
 		<!--@if(list.pc_block)-->
@@ -407,6 +447,7 @@
 		<input type="hidden" name="lesson_hour" value="">
 		<input type="hidden" name="lesson_type" value="">
 		<input type="hidden" name="tutor_id" value="">
+		<input type="hidden" name="twoway_url" value="">
 	</td>
 	<td class="l_td01 l_td_section"><input type="button" value="수정하기" class="btn_simp" onclick="modifySection({{section_list.id}});"></td>
 	<td class="l_td01 l_td_section l_sort02">↕</td>
@@ -518,6 +559,34 @@ function setStudyDate() {
 	if(!sdate || !edate) return;
 
 	$(".sdate").each(function() {
+		var sd = $(this).val();
+		var ed = $(this).next().next().next().val();
+
+		if(sd && (sd < sdate || sd > edate)) {
+			alert("강의 시작일이 과정의 학습기간을 벗어놨습니다. 학습 시작일로 자동변경 됩니다.");
+			$(this).val(sdate);
+		}
+		if(ed && (ed < sdate || ed > edate)) {
+			alert("강의 마감일이 과정의 학습기간을 벗어놨습니다. 학습 마감일로 자동변경 됩니다.");
+			$(this).next().next().next().val(edate);
+		}
+		sd = $(this).val();
+		ed = $(this).next().next().next().val();
+		if(sd && ed && sd > ed) {
+			alert("시작일과 마감일이 잘못 지정되었습니다. 시작일과 마감일이 같은 날짜로 변경됩니다.");
+			$(this).next().val(sd);
+			$(this).next().next().next().val(edate);
+		}
+	});
+}
+
+function setTwowayDate() {
+	var f = document.forms['form1'];
+	var sdate = f['study_sdate'].value;
+	var edate = f['study_edate'].value;
+	if(!sdate || !edate) return;
+
+	$(".t-sdate").each(function() {
 		var sd = $(this).val();
 		var ed = $(this).next().next().next().val();
 

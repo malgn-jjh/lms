@@ -20,8 +20,6 @@ CourseTutorDao courseTutor = new CourseTutorDao();
 TutorDao tutor = new TutorDao();
 
 KtRemoteDao ktRemote = new KtRemoteDao(siteId);
-if("".equals(auth.getString("KT_AUTH_TOKEN"))) auth.put("KT_AUTH_TOKEN", ktRemote.getAuthToken());
-ktRemote.setAuthToken(auth.getString("KT_AUTH_TOKEN"));
 
 //정보
 DataSet cinfo = course.find(
@@ -94,7 +92,7 @@ if(m.isPost() && f.validate()) {
 				courseLesson.item("end_time", "235559");
 				String planId = ktRemote.insertPlan(items.s("lesson_nm"), loginId, m.getUnixTime(cinfo.s("study_sdate") + "000000"), m.getUnixTime(cinfo.s("study_edate") + "235559"));
 				if("".equals(planId)) continue;
-				courseLesson.item("start_url", planId);
+				courseLesson.item("twoway_url", planId);
 			}
 
 			if(!courseLesson.insert()) { }

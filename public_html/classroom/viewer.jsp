@@ -20,6 +20,7 @@ LessonDao lesson = new LessonDao();
 CourseUserLogDao courseUserLog = new CourseUserLogDao();
 KollusDao kollus = new KollusDao(siteId);
 DoczoomDao doczoom = new DoczoomDao();
+KtRemoteDao ktRemote = new KtRemoteDao(siteId);
 FileDao file = new FileDao();
 
 //제한-수강가능여부
@@ -310,6 +311,10 @@ if("01".equals(info.s("lesson_type")) || "03".equals(info.s("lesson_type"))) {
 	} else {
 		m.jsErrClose("문서 정보를 조회할 수 없습니다."); return;
 	}
+} else if("15".equals(info.s("lesson_type"))) {
+	String startUrl = ktRemote.insertMember(info.s("twoway_url"), cuid, loginId);
+	info.put("start_url", startUrl);
+	info.put("start_url_conv", startUrl);
 }
 
 //채팅

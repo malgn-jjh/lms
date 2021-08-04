@@ -146,17 +146,11 @@ if(m.isPost() && f.validate()) {
 				courseLesson.item("end_time", "");
 				if(!"".equals(f.getArr("end_time_hour")[i]) && !"".equals(f.getArr("end_time_min")[i])) courseLesson.item("end_time", f.getArr("end_time_hour")[i] + f.getArr("end_time_min")[i] + "59");
 
-				if("15".equals(f.getArr("lesson_type")[i])) { //랜선에듀 플랜 기간 수정 필요
-					if("".equals(auth.getString("KT_AUTH_TOKEN"))) {
-						auth.put("KT_AUTH_TOKEN", ktRemote.getAuthToken());
-						auth.save();
-						ktRemote.setAuthToken(auth.getString("KT_AUTH_TOKEN"));
+				if("15".equals(f.getArr("lesson_type")[i])) {
+					if(!ktRemote.updatePlan(f.getArr("twoway_url")[i], 0, 0)) {
+						m.jsAlert("강의 수정 중 오류가 발생했습니다.");
+						return;
 					}
-
-					ktRemote.updatePlan(f.getArr("start_url")[i], 0, 0);
-
-					m.jsAlert("강의 수정 중 오류가 발생했습니다.");
-					return;
 				}
 
 				//courseLesson.item("lesson_hour", Double.parseDouble(String.format("%.2f", f.getArr("lesson_hour")[i]));
@@ -187,7 +181,7 @@ lm.setTable(
 	+ " LEFT JOIN " + courseSection.table + " cs ON a.section_id = cs.id AND a.course_id = cs.course_id AND cs.status = 1 "
 );
 lm.setFields(
-	"a.*, a.start_url cl_start_url"
+	"a.*"
 	+ ", b.content_id, b.onoff_type, b.lesson_nm, b.lesson_type, b.total_time, b.complete_time, b.content_width, b.content_height, b.start_url, b.mobile_a, b.mobile_i "
 	+ ", cs.id section_id, cs.course_id section_course_id, cs.section_nm "
 );
@@ -216,6 +210,8 @@ while(list.next()) {
 	list.put("online_block", "N".equals(list.s("onoff_type")) || "T".equals(list.s("onoff_type")));
 	list.put("onoff_type_conv", m.getItem(list.s("onoff_type"), lesson.onoffTypes));
 
+	list.put("twoway_block", "15".equals(list.s("lesson_type")));
+
 	list.put("lesson_hour", list.s("lesson_hour").replace(".00", ""));
 
 	list.put("start_time_hour", list.s("start_time").length() == 6 ? list.s("start_time").substring(0,2) : "");
@@ -236,6 +232,7 @@ while(list.next()) {
 		list.put("section_block", false);
 	}
 }
+
 if(1 > sidx.length || null == sidx) sidx = new Integer[] { 0 };
 
 //목록-강사

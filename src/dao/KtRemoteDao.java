@@ -22,11 +22,12 @@ final public class KtRemoteDao extends DataObject {
     private Http http = new Http();
 
     public KtRemoteDao() {
-
+        this.authToken = getAuthToken();
     }
 
     public KtRemoteDao(int siteId) {
         this.siteId = siteId;
+        this.authToken = getAuthToken();
     }
 
     public void setDebug(Writer out) {
@@ -129,13 +130,9 @@ final public class KtRemoteDao extends DataObject {
             }
             return true;
          } catch (NullPointerException npe) {
-            Malgn.errorLog("KtRemoteDao.createPlan() : " + npe.getMessage());
+            Malgn.errorLog("KtRemoteDao.updatePlan() : " + npe.getMessage());
             return false;
         }
-    }
-
-    public boolean deletePlan(String planId) {
-        return delete(planId, null);
     }
 
     public boolean deletePlan(String planId, String loginId) {
@@ -161,14 +158,18 @@ final public class KtRemoteDao extends DataObject {
         }
     }
 
-    public String uploadFile(String planId) {
-        String method = "POST";
-        String url = planId + "/files";
-        return "";
+    public String insertHost(String planId, int userId, String nickName) {
+        return this.insertMember(planId, userId, nickName, "HOST", "");
     }
 
-    public String insertMember(String planId, String courseUserId, String nickName, String userType, String mobile, String userToken) {
+    public String insertMember(String planId, int courseUserId, String nickName) {
+        return this.insertMember(planId, courseUserId, nickName, "USER", "");
+    }
+
+    public String insertMember(String planId, int courseUserId, String nickName, String userType, String mobile) {
         try {
+            //토큰 생성하기
+            String userToken = Malgn.md5(siteId + "-" + courseUserId + "-" + Malgn.time());
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("userId", courseUserId);
             jsonObject.put("name", nickName);
@@ -191,10 +192,6 @@ final public class KtRemoteDao extends DataObject {
             Malgn.errorLog("KtRemoteDao.insertMember() : " + npe.getMessage());
             return "";
         }
-    }
-
-    public String insertMembers(String planId, DataSet courseUsers) {
-        return "";
     }
 
     public boolean updateMember(String planId, String courseUserId ,String nickName, String userType, String mobile) {
@@ -222,10 +219,6 @@ final public class KtRemoteDao extends DataObject {
         }
     }
 
-    public String updateMembers(String planId, DataSet courseUsers) {
-        return "";
-    }
-
     public boolean deleteMember(String planId, String courseUserId) {
         try {
             JSONObject jsonObject = new JSONObject();
@@ -248,13 +241,8 @@ final public class KtRemoteDao extends DataObject {
         }
     }
 
-    public String deleteMembers(String planId, DataSet courseUsers) {
-        return "";
-    }
-
     public String getUserToken(String planId, String courseUserId) {
         try {
-            //토큰 만드는 로직 필요
             String userToken = courseUserId + "";
 
             JSONObject jsonObject = new JSONObject();
@@ -311,8 +299,7 @@ final public class KtRemoteDao extends DataObject {
                 Malgn.errorLog("KtRemoteDao.getAttendList() : " + j.toString());
                 return result;
             }
-
-            result.unserialize(j.getString("//result/"));
+            result.unserialize(j.getString("//result/members"));
             return result;
         } catch (NullPointerException npe) {
             Malgn.errorLog("KtRemoteDao.getAttendList() : " + npe.getMessage());

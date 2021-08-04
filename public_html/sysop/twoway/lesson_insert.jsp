@@ -6,16 +6,16 @@ int courseId = m.ri("course_id");
 LessonDao lesson = new LessonDao();
 CourseDao course = new CourseDao();
 CourseLessonDao courseLesson = new CourseLessonDao();
-KtRemoteDao ktRemote = new KtRemoteDao(siteId); ktRemote.setAuthToken(authToken);
+KtRemoteDao ktRemote = new KtRemoteDao(siteId);
 UserDao user = new UserDao();
 
 //폼체크
 f.addElement("lesson_type", "15", "hname:'구분', required:'Y'");
 f.addElement("lesson_nm", null, "hname:'교과목명', required:'Y'");
-f.addElement("lesson_hour", "1", "hname:'기본수업시수', required:'Y'");
 f.addElement("total_time", 0, "hname:'학습시간', option:'number'");
 f.addElement("complete_time", 0, "hname:'인정시간', option:'number'");
-f.addElement("lesson_file", null, "hname:'교안파일'");
+f.addElement("content_width", 1980, "hname:'창넓이', option:'number'");
+f.addElement("content_height", 1080, "hname:'창높이', option:'number'");
 f.addElement("description", null, "hname:'강의설명'");
 if(!courseManagerBlock) f.addElement("manager_id", -99, "hname:'담당자'");
 f.addElement("status", 1, "hname:'상태', required:'Y'");
@@ -33,15 +33,13 @@ if(m.isPost() && f.validate()) {
     lesson.item("lesson_hour", f.getDouble("lesson_hour"));
     lesson.item("total_page", f.getInt("total_page"));
     lesson.item("total_time", f.getInt("total_time"));
+    lesson.item("content_width", f.getInt("content_width"));
+    lesson.item("content_height", f.getInt("content_height"));
     lesson.item("description", f.get("description"));
     lesson.item("manager_id", !courseManagerBlock ? f.getInt("manager_id") : userId);
     lesson.item("reg_date", m.time("yyyyMMddHHmmss"));
     lesson.item("status", f.getInt("status"));
 
-    if(null != f.getFileName("lesson_file")) {
-        File file1 = f.saveFile("lesson_file");
-        if(null != file1) lesson.item("lesson_file", f.getFileName("lesson_file"));
-    }
     if(!lesson.insert()) { m.jsAlert("등록하는 중 오류가 발생했습니다."); return; }
 
     //과정개설메뉴에서 신규강의 등록시
@@ -49,8 +47,6 @@ if(m.isPost() && f.validate()) {
 
         DataSet cinfo2 = course.find("id = " + courseId);
         if(cinfo2.next()) {
-
-
 
             long now = m.getUnixTime();
 
@@ -65,11 +61,7 @@ if(m.isPost() && f.validate()) {
             courseLesson.item("start_time", "000000");
             courseLesson.item("end_time", "235559");
             if("15".equals(f.get("lesson_type"))) {
-                if("".equals(authToken)) {
-                    authToken = ktRemote.getAuthToken();
-                    ktRemote.setAuthToken(authToken);
-                }
-                courseLesson.item("start_url", ktRemote.insertPlan("CLASS", f.get("lesson_nm"), userId + "", 1000, null, 0, now, now + (60 * 60 * 24)));
+                courseLesson.item("twoway_url", ktRemote.insertPlan("CLASS", f.get("lesson_nm"), userId + "", 1000, null, 0, now, now + (60 * 60 * 24)));
             }
             courseLesson.item("tutor_id", 0);
             courseLesson.item("progress_yn", "Y");

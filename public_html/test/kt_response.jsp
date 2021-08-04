@@ -23,15 +23,16 @@ if(m.isPost() && f.validate()) {
         if("pcreate".equals(mode)) { //플랜 생성
             long now = m.getUnixTime();
 //            ret = ktRemote.insertPlan("CLASS", "새 플랜", value, 1000, null, 0, now, now + (60 * 60 * 24));
-            ret = ktRemote.insertPlan("축약플랜", "naver_8k2FmgXNPfzQkHixyNjM8_E2O_eV23-XAJqbdhN341Y", now, now + (60 * 60 * 24));
+            ret = ktRemote.insertPlan("CLASS", "test@test.com", now + (60 * 31), now + (60 * 60 * 24));
         } else if("pupdate".equals(mode)) { //플랜 수정
-            ret = ktRemote.updatePlan(value) + "";
+        //    ret = ktRemote.updatePlan(value) + "";
         } else if("pdelete".equals(mode)) { //플랜 삭제
-            ret = ktRemote.deletePlan(value) + "";
+            ret = ktRemote.deletePlan(value, "test@test.com") + "";
         } else if("cucreate".equals(mode)) { //수강생 출석 등록
-            ret = ktRemote.insertMember(value, "test@test.com", "호스트", "HOST", "01012341234", m.getUniqId());
+            //ret = ktRemote.insertMember(value, "", "ㅇㅇㅇㅇ");
+            ret = ktRemote.insertHost(value, userId, "호스트");
         } else if("cuupdate".equals(mode)) { //수강생 출석 수정
-            ret = ktRemote.updateMember(value, "test@test.com", "호스트", "HOST", "") + "";
+            ret = ktRemote.updateMember(value, "test@test.com", "호스트", "HOST", "USER") + "";
         } else if("cudelete".equals(mode)) { //수강생 출석 삭제
             ret = ktRemote.deleteMember(value, "test@test.com") + "";
         } else if("token".equals(mode)) { //수강생 토큰 생성
@@ -40,6 +41,7 @@ if(m.isPost() && f.validate()) {
             long now = m.getUnixTime();
             m.p(ktRemote.getPlanHistory(now - (60 * 60 * 24 * 30), now));
         } else if("attend".equals(mode)) { //플랜 출결 이력
+            //ret = ktRemote.getAttendList(value);
             m.p(ktRemote.getAttendList(value));
         } else {
             ret = "API 찾을수 없음";

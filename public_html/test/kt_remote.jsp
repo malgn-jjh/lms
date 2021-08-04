@@ -7,4 +7,5 @@ p.setBody("test.kt_remote");
 p.setVar("p_title", "랜선에듀 API");
 
 p.display();
+
 %>
