@@ -58,9 +58,13 @@ if(m.isPost() && f.validate()) {
 	//운영자
 	} else {
 		String[] idx = f.getArr("idx");
-		for(int i = 0; i < idx.length; i++) {
-			userMenu.item("menu_id", idx[i]);
-			if(!userMenu.insert()) { failed++; }
+		if(idx != null) {
+			for(int i = 0; i < idx.length; i++) {
+				userMenu.item("menu_id", idx[i]);
+				if(!userMenu.insert()) {
+					failed++;
+				}
+			}
 		}
 	}
 

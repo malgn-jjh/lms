@@ -312,6 +312,16 @@ if("01".equals(info.s("lesson_type")) || "03".equals(info.s("lesson_type"))) {
 		m.jsErrClose("문서 정보를 조회할 수 없습니다."); return;
 	}
 } else if("15".equals(info.s("lesson_type"))) {
+//	String startUrl = "";
+//	DataSet cpInfo = courseProgress.find("lesson_id = " + lid + " AND course_user_id = " + cuid + " AND (paragraph != '' AND paragraph IS NOT NULL)");
+//	if(!cpInfo.next()) {
+//		startUrl = ktRemote.insertMember(info.s("twoway_url"), cuid, loginId);
+//		courseProgress.item("paragraph", startUrl);
+//		courseProgress.update("lesson_id = " + lid + " AND course_user_id = " + cuid);
+//		courseProgress.clear();
+//	} else {
+//		startUrl = cpInfo.s("paragraph");
+//	}
 	String startUrl = ktRemote.insertMember(info.s("twoway_url"), cuid, loginId);
 	info.put("start_url", startUrl);
 	info.put("start_url_conv", startUrl);

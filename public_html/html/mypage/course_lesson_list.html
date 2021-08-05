@@ -1,0 +1,193 @@
+<div id="contet_area">
+    <h3 class="hide">컨텐츠 내용</h3>
+    <div class="path">
+        <ol class="path_list">
+            <li>마이페이지</li>
+            <li>수강현황</li>
+        </ol>
+    </div>
+    <h4 class="content_title">내 화상강의</h4>
+    <div class="content_body">
+
+        <div class="tab_wrap">
+            <div class="tb_top tb_top_large">
+                <div class="search_form_wrap4" style="padding: 5px;">
+                    <div class="search_form">
+                        <div class="btn_sort">
+                            <form name="form1">
+                                <select name="ord" onchange="document.forms['form1'].submit();">
+                                    <option value="id desc">최근 신청순</option>
+                                    <option value="id asc">오래된 신청순</option>
+                                    <option value="cn asc">과정명 오름차순</option>
+                                    <option value="cn desc">과정명 내림차순</option>
+                                    <option value="sd asc">시작일 오름차순</option>
+                                    <option value="sd desc">시작일 내림차순</option>
+                                    <option value="ed asc">종료일 오름차순</option>
+                                    <option value="ed desc">종료일 내림차순</option>
+                                </select>
+                            </form>
+                            {{form_script}}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="tab_con_wrap">
+                <div class="tab_con">
+                    <div class="tb_box type_list course_user_list" >
+                        <table summary="수강 중인 과정및  기간  진도율을 나타냅니다.">
+                            <caption>수강 중인과정</caption>
+                            <colgroup>
+                                <col style="width: 7%" />
+                                <col />
+                                <col />
+                                <col style="width: 8%" />
+                                <col style="width: 13%" />
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th scope="col">구분</th>
+                                <th scope="col">과정명</th>
+                                <th scope="col">강의명</th>
+                                <th scope="col">차시</th>
+                                <th scope="col">강의실</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!--@loop(list)-->
+                            <tr align="center">
+                                <td class="tac"><span class="label small w30">{{list.type_conv}}</span></td>
+                                <td class="tal">
+                                    {{list.course_nm_conv}}
+                                </td>
+                                <td class="tal">
+                                    {{list.lesson_nm_conv}}
+                                </td>
+                                <td>{{list.chapter_conv}}차시</td>
+                                <td class="tac">
+                                <!--@if(list.link_url)-->
+                                <a href="{{list.link_url}}" target="_blank" class="button small blue">강의실 입장</a>
+                                <!--/if(list.link_url)-->
+                                <!--@nif(list.link_url)-->
+                                <a href="#" class="button small blue">강의실 입장</a>
+                                <!--/nif(list.link_url)-->
+                                </td>
+                            </tr>
+                            <!--/loop(list)-->
+                            <!--@nif(list)-->
+                            <tr>
+                                <td class="nodata" colspan="5">현재 진행중인 화상강의가 없습니다.</td>
+                            </tr>
+                            <!--/nif(list)-->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+function setLabel() {
+    var progresses = { "온라인" : "sky", "집합" : "red", "혼합" : "green" };
+    $(".label").each(function() {
+        var v = $(this).html();
+        $(this).addClass(progresses[v]);
+    });
+}
+addEvent("onload", function() { setLabel(); } );
+</script>
+
+<!--<div id="contet_area">
+    <h3 class="hide">컨텐츠 내용</h3>
+    <div class="path">
+        <ol class="path_list">
+            <li>마이페이지</li>
+            <li>수강현황</li>
+        </ol>
+    </div>
+    <h4 class="content_title">내 화상강의</h4>
+    <div class="content_body">
+
+        <div class="tab_wrap">
+            <div class="tb_top tb_top_large">
+                <div class="search_form_wrap4" style="padding: 5px;">
+                    <div class="search_form">
+                        <div class="btn_sort">
+                            <form name="form1">
+                                <select name="ord" onchange="document.forms['form1'].submit();">
+                                    <option value="id desc">최근 신청순</option>
+                                    <option value="id asc">오래된 신청순</option>
+                                    <option value="cn asc">과정명 오름차순</option>
+                                    <option value="cn desc">과정명 내림차순</option>
+                                    <option value="sd asc">시작일 오름차순</option>
+                                    <option value="sd desc">시작일 내림차순</option>
+                                    <option value="ed asc">종료일 오름차순</option>
+                                    <option value="ed desc">종료일 내림차순</option>
+                                </select>
+                            </form>
+                            {{form_script}}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="tab_con_wrap">
+                <div class="tab_con">
+                    <div class="tb_box type_list course_user_list" >
+                        <table summary="수강 중인 과정및  기간  진도율을 나타냅니다.">
+                            <caption>수강 중인과정</caption>
+                            <colgroup>
+                                <col style="width: 7%" />
+                                <col />
+                                <col style="width: 8%" />
+                                <col style="width: 13%" />
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th scope="col">구분</th>
+                                <th scope="col">강의명</th>
+                                <th scope="col">차시</th>
+                                <th scope="col">강의실</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            &lt;!&ndash;@loop(list)&ndash;&gt;
+                            <tr align="center">
+                                <td class="tac"><span class="label small w30">{{list.type_conv}}</span></td>
+                                <td class="tal">
+                                    [{{list.course_nm_conv}}] {{list.lesson_nm_conv}}
+                                </td>
+                                <td>{{list.chapter_conv}}차시</td>
+                                <td class="tac">
+                                    <a href="../classroom/index.jsp?cuid={{list.id}}" class="button small blue">강의실 입장</a>
+                                </td>
+                            </tr>
+                            &lt;!&ndash;/loop(list)&ndash;&gt;
+                            &lt;!&ndash;@nif(list)&ndash;&gt;
+                            <tr>
+                                <td class="nodata" colspan="4">현재 진행중인 화상강의가 없습니다.</td>
+                            </tr>
+                            &lt;!&ndash;/nif(list)&ndash;&gt;
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function goRenew(cid) {
+        addCommonCart("c_renew", cid, "1");
+        goCommonCart("D");
+    }
+    function setLabel() {
+        var progresses = { "온라인" : "sky", "집합" : "red", "혼합" : "green" };
+        $(".label").each(function() {
+            var v = $(this).html();
+            $(this).addClass(progresses[v]);
+        });
+    }
+    addEvent("onload", function() { setLabel(); } );
+</script>-->

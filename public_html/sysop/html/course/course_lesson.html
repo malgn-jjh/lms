@@ -239,10 +239,20 @@
 	<td class="l_td01">{{list.lesson_type_conv}}</td>
 	<!--/if(course.online_block)-->
 	<td class="l_td01" align="left" title="{{list.lesson_nm}}">
+		<!--@nif(list.twoway_block)-->
 		<a href="javaScript:OpenWindows('../content/lesson_modify.jsp?cid={{list.content_id}}&id={{list.lesson_id}}', 'CL77', 900, 800);">
 			<!--@nif(course.online_block)-->{{list.lesson_nm_conv}}<!--/nif(course.online_block)-->
 			<!--@if(course.online_block)-->{{list.lesson_nm}}<!--/if(course.online_block)-->
 		</a>
+		<!--/nif(list.twoway_block)-->
+
+		<!--@if(list.twoway_block)-->
+		<a href="javaScript:OpenAdminLayer('../course/lesson_modify.jsp?cid={{list.course_id}}&id={{list.lesson_id}}', 'CL77', 600, 400);">
+			<!--@nif(course.online_block)-->{{list.lesson_nm_conv}}<!--/nif(course.online_block)-->
+			<!--@if(course.online_block)-->{{list.lesson_nm}}<!--/if(course.online_block)-->
+		</a>
+		<!--/if(list.twoway_block)-->
+
 	</td>
 	<!--@nif(course.online_block)-->
 	<td class="l_td01" style="line-height:32px;" class="fontsmallthin">

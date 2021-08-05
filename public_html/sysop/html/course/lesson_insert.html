@@ -1,0 +1,111 @@
+<form name="form1" method="post" onsubmit="return goSubmit(this);" target="sysfrm">
+    <input type="hidden" name="study_sdate" value="{{study_sdate}}">
+    <input type="hidden" name="study_edate" value="{{study_edate}}">
+    <table class="c_tb01" cellpadding="0" cellspacing="0">
+        <tr><td class="c_th01">수정</td></tr>
+    </table>
+
+    <table class="f_tb01" cellpadding="0" cellspacing="0">
+        <col width="120"><col>
+        <tr>
+            <td class="f_th01">강의타입</td>
+            <td class="f_td01">{{lesson_type_conv}}</td>
+        </tr>
+        <tr>
+            <td class="f_th01">강의명</td>
+            <td class="f_td01">{{lesson_nm}}</td>
+        </tr>
+        <tr>
+            <td class="f_th01">강의URL</td>
+            <td class="f_td01">{{twoway_url}}</td>
+        </tr>
+        <tr>
+            <td class="f_th01">담당강사</td>
+            <td class="f_td01">
+                <select name="tutor_id" id="tutor_id" class="js-example-basic-single">
+                    <option value="">- 선택 -</option>
+                    <!--@loop(tutors)-->
+                    <option value="{{tutors.user_id}}">{{tutors.tutor_nm}} ({{tutors.login_id}})</option>
+                    <!--/loop(tutors)-->
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td class="f_th01">학습시간</td>
+            <td class="f_td01">
+                <input type="text" name="start_date" class="sdate" onclick="new CalendarFrame.Calendar(this, 'setEndDate()')" style="width:80px;" HNAME="시작일" REQUIRED="Y" readonly>
+                <input type="hidden" name="end_date" class="edate">
+                <select name="start_time_hour" id="start_time_hour">
+                    <!--@loop(hours)-->
+                    <option value="{{hours.id}}">{{hours.id}}시</option>
+                    <!--/loop(hours)-->
+                </select>
+                <select name="start_time_min" id="start_time_min}">
+                    <!--@loop(minutes)-->
+                    <option value="{{minutes.id}}">{{minutes.id}}분</option>
+                    <!--/loop(minutes)-->
+                </select> -
+                <select name="end_time_hour" id="end_time_hour">
+                    <!--@loop(hours)-->
+                    <option value="{{hours.id}}">{{hours.id}}시</option>
+                    <!--/loop(hours)-->
+                </select>
+                <select name="end_time_min" id="end_time_min">
+                    <!--@loop(minutes)-->
+                    <option value="{{minutes.id}}">{{minutes.id}}분</option>
+                    <!--/loop(minutes)-->
+                </select>
+                <script>
+                    SetElementValue(document.getElementById("start_time_hour"), "{{start_time_hour}}");
+                    SetElementValue(document.getElementById("start_time_min"), "{{start_time_min}}");
+                    SetElementValue(document.getElementById("end_time_hour"), "{{end_time_hour}}");
+                    SetElementValue(document.getElementById("end_time_min"), "{{end_time_min}}");
+                </script>
+            </td>
+        </tr>
+        <tr>
+            <td class="f_th01">주의사항</td>
+            <td class="f_td01"><span class="desc01" style="color:#ff0000;">담당강사와 학습시간을 설정하지 않을 시, 화상강의를 사용할 수 없습니다.</span></td>
+        </tr>
+    </table>
+    <div style="position:relative;">
+        <div>
+            <table class="b_tb01" border="0">
+                <tr>
+                    <td class="b_td01">
+                        <button type="submit" class="bttn2 sky">수정</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</form>
+{{form_script}}
+
+<script language="JavaScript">
+function goSubmit(f) {
+    f.action = "lesson_modify.jsp?{{query}}";
+    if(!validate(f)) return false;
+}
+
+function setEndDate() {
+    var f = document.forms['form1'];
+    var sdate = f['study_sdate'].value;
+    var edate = f['study_edate'].value;
+    if(!sdate || !edate) return;
+
+    //
+    // var sd = $(".sdate").val().replaceAll('')
+    //
+    // $("sdate").each(function() {
+    //     var sd = $(this).val();
+    //     var ed = $(this).next().val();
+    //
+    //     if(sd && (sd < sdate || sd > edate)) {
+    //         alert("강의 시작일이 과정의 학습기간을 벗어놨습니다. 학습 시작일로 자동변경 됩니다.");
+    //         $(this).val(sdate);
+    //     }
+    //     $(this).next().val(sd);
+    // });
+}
+</script>

@@ -147,7 +147,10 @@ if(m.isPost() && f.validate()) {
 				if(!"".equals(f.getArr("end_time_hour")[i]) && !"".equals(f.getArr("end_time_min")[i])) courseLesson.item("end_time", f.getArr("end_time_hour")[i] + f.getArr("end_time_min")[i] + "59");
 
 				if("15".equals(f.getArr("lesson_type")[i])) {
-					if(!ktRemote.updatePlan(f.getArr("twoway_url")[i], 0, 0)) {
+					String startDateTime = f.getArr("start_date")[i] + f.getArr("start_time_hour")[i] + f.getArr("start_time_min")[i] + "00";
+					String endDateTime = f.getArr("end_date")[i] + f.getArr("end_time_hour")[i] + f.getArr("end_time_min")[i] + "00";
+
+					if(!ktRemote.updatePlan(f.getArr("twoway_url")[i], m.getUnixTime(startDateTime),  m.getUnixTime(endDateTime))) {
 						m.jsAlert("강의 수정 중 오류가 발생했습니다.");
 						return;
 					}
