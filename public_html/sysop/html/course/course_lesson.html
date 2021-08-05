@@ -383,6 +383,8 @@
 		</script>
 		<!--/nif(list.twoway_block)-->
 		<!--@if(list.twoway_block)-->
+
+		<!--@nif(list.empty_block)-->
 		<input type="text" name="start_date" value="{{list.start_date_conv}}" _cvalue="{{list.start_date_conv}}" class="t-sdate" onclick="new CalendarFrame.Calendar(this, 'setTwowayDate()')" style="width:80px;" HNAME="시작일" REQUIRED="Y" readonly>
 		<select name="start_time_hour" id="start_time_hour_{{list.lesson_id}}" class="t-shour" onchange="validateTime(this)">
 			<!--@loop(hours)-->
@@ -414,6 +416,12 @@
 			SetElementValue(document.getElementById("end_time_hour_{{list.lesson_id}}"), "{{list.end_time_hour}}");
 			SetElementValue(document.getElementById("end_time_min_{{list.lesson_id}}"), "{{list.end_time_min}}");
 		</script>
+		<!--/nif(list.empty_block)-->
+
+		<!--@if(list.empty_block)-->
+		<a href="javaScript:OpenAdminLayer('../course/lesson_modify.jsp?cid={{list.course_id}}&id={{list.lesson_id}}', 'CL77', 600, 400);">강사/학습시간 설정</a>
+		<!--/if(list.empty_block)-->
+
 		<!--/if(list.twoway_block)-->
 
 	</td>

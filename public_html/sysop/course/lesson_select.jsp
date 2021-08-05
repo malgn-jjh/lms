@@ -62,10 +62,13 @@ if(m.isPost() && f.validate()) {
 		courseLesson.item("site_id", siteId);
 		courseLesson.item("start_day", 0);
 		courseLesson.item("period", 0);
+
+
 		courseLesson.item("start_date", cinfo.s("study_sdate"));
 		courseLesson.item("end_date", cinfo.s("study_edate"));
 		courseLesson.item("start_time", "000000");
 		courseLesson.item("end_time", "235559");
+
 		courseLesson.item("tutor_id", tinfo.i("user_id"));
 		courseLesson.item("progress_yn", "Y");
 		courseLesson.item("status", 1);
@@ -86,13 +89,13 @@ if(m.isPost() && f.validate()) {
 			courseLesson.item("lesson_hour", items.d("lesson_hour"));
 
 			if("15".equals(items.s("lesson_type"))) {
-				courseLesson.item("start_date", cinfo.s("study_sdate"));
-				courseLesson.item("end_date", cinfo.s("study_edate"));
-				courseLesson.item("start_time", "000000");
-				courseLesson.item("end_time", "235559");
-				String planId = ktRemote.insertPlan(items.s("lesson_nm"), loginId, m.getUnixTime(cinfo.s("study_sdate") + "000000"), m.getUnixTime(cinfo.s("study_edate") + "235559"));
-				if("".equals(planId)) continue;
-				courseLesson.item("twoway_url", planId);
+				courseLesson.item("start_date", "");
+				courseLesson.item("end_date", "");
+				courseLesson.item("start_time", "");
+				courseLesson.item("end_time", "");
+				//String planId = ktRemote.insertPlan(items.s("lesson_nm"), loginId, m.getUnixTime(cinfo.s("study_sdate") + "000000"), m.getUnixTime(cinfo.s("study_edate") + "235559"));
+				//if("".equals(planId)) continue;
+				//courseLesson.item("twoway_url", planId);
 			}
 
 			if(!courseLesson.insert()) { }

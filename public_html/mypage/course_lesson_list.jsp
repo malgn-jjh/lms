@@ -35,7 +35,8 @@ DataSet list = course.query(
     + " INNER JOIN " + courseTutor.table + " ct ON ct.course_id = c.id AND user_id = " + tutorId
     + " WHERE c.course_type = 'R' AND c.onoff_type IN ('N', 'F', 'B') AND l.onoff_type IN ('F', 'T') "
     + " AND l.lesson_type = '15'"
-    + " AND CONCAT(cl.start_date, cl.start_time) <= '" +  sysNow + "' AND CONCAT(cl.end_date, cl.end_time) >= '" + sysNow + "' "
+    //+ " AND CONCAT(cl.start_date, cl.start_time) <= '" +  sysNow + "' AND CONCAT(cl.end_date, cl.end_time) >= '" + sysNow + "' "
+    + " AND cl.start_date <= '" +  sysToday + "' AND cl.end_date >= '" + sysToday + "' "
     + " AND cl.status = 1 "
     + " AND c.site_id = " + siteId
 );

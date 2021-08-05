@@ -47,22 +47,25 @@ if(m.isPost() && f.validate()) {
 
         DataSet cinfo2 = course.find("id = " + courseId);
         if(cinfo2.next()) {
-
-            long now = m.getUnixTime();
-
             int maxChapter = courseLesson.getOneInt("SELECT MAX(chapter) FROM " + courseLesson.table + " WHERE course_id = " + courseId);
 
             courseLesson.item("course_id", courseId);
             courseLesson.item("site_id", siteId);
             courseLesson.item("start_day", 0);
             courseLesson.item("period", 0);
+
             courseLesson.item("start_date", cinfo2.s("study_sdate"));
             courseLesson.item("end_date", cinfo2.s("study_sdate"));
             courseLesson.item("start_time", "000000");
             courseLesson.item("end_time", "235559");
+
             if("15".equals(f.get("lesson_type"))) {
-                courseLesson.item("twoway_url", ktRemote.insertPlan("CLASS", f.get("lesson_nm"), userId + "", 1000, null, 0, now, now + (60 * 60 * 24)));
+                courseLesson.item("start_date", "");
+                courseLesson.item("end_date", "");
+                courseLesson.item("start_time", "");
+                courseLesson.item("end_time", "");
             }
+
             courseLesson.item("tutor_id", 0);
             courseLesson.item("progress_yn", "Y");
             courseLesson.item("status", 1);

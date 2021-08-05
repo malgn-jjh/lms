@@ -213,14 +213,15 @@ while(list.next()) {
 	list.put("online_block", "N".equals(list.s("onoff_type")) || "T".equals(list.s("onoff_type")));
 	list.put("onoff_type_conv", m.getItem(list.s("onoff_type"), lesson.onoffTypes));
 
-	list.put("twoway_block", "15".equals(list.s("lesson_type")));
-
 	list.put("lesson_hour", list.s("lesson_hour").replace(".00", ""));
 
 	list.put("start_time_hour", list.s("start_time").length() == 6 ? list.s("start_time").substring(0,2) : "");
 	list.put("start_time_min", list.s("start_time").length() == 6 ? list.s("start_time").substring(2,4) : "");
 	list.put("end_time_hour", list.s("end_time").length() == 6 ?  list.s("end_time").substring(0,2) : "");
 	list.put("end_time_min", list.s("end_time").length() == 6 ? list.s("end_time").substring(2,4) : "");
+
+	list.put("twoway_block", "15".equals(list.s("lesson_type")));
+	list.put("empty_block", list.b("twoway_block") && (list.s("start_date").length() != 8 || list.s("end_date").length() != 8 || list.s("start_time").length() != 6 || list.s("end_time").length() != 6));
 
 	sortList.addRow();
 	sortList.put("id", list.i("__asc"));

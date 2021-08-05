@@ -30,14 +30,16 @@ DataSet info = courseLesson.query(
 if(!info.next()) { m.jsError("해당 정보가 없습니다."); return; }
 
 //폼체크
-String startHour = info.s("start_time").substring(0, 2);
-String startMinute = info.s("start_time").substring(2, 4);
-String endHour = info.s("end_time").substring(0, 2);;
-String endMinute = info.s("end_time").substring(2, 4);
+String startDate = !"".equals(info.s("start_date")) ? m.time("yyyy-MM-dd", info.s("start_date")) : m.time("yyyy-MM-dd");
+String endDate = !"".equals(info.s("end_date")) ? m.time("yyyy-MM-dd", info.s("end_date")) : startDate;
+String startHour = info.s("start_time").length() == 6 ? info.s("start_time").substring(0, 2) : "00";
+String startMinute = info.s("start_time").length() == 6 ? info.s("start_time").substring(2, 4) : "00";
+String endHour = info.s("end_time").length() == 6 ? info.s("end_time").substring(0, 2) : "23";
+String endMinute = info.s("end_time").length() == 6 ? info.s("end_time").substring(2, 4) : "55";
 
 f.addElement("tutor_id", info.i("tutor_id"), "hname:'강사명', required:'Y'");
-f.addElement("start_date", m.time("yyyy-MM-dd", info.s("start_date")), "hname:'시작일', required:'Y'");
-f.addElement("end_date", m.time("yyyy-MM-dd", info.s("start_date")), "hname:'마감일', required:'Y'");
+f.addElement("start_date", startDate, "hname:'시작일', required:'Y'");
+f.addElement("end_date", endDate, "hname:'마감일', required:'Y'");
 f.addElement("start_hour", startHour, "hname:'시작시', option:'number'");
 f.addElement("start_min", startMinute, "hname:'시작분', option:'number'");
 f.addElement("end_hour", endHour, "hname:'마감시', option:'number'");
@@ -46,22 +48,27 @@ f.addElement("end_min", endMinute, "hname:'마감분', option:'number'");
 //등록
 if(m.isPost() && f.validate()) {
 
-    String startDate = m.time("yyyyMMdd", f.get("start_date"));
+    String sdate = m.time("yyyyMMdd", f.get("start_date"));
     String startTime = f.get("start_time_hour") + f.get("start_time_min") + "00";
     String endTime = f.get("end_time_hour") + f.get("end_time_min") + "59";
 
     courseLesson.item("tutor_id", f.getInt("tutor_id"));
-    courseLesson.item("start_date", startDate);
-    courseLesson.item("end_date", startDate);
+    courseLesson.item("start_date", sdate);
+    courseLesson.item("end_date", sdate);
     courseLesson.item("start_time", startTime);
     courseLesson.item("end_time", endTime);
 
-    if("15".equals(info.s("lesson_type"))) {
-        if(!ktRemote.updatePlan(info.s("twoway_url"), m.getUnixTime(startDate + startTime), m.getUnixTime(startDate + endTime))) {
-            m.jsAlert("수정하는 중 오류가 발생했습니다[1].");
-            return;
-        }
+    boolean success = true;
+    if(!"".equals(info.s("twoway_url"))) {
+        success = ktRemote.updatePlan(info.s("twoway_url"), m.getUnixTime(sdate + startTime), m.getUnixTime(sdate + endTime));
+    } else {
+        String twowayUrl = ktRemote.insertPlan(info.s("lesson_nm"), loginId, m.getUnixTime(sdate + startTime), m.getUnixTime(sdate + endTime));
+        success = !"".equals(twowayUrl);
+        if(success) courseLesson.item("twoway_url", twowayUrl);
     }
+    if(!success) { m.jsAlert("수정하는 중 오류가 발생했습니다[1]."); return; }
+
+    //if("15".equals(info.s("lesson_type"))) { }
 
     if(!courseLesson.update("lesson_id = " + lid + " AND course_id = " + cid)) { m.jsAlert("수정하는 중 오류가 발생했습니다[2]."); return; }
     m.js("parent.location.href = parent.location.href;");
@@ -69,8 +76,6 @@ if(m.isPost() && f.validate()) {
 }
 
 //포맷팅
-//info.put("start_date_conv", m.time("yyyy-MM-dd", info.s("start_date")));
-//info.put("end_date_conv", m.time("yyyy-MM-dd", info.s("end_date")));
 info.put("lesson_type_conv", m.getItem(info.s("lesson_type"), lesson.allTypes));
 info.put("start_time_hour", startHour);
 info.put("start_time_min", startMinute);
